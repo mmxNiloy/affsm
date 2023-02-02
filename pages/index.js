@@ -1,9 +1,9 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '../styles/Home.module.css'
-import LoginForm from '../components/LoginForm'
+import Grid from '@mui/material/Grid'
+import LoginForm from '../components/LoginPageComponents/LoginForm'
 import Container from '@mui/material/Container'
+import Footer from '../components/LoginPageComponents/Footer'
+import LogoDescription from '../components/LoginPageComponents/LogoDescription'
 
 export default function Home() {
   return (
@@ -13,16 +13,34 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Container 
-        sx={{ 
-          height: '100vh', 
-          width: '100%', 
-          justifyContent: 'center', 
-          alignItems: 'center',
-          display: 'flex'
+        <Grid container columns={10} 
+        sx={{
+          height: '100vh',
+          alignItems: 'center', 
         }}>
-          <LoginForm/>
-        </Container>
+          <Grid item xs={10} sm={10} md={10} lg={5} xl={5}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            {/* Logo and description */}
+            <LogoDescription/>
+          </Grid>
+
+          <Grid item xs={10} sm={10} md={10} lg={5} xl={5}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            {/* Login form (maybe sign-up options?) */}
+            <LoginForm/>
+          </Grid>
+        </Grid>
+
+        <Footer/>
+        
       </main>
     </>
   )
