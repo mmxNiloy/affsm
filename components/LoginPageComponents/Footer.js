@@ -84,8 +84,8 @@ const Footer = () => {
 
                     <ListItem>
                         <ListItemText>
-                            <Link rel='noopener' underline='none' href='https://open.spotify.com/track/5WwqdeavrQrbeAMDxGawse?si=85b2e0b9e3cc4399'>
-                                Can't fight this feeling - REO Speedwagon
+                            <Link rel='noopener' underline='none' href='https://open.spotify.com/track/0ePmfd8y7g4zs3E6ew7pDB?si=9aa4ce75f0284514'>
+                                The Red Baron - Sabaton
                             </Link>
                         </ListItemText>
                     </ListItem>
