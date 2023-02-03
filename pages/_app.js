@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import { ThemeProvider } from '@mui/material/styles'
 import lightTheme from '../theme/light'
+import darkTheme from '../theme/dark'
 import Box from '@mui/material/Box'
 import CssBaseline from '@mui/material/CssBaseline'
 

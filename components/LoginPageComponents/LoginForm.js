@@ -16,7 +16,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box"
 
 
-const LoginForm = () => {
+const LoginForm = ({onSuccess}) => {
     const [loading, setLoading] = useState(false)
 
     const [showPassword, setShowPassword] = useState(false)
@@ -58,6 +58,8 @@ const LoginForm = () => {
         
         if(req.ok) {
             console.log('Successfully logged in.', res.user)
+            sessionStorage.setItem('user', JSON.stringify(res.user));
+            onSuccess()
         } else {
             setSidError(true)
             setPassError(true)
