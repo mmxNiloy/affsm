@@ -6,6 +6,7 @@ import Footer from '../components/LoginPageComponents/Footer'
 import LogoDescription from '../components/LoginPageComponents/LogoDescription'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 export default function Home() {
   const router = useRouter()
@@ -14,16 +15,28 @@ export default function Home() {
   const handleSuccess = () => {
     router.push('/dashboard')
   }
-  useEffect(() => {
-    if(loading) return;
+
+  const getUser = async () => {
+    if(loading) return
+    
     setLoading(true)
-    const user = sessionStorage.getItem('user')
+    var user
+    try {
+      const req = await axios.get('/api/auth/verify')
+      user = req.data.user
+    } catch (ignored) {
+    }
 
     if(Boolean(user)) {
       router.push('/dashboard')
-    } else {
-      setLoading(false)
+      return;
     }
+
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    getUser()
   }, [])
 
   return (
