@@ -14,9 +14,10 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormHelperText from "@mui/material/FormHelperText";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box"
+import axios from "axios";
 
 
-const LoginForm = () => {
+const LoginForm = ({onSuccess}) => {
     const [loading, setLoading] = useState(false)
 
     const [showPassword, setShowPassword] = useState(false)
@@ -53,11 +54,13 @@ const LoginForm = () => {
             setPassErrorText('')
         }
 
-        const req = await fetch(`/api/auth/login/student?id=${studentID}&password=${password}`)
-        const res = await req.json()
+        const req = await axios.get(`/api/auth/login/student?id=${studentID}&password=${password}`)
+        const ver = await axios.get('/api/auth/verify')
+        const user = ver.data.user
         
-        if(req.ok) {
-            console.log('Successfully logged in.', res.user)
+        if(Boolean(user)) {
+            console.log('Successfully logged in.', user)
+            onSuccess()
         } else {
             setSidError(true)
             setPassError(true)

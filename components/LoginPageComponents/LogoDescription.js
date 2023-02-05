@@ -12,7 +12,7 @@ const LogoDescription = () => {
     useEffect(() => {
         if(theme.palette.mode === 'dark') setLogoDir('/affsm_logo_dark.svg')
         else setLogoDir('/affsm_logo_light.svg')
-    }, [])
+    }, [theme])
 
     return (
         <Stack spacing={1} direction='column'>

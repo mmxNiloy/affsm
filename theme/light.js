@@ -18,7 +18,9 @@ const lightTheme = createTheme({
             '"Segoe UI Symbol"',
           ].join(','),
     },
-    
+    measurements: {
+        drawerWidth: 240
+    },
 })
 
 export default lightTheme

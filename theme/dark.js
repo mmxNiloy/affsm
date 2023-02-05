@@ -17,7 +17,10 @@ const darkTheme = createTheme({
             '"Segoe UI Emoji"',
             '"Segoe UI Symbol"',
           ].join(','),
-    }
+    },
+    measurements: {
+        drawerWidth: 240
+    },
 })
 
 export default darkTheme

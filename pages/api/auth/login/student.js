@@ -1,6 +1,10 @@
 const mysql = require('mysql2')
+const jwt = require('jsonwebtoken')
+import Cookies from 'cookies'
 
 const handler = async (req, res) => {
+    const cookies = new Cookies(req, res)
+
     // Get the student id and password from the query parameters
     const {id, password} = req.query
 
@@ -23,16 +27,34 @@ const handler = async (req, res) => {
     try {
         [rows, columns] = await poolPromise.execute(query)
     } catch (e) {
-        res.status(500).json({message: 'Authentication failed. Invalid username or password.'})
-        return;
+        return res
+            .status(500)
+            .json({
+                message: 'Authentication failed. Invalid username or password.'
+            })
     }
 
     if(rows.length === 0) {
-        res.status(500).json({message: 'Authentication failed. Invalid username or password.'})
-        return;
+        return res
+            .status(500)
+            .json({
+                message: 'Authentication failed. Invalid username or password.'
+            })
     }
 
-    res.status(200).json({message: 'Authentication successful!', user: rows[0]})
+    const token = jwt.sign(
+        {user: rows[0]},
+        process.env.TOKEN_KEY,
+        {
+            expiresIn: '5m',
+        } 
+    )
+
+    cookies.set('currentUserToken', token, {
+        httpOnly: true
+    })
+
+    return res.status(200).json({message: 'Authentication successful!'})
 }
 
 export default handler;
