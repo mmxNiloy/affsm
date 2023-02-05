@@ -23,13 +23,15 @@ import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import HistoryIcon from '@mui/icons-material/History';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import { ListItems } from './DashboardEnums'
 import { useState } from 'react';
 
-const PersistentDrawer = ({open, handleDrawerClose}) => {
+const PersistentDrawer = ({open, handleDrawerClose, onDrawerItemChange}) => {
     const theme = useTheme();
     const [selectedItem, setSelectedItem] = useState(ListItems.DAHSBOARD)
 
     const handleItemClick = (index) => {
+        onDrawerItemChange(ListItems[`ITEM_${index + 1}`])
         setSelectedItem(ListItems[`ITEM_${index + 1}`])
     }
 
@@ -81,7 +83,10 @@ const PersistentDrawer = ({open, handleDrawerClose}) => {
                 <ListItem disablePadding>
                     <ListItemButton 
                     selected={selectedItem === ListItems.DAHSBOARD}
-                    onClick={() => { setSelectedItem(ListItems.DAHSBOARD) }}>
+                    onClick={() => { 
+                        onDrawerItemChange(ListItems.DAHSBOARD)
+                        setSelectedItem(ListItems.DAHSBOARD) 
+                    }}>
                         <ListItemIcon>
                             <DashboardIcon />
                         </ListItemIcon>
@@ -127,21 +132,6 @@ const PersistentDrawer = ({open, handleDrawerClose}) => {
             </List>
         </Drawer>
     )
-}
-
-// TODO: Give proper names for the enum items
-const ListItems = {
-    DAHSBOARD: 0,
-    ITEM_1: 1,
-    ITEM_2: 2,
-    ITEM_3: 3,
-    ITEM_4: 4,
-    ITEM_5: 5,
-    ITEM_6: 6,
-    ITEM_7: 7,
-    ITEM_8: 8,
-    ITEM_9: 9,
-    ITEM_10: 10,
 }
 
 export default PersistentDrawer
