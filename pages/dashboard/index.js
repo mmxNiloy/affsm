@@ -12,6 +12,13 @@ import MainContentWrapper from "../../components/DashboardComponents/MainContent
 import DashboardFragment from "../../components/DashboardComponents/Fragments/DashboardFragment"
 import { ListItems } from "../../components/DashboardComponents/DashboardEnums"
 import NoticeFragment from "../../components/DashboardComponents/Fragments/NoticeFragment"
+import FormSubmissionFragment from "../../components/DashboardComponents/Fragments/FormSubmissionFragment"
+import FormActivationFragment from "../../components/DashboardComponents/Fragments/FormActivationFragment"
+import AdmitCardFragment from "../../components/DashboardComponents/Fragments/AdmitCardFragment"
+import HistoryFragment from "../../components/DashboardComponents/Fragments/HistoryFragment"
+import AllMailsFragment from "../../components/DashboardComponents/Fragments/AllMailsFragment"
+import TrashFragment from "../../components/DashboardComponents/Fragments/TrashFragment"
+import SpamFragment from "../../components/DashboardComponents/Fragments/SpamFragment"
 
 const Dashboard = () => {
     const router = useRouter()
@@ -45,10 +52,18 @@ const Dashboard = () => {
 
                 {selectedDrawerItem === ListItems.DAHSBOARD && <DashboardFragment/>}
                 {selectedDrawerItem === ListItems.ITEM_1 && <NoticeFragment/>}
+                {selectedDrawerItem === ListItems.ITEM_2 && <FormSubmissionFragment/>}
+                {selectedDrawerItem === ListItems.ITEM_3 && <FormActivationFragment/>}
+                {selectedDrawerItem === ListItems.ITEM_4 && <AdmitCardFragment/>}
+                {selectedDrawerItem === ListItems.ITEM_5 && <HistoryFragment/>}
+                {selectedDrawerItem === ListItems.ITEM_6 && <AllMailsFragment/>}
+                {selectedDrawerItem === ListItems.ITEM_7 && <TrashFragment/>}
+                {selectedDrawerItem === ListItems.ITEM_8 && <SpamFragment/>}
+                
             </MainContentWrapper>
 
         </Box>
     )
 }
 
-export default Dashboard
+export default Dashboard 
