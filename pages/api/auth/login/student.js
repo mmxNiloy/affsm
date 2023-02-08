@@ -46,7 +46,7 @@ const handler = async (req, res) => {
         {user: rows[0]},
         process.env.TOKEN_KEY,
         {
-            expiresIn: '5m',
+            expiresIn: '1h',
         } 
     )
 

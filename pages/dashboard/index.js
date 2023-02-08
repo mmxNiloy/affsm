@@ -19,28 +19,39 @@ import HistoryFragment from "../../components/DashboardComponents/Fragments/Hist
 import AllMailsFragment from "../../components/DashboardComponents/Fragments/AllMailsFragment"
 import TrashFragment from "../../components/DashboardComponents/Fragments/TrashFragment"
 import SpamFragment from "../../components/DashboardComponents/Fragments/SpamFragment"
+import axios from "axios"
 
 const Dashboard = () => {
     const router = useRouter()
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState({})
     const [loading, setLoading] = useState(false)
     const [isDrawerOpen, setDrawerOpen] = useState(false)
     const [selectedDrawerItem, setSelectedDrawerItem] = useState(ListItems.DAHSBOARD)
 
-    useEffect(() => {
+    const getUser = async () => {
         if(loading) return
 
         setLoading(true)
-        const mUser = JSON.parse(sessionStorage.getItem('user'))
 
-        // Handle unauthorised access
-        // if(!Boolean(mUser)) {
-        //     router.replace('/')
-        //     return;
-        // }
+        // Code
+        try {
+            const req = await axios.get('/api/auth/verify')
+            setUser(req.data.user)
+        } catch(err) {
+            // !Fatal error, session has expired
+            // !Send the user to the login page
+            console.log('No User Found Exception', err);
+            
+            // TODO: Show an alert about the unauthorized access
+            alert('Session has expired. Please log in again.')
+            router.replace('/')
+        }
 
-        // setUser(mUser)
-        // setLoading(false)
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        getUser()
     }, [])
     return (
         <Box>
@@ -52,7 +63,11 @@ const Dashboard = () => {
 
                 {selectedDrawerItem === ListItems.DAHSBOARD && <DashboardFragment/>}
                 {selectedDrawerItem === ListItems.ITEM_1 && <NoticeFragment/>}
-                {selectedDrawerItem === ListItems.ITEM_2 && <FormSubmissionFragment/>}
+                
+                <FormSubmissionFragment 
+                hidden={selectedDrawerItem !== ListItems.ITEM_2} 
+                user={user}/>
+
                 {selectedDrawerItem === ListItems.ITEM_3 && <FormActivationFragment/>}
                 {selectedDrawerItem === ListItems.ITEM_4 && <AdmitCardFragment/>}
                 {selectedDrawerItem === ListItems.ITEM_5 && <HistoryFragment/>}
