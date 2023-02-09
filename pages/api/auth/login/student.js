@@ -19,8 +19,8 @@ const handler = async (req, res) => {
     const query = 
     `
     SELECT *
-    FROM Students
-    WHERE student_id = ${id} AND password = '${password}';
+    FROM Users
+    WHERE user_id = ${id} AND password = '${password}';
     `
     var rows = []
     var columns = []
