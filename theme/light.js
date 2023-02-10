@@ -17,6 +17,9 @@ const lightTheme = createTheme({
             '"Segoe UI Emoji"',
             '"Segoe UI Symbol"',
           ].join(','),
+        button: {
+            textTransform: 'none',
+        }
     },
     measurements: {
         drawerWidth: 240

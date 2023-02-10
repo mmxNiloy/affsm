@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Grid from '@mui/material/Grid'
 import LoginForm from '../components/LoginPageComponents/LoginForm'
-import Container from '@mui/material/Container'
 import Footer from '../components/LoginPageComponents/Footer'
 import LogoDescription from '../components/LoginPageComponents/LogoDescription'
 import { useRouter } from 'next/router'

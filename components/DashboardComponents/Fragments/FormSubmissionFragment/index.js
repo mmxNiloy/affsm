@@ -1,20 +1,12 @@
 import Box from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
-import TextField from '@mui/material/TextField'
-import OutlinedInput from '@mui/material/OutlinedInput'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
-import Grid from '@mui/material/Grid'
-import List from '@mui/material/List'
-import Select from '@mui/material/Select'
-import ButtonGroup from '@mui/material/ButtonGroup'
-import IconButton from '@mui/material/IconButton'
 import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import Typography from '@mui/material/Typography'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -30,7 +22,7 @@ const steps = [
     'Confirmation',
 ]
 
-const FormSubmissionFragment = ({hidden, user}) => {
+const FormSubmissionFragment = ({user}) => {
     const [currentStep, setCurrentStep] = useState(0)
     const [acknowledgementsFormError, setAcknowledgementsFormError] = useState(true)
     const [couseSelectionFormError, setCouseSelectionFormError] = useState(true)
@@ -73,7 +65,7 @@ const FormSubmissionFragment = ({hidden, user}) => {
     }
 
     return(
-        <Box hidden={hidden}>
+        <Box>
             <Stack 
             spacing={1}
             direction='column'

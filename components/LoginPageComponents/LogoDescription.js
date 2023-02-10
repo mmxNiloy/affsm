@@ -1,5 +1,3 @@
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import { useTheme } from '@mui/material/styles'
 import Image from 'next/image'

@@ -1,12 +1,6 @@
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import Box from '@mui/material/Box'
-import Stack from '@mui/material/Stack'
-import CircularProgress from '@mui/material/CircularProgress'
-import Typography from '@mui/material/Typography'
-import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar'
-import MyCircularProgress from "../../components/DashboardComponents/MyCircularProgress"
 import MyAppBar from "../../components/DashboardComponents/MyAppBar"
 import MainContentWrapper from "../../components/DashboardComponents/MainContentWrapper"
 import DashboardFragment from "../../components/DashboardComponents/Fragments/DashboardFragment"
@@ -60,13 +54,10 @@ const Dashboard = () => {
 
             <MainContentWrapper open={isDrawerOpen}>
                 {/* <MyCircularProgress loading={loading}/> */}
-
-                {selectedDrawerItem === ListItems.DAHSBOARD && <DashboardFragment/>}
+                {selectedDrawerItem === ListItems.DAHSBOARD && <DashboardFragment user={user}/>}
                 {selectedDrawerItem === ListItems.ITEM_1 && <NoticeFragment/>}
                 
-                <FormSubmissionFragment 
-                hidden={selectedDrawerItem !== ListItems.ITEM_2} 
-                user={user}/>
+                {selectedDrawerItem === ListItems.ITEM_2 && <FormSubmissionFragment user={user}/>}
 
                 {selectedDrawerItem === ListItems.ITEM_3 && <FormActivationFragment/>}
                 {selectedDrawerItem === ListItems.ITEM_4 && <AdmitCardFragment/>}
