@@ -52,7 +52,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         getUser()
-    }, [])
+    }, [user])
     return (
         <Box>
             {/* Do not render these componenets if the user is null */}

@@ -36,22 +36,6 @@ const FormSubmissionFragment = ({hidden, user}) => {
     const [couseSelectionFormError, setCouseSelectionFormError] = useState(true)
     const [informationFormError, setInformationFormError] = useState(true)
     const [confirmationFormError, setConfirmationFormError] = useState(true)
-    
-    const [allottedHall, setAllottedHall] = useState('')
-    const [semester, setSemester] = useState('')
-
-    const [nameOfFather, setNameOfFather] = useState('')
-    const [nameOfMother, setNameOfMother] = useState('')
-    
-    const handleAcknowledgementsFormChange = (hall, sem) => {
-        setAllottedHall(hall)
-        setSemester(sem)
-    }
-
-    const handleInformationFormChange = (ftName, mtName) => {
-        setNameOfFather(ftName)
-        setNameOfMother(mtName)
-    }
 
     const handleNextStep = () => {
         if(currentStep === steps.length - 1) {
@@ -104,7 +88,6 @@ const FormSubmissionFragment = ({hidden, user}) => {
             {/* TODO: Render actual form fragments */}
             <Box sx={{minHeight: '50vh', marginY: '16px', p: '32px'}}>
                 <Acknowledgements 
-                onChange={handleAcknowledgementsFormChange}
                 onError={setAcknowledgementsFormError}
                 hidden={currentStep !== 0}
                 user={user}/>
@@ -115,13 +98,11 @@ const FormSubmissionFragment = ({hidden, user}) => {
                 user={user}/>
                 
                 <Information
-                onChange={handleInformationFormChange}
                 hidden={currentStep !== 2}
                 onError={setInformationFormError}
                 user={user}/>
 
                 <Confirmation 
-                data={{allottedHall, semester, nameOfFather, nameOfMother}}
                 hidden={currentStep !== 3}
                 onError={setConfirmationFormError}
                 user={user}/>

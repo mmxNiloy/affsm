@@ -28,8 +28,17 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import dayjs from 'dayjs';
+import FormGroup from '@mui/material/FormGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
 
 const Confirmation = ({user, onError, hidden, data}) => {
+    const [checked, setChecked] = useState(false)
+
+    const handleCheckboxChange = (e) => {
+        setChecked(e.target.checked)
+    }
+
     const toCardinal = (num) => {
         // Limited to 1-9
         switch(num) {
@@ -44,9 +53,19 @@ const Confirmation = ({user, onError, hidden, data}) => {
         }
     }
 
+    const validate = () => {
+        if(!checked) {
+            onError(true)
+            return true
+        } else {
+            onError(false)
+            return false
+        }
+    }
+
     useEffect(() => {
-        console.log('Data passed', data)
-    }, [])
+        validate()
+    }, [checked])
 
     return (
         <Grid 
@@ -57,32 +76,18 @@ const Confirmation = ({user, onError, hidden, data}) => {
         sx={{display: (!hidden ? 'flex' : 'none')}}>
             <Grid item xs={12}>
                 <Typography variant='h4' textAlign={'center'}>
-                    {toCardinal(Number.parseInt(data.semester))} semester BSc Engineering Exam, {(new Date()).getFullYear()}
+                    {toCardinal(user.semester ? user.semester : 0)} semester BSc Engineering Exam, {(new Date()).getFullYear()}
                 </Typography>
             </Grid>
 
             <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                 <FormControl fullWidth>
                     <TextField 
-                    label='Department'
+                    value={(user && user.last_name && user.first_name) ? `${user.first_name} ${user.last_name}` : ''}
+                    label='Name of the Applicant' 
                     InputProps={{
                         readOnly: true,
-                    }}
-                    value={user.department_id ? user.department_id : ''}/>
-                </FormControl>
-            </Grid>
-
-            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                {/* Get the starting date of the exam from the internet */}
-                <FormControl fullWidth>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <MobileDatePicker
-                        label='Exam date'
-                        inputFormat='DD/MM/YYYY'
-                        disabled
-                        value={(new Date(new Date() + 14 * 24 * 3600 * 1000))}
-                        renderInput={(params) => <TextField InputProps={{readOnly: 'true'}} {...params} />}/>
-                    </LocalizationProvider>
+                    }}/>
                 </FormControl>
             </Grid>
 
@@ -100,6 +105,32 @@ const Confirmation = ({user, onError, hidden, data}) => {
             <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                 <FormControl fullWidth>
                     <TextField 
+                    label='Department'
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    value={user.department_name ? user.department_name : ''}/>
+                </FormControl>
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                {/* Get the starting date of the exam from the internet */}
+                <FormControl fullWidth>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <MobileDatePicker
+                        label='Exam date'
+                        inputFormat='DD/MM/YYYY'
+                        disabled
+                        onChange={() => {}}
+                        value={(new Date(new Date() + 14 * 24 * 3600 * 1000))}
+                        renderInput={(params) => <TextField InputProps={{readOnly: 'true'}} {...params} />}/>
+                    </LocalizationProvider>
+                </FormControl>
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                <FormControl fullWidth>
+                    <TextField 
                     label='Session'
                     InputProps={{
                         readOnly: true,
@@ -109,21 +140,10 @@ const Confirmation = ({user, onError, hidden, data}) => {
             </Grid>
 
             <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <FormControl fullWidth>
-                    <TextField 
-                    value={(user && user.last_name && user.first_name) ? `${user.first_name} ${user.last_name}` : ''}
-                    label='Name of the Applicant' 
-                    InputProps={{
-                        readOnly: true,
-                    }}/>
-                </FormControl>
-            </Grid>
-
-            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                 {/* Store these data in the database and read it from the db */}
                 <FormControl fullWidth>
                     <TextField 
-                    value={data.nameOfFather ? data.nameOfFather : ''}
+                    value={user.name_of_father ? user.name_of_father : ''}
                     InputProps={{
                         readOnly: true,
                     }}
@@ -134,7 +154,10 @@ const Confirmation = ({user, onError, hidden, data}) => {
             <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                 <FormControl fullWidth>
                     <TextField 
-                    value={data.nameOfMother ? data.nameOfMother : ''}
+                    value={user.name_of_mother ? user.name_of_mother : ''}
+                    InputProps={{
+                        readOnly: true,
+                    }}
                     label="Mother's Name" />
                 </FormControl>
             </Grid>
@@ -146,8 +169,20 @@ const Confirmation = ({user, onError, hidden, data}) => {
                     InputProps={{
                         readOnly: true,
                     }}
-                    value={data.allottedHall ? data.allottedHall : ''}/>
+                    value={user.allotted_hall ? `${user.allotted_hall} Hall` : ''}/>
                 </FormControl>
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <FormGroup>
+                    <FormControlLabel
+                    control={
+                        <Checkbox 
+                        onChange={handleCheckboxChange} 
+                        checked={checked}/>
+                    }
+                    label="I confirm correctness of the information and agree to the T&C set out by the academy."/>
+                </FormGroup>
             </Grid>
         </Grid>
     )

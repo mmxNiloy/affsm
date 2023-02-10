@@ -4,6 +4,9 @@ import Stack from '@mui/material/Stack'
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
+import FormGroup from '@mui/material/FormGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
 import InputLabel from '@mui/material/InputLabel'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
@@ -23,27 +26,16 @@ const hallNames = [
 
 const semesters = [1, 2, 3, 4, 5, 6, 7, 8,]
 
-const Acknowledgements = ({hidden, user, onError, onChange}) => {
+const Acknowledgements = ({hidden, user, onError}) => {
     const router = useRouter()
+    const [acknowledgement, setAcknowledgement] = useState(false)
 
-    const [allottedHall, setAllottedHall] = useState('')
-    const [selectedSemester, setSelectedSemester] = useState('')
-
-    const [allottedHallError, setAllottedHallError] = useState(true)
-    const [selectedSemesterError, setSelectedSemesterError] = useState(true)
-    const [allottedHallErrorMessage, setAllottedHallErrorMessage] = useState('')
-    const [selectedSemesterErrorMessage, setSelectedSemesterErrorMessage] = useState('')
-
-    const handleHallChange = (e) => {
-        setAllottedHall(e.target.value)
-    }
-
-    const handleSelectedSemesterChange = (e) => {
-        setSelectedSemester(e.target.value)
+    const handleAcknowledgementChange = (e) => {
+        setAcknowledgement(e.target.checked)
     }
 
     const validate = () => {
-        if(!Boolean(allottedHall) || allottedHall.length < 1 || !Boolean(selectedSemester) || selectedSemester.toString().length < 1) {
+        if(!acknowledgement) {
             onError(true)
             return false
         } else {
@@ -54,8 +46,7 @@ const Acknowledgements = ({hidden, user, onError, onChange}) => {
 
     useEffect(() => {
         validate()
-        onChange(allottedHall, selectedSemester)
-    }, [allottedHall,selectedSemester])
+    }, [acknowledgement])
 
     const toCardinal = (num) => {
         // Limited to 1-9
@@ -93,33 +84,12 @@ const Acknowledgements = ({hidden, user, onError, onChange}) => {
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Stack 
+                    <Typography 
+                    variant='h5'
                     marginBottom={4}
-                    spacing={1}
-                    direction='row'
-                    sx={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}>
-                        <FormControl sx={{
-                            width: '200px'
-                        }}>
-                            <InputLabel id='lbl-sel-semester'>Select your semester</InputLabel>
-                            <Select 
-                            required
-                            label='Select your semester'
-                            labelId='lbl-sel-semester'
-                            value={selectedSemester}
-                            onChange={handleSelectedSemesterChange}>
-                                {semesters.map(item => (
-                                    <MenuItem value={item} key={`select_semester_${item}`}>
-                                        {toCardinal(item)}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        <Typography variant='h5'>{` semester exam, ${(new Date()).getFullYear()}`}</Typography>
-                    </Stack>
+                    textAlign='center'>
+                        {`${toCardinal(user.semester ? user.semester : 0)} semester exam, ${(new Date()).getFullYear()}`}
+                    </Typography>
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
@@ -147,22 +117,12 @@ const Acknowledgements = ({hidden, user, onError, onChange}) => {
 
                 <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
                     <FormControl fullWidth>
-                        {/* TODO: Modify the DB and acquire data from the DB according ly. Then render */}
-                        <InputLabel id='lbl-sel-hall'>Select your alloted hall</InputLabel>
-                        <Select
-                        required
-                        label='Select your alloted hall'
-                        labelId='lbl-sel-hall' 
-                        onChange={handleHallChange}
-                        value={allottedHall}>
-                            {hallNames.map((item, index) => (
-                                <MenuItem 
-                                key={`hall_select_${index}`}
-                                value={item}>
-                                    {item}
-                                </MenuItem>
-                            ))}
-                        </Select>
+                        <TextField
+                        label='Allotted Hall'
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        value={user.allotted_hall ? `${user.allotted_hall} Hall` : ''}/>
                     </FormControl>
                 </Grid>
 
@@ -173,7 +133,7 @@ const Acknowledgements = ({hidden, user, onError, onChange}) => {
                         InputProps={{
                             readOnly: true,
                         }}
-                        value={user.department_id ? user.department_id : ''}/>
+                        value={user.department_name ? user.department_name : ''}/>
                     </FormControl>
                 </Grid>
             </Grid>
@@ -187,13 +147,26 @@ const Acknowledgements = ({hidden, user, onError, onChange}) => {
 
                 <Typography variant='body1' sx={{marginTop: '8px'}}>Sir,</Typography>
                 <Typography variant='body2'>
-                    I request your permission to participate in the upcoming {toCardinal(selectedSemester)} semester BSc Engineering exam of {(new Date()).getFullYear()}. 
+                    I request your permission to participate in the upcoming {toCardinal(user.semester ? user.semester : 0)} semester BSc Engineering exam of {(new Date()).getFullYear()}. 
                     I pledge that I'll oblige to the decisions made by the officials.
                 </Typography>
 
                 <Typography variant='body1' sx={{marginTop: '8px'}}>Sincerely,</Typography>
                 <Typography variant='h6'>{`${user.first_name} ${user.last_name}`}</Typography>
             </Container>
+            
+            <Container sx={{marginTop: '16px'}}>
+                <FormGroup>
+                    <FormControlLabel
+                    control={
+                        <Checkbox 
+                        onChange={handleAcknowledgementChange} 
+                        checked={acknowledgement}/>
+                    }
+                    label="I confirm correctness of the data and agree to the T&C set out by the academy."/>
+                </FormGroup>
+            </Container>
+            
         </Stack>
     )
 }

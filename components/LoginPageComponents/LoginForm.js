@@ -54,8 +54,32 @@ const LoginForm = ({onSuccess}) => {
             setPassErrorText('')
         }
 
-        const req = await axios.get(`/api/auth/login/student?id=${studentID}&password=${password}`)
-        const ver = await axios.get('/api/auth/verify')
+
+        try {
+            await axios.get(
+                `/api/auth/login/student`, 
+                {
+                    params: {
+                        id: studentID, 
+                        password: password
+                    }
+                }
+            )
+        } catch(ignored) {
+            setLoading(false)
+            return;
+        }
+        
+        var ver;
+        try {
+            ver = await axios.get('/api/auth/verify')
+        } catch(err) {
+            // Invalid token error
+            alert('Invalid token')
+            setLoading(false)
+            return;
+        }
+        
         const user = ver.data.user
         
         if(Boolean(user)) {
