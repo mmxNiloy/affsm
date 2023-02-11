@@ -1,6 +1,11 @@
-const SubmissionsFragment = () => {
+import SubmissionsPreviewFragment from './SubmissionsPreviewFragment'
+
+const SubmissionsFragment = ({user}) => {
     return (
-        <>Submissions Fragment</>
+        <>
+        
+        <SubmissionsPreviewFragment user={user} />
+        </>
     )
 }
 

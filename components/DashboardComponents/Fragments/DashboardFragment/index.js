@@ -27,7 +27,7 @@ const DashboardFragment = ({user}) => {
             </Box>
 
             {currentTab === 0 && <OverviewFragment user={user}/>}
-            {currentTab === 1 && <SubmissionsFragment/>}
+            {currentTab === 1 && <SubmissionsFragment user={user}/>}
             {currentTab === 2 && <PreferencesFragment/>}
         </Box>
         
