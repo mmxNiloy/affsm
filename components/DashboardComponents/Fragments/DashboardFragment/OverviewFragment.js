@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import NoticePreviewFragment from '../NoticePreviewFragment'
 import Stack from '@mui/material/Stack'
 import { useEffect, useState } from 'react'
+import SubmissionsPreviewFragment from './SubmissionsPreviewFragment'
 
 const OverviewFragment = ({user}) => {
     const [timeBangla, setTimeBangla] = useState(new Date() - 24*3600*1000);
@@ -127,19 +128,12 @@ const OverviewFragment = ({user}) => {
                     <CardHeader subheader={'Submissions'}/>
                     <CardContent>
                         <Stack direction={'column'} spacing={2}>
-                            <NoticePreviewFragment/>
-                            <NoticePreviewFragment/>
-                            <NoticePreviewFragment/>
+                            <SubmissionsPreviewFragment user={user}/>
+
                         </Stack>
                         
 
-                        <CardActions sx={{ marginTop: '8px'}}>
-                            <Box flexGrow={1}/>
-                            <Button 
-                            variant='contained'>
-                                View All
-                            </Button>
-                        </CardActions>
+
                     </CardContent>
                 </Card>
             </Grid>
