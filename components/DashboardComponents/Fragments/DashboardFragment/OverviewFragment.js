@@ -10,12 +10,14 @@ import EditIcon from '@mui/icons-material/Edit'
 import NoticePreviewFragment from '../NoticePreviewFragment'
 import Stack from '@mui/material/Stack'
 import { useEffect, useState } from 'react'
+import Divider from '@mui/material/Divider'
 import SubmissionsPreviewFragment from './SubmissionsPreviewFragment'
 
 const OverviewFragment = ({user}) => {
     const [timeBangla, setTimeBangla] = useState(new Date() - 24*3600*1000);
     const [timeCSE, setTimeCSE] = useState(new Date() - 4 * 24*3600*1000);
     const [timePhysics, setTimePhysics] = useState(new Date() - 2 * 24*3600*1000);
+    const [timeSubmitted, setTimeSubmitted] = useState(new Date() - 7 * 24 * 3600 * 1000);
     return (
         <Grid container 
         rowSpacing={2}
@@ -95,6 +97,7 @@ const OverviewFragment = ({user}) => {
                                 timestamp: timeBangla,
                                 message: 'Exam routine for 7th semester of Department of Bangla has been published.\nStudents can download the routine from the given link.\nhttps://www.cu.ac.bd/routine/bangla/ba?sem=7'
                             }}/>
+                            <Divider/>
 
                             <NoticePreviewFragment 
                             data={{
@@ -102,6 +105,8 @@ const OverviewFragment = ({user}) => {
                                 timestamp: timeCSE,
                                 message: 'Due to extreme workload the processing of results is taking longer than expected. Students are asked to continue their future classes as scheduled.'
                             }}/>
+                            <Divider />
+                            
 
                             <NoticePreviewFragment 
                             data={{
@@ -109,6 +114,7 @@ const OverviewFragment = ({user}) => {
                                 timestamp: timePhysics,
                                 message: 'The lab exams of the 3rd semester physics students will take place in two days. Please be weary of unusual time.'
                             }}/>
+                            <Divider/>
                         </Stack>
                         
 
@@ -128,8 +134,37 @@ const OverviewFragment = ({user}) => {
                     <CardHeader subheader={'Submissions'}/>
                     <CardContent>
                         <Stack direction={'column'} spacing={2}>
-                            <SubmissionsPreviewFragment user={user}/>
+                            <SubmissionsPreviewFragment 
+                                data={{
+                                    title: `BSc Engineering Semester: ${user.semester}, Exam of ${(new Date).getFullYear()}`,
+                                    timestamp: timeSubmitted,
+                                    department: user.department_name,
+                                    formStatus: 2,
+                                }}/>
 
+                            <SubmissionsPreviewFragment 
+                                data={{
+                                    title: `BSc Engineering Semester: ${user.semester - 1}, Exam of ${(new Date).getFullYear() - 1}`,
+                                    timestamp: timeSubmitted - 6 * 30 * 24 * 3600 * 1000,
+                                    department: user.department_name,
+                                    formStatus: 5,
+                                }}/>
+
+                            <SubmissionsPreviewFragment 
+                                data={{
+                                    title: `BSc Engineering Semester: ${user.semester - 2}, Exam of ${(new Date).getFullYear() - 1}`,
+                                    timestamp: timeSubmitted - 11 * 30 * 24 * 3600 * 1000,
+                                    department: user.department_name,
+                                    formStatus: 5,
+                                }}/>
+                            
+                            <CardActions sx={{ marginTop: '8px'}}>
+                                <Box flexGrow={1}/>
+                                <Button 
+                                variant='contained'>
+                                    View All
+                                </Button>
+                            </CardActions>
                         </Stack>
                         
 
