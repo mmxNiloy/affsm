@@ -11,6 +11,10 @@ import NoticePreviewFragment from '../NoticePreviewFragment'
 import Stack from '@mui/material/Stack'
 import { useEffect, useState } from 'react'
 import Divider from '@mui/material/Divider'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogContent from '@mui/material/DialogContent'
 import SubmissionsPreviewFragment from './SubmissionsPreviewFragment'
 import axios from 'axios'
 import MyCircularProgress from '../../MyCircularProgress'
@@ -51,6 +55,12 @@ const SubmissionsFragment = ({user}) => {
         else return 2
     }
 
+    const [open, setOpen] = useState(false)
+
+    const handleShowModal = () => {
+        setOpen(true)
+    }
+
     const renderForms = (item, index) => {
         return (
             <Grid xs={12} key={`submission_${index}`}>
@@ -60,7 +70,9 @@ const SubmissionsFragment = ({user}) => {
                     timestamp: item.time_stamp,
                     formStatus: getStatusCode(item.clearance_level),
                     department: `Department of ${user.department_id}`
-                }}/>
+                }}
+                clickable
+                onShowDialog={handleShowModal}/>
             </Grid>
         )
     }
@@ -72,21 +84,31 @@ const SubmissionsFragment = ({user}) => {
     if(loading) return <MyCircularProgress height='60vh'/>
 
     return (
-        <Grid container>
-            <Grid item xs={12}>
-                <Typography variant='h4' textAlign={'center'}>
-                    All Submissions
-                </Typography>
+        <Box>
+            <Grid container>
+                <Grid item xs={12}>
+                    <Typography variant='h4' textAlign={'center'}>
+                        All Submissions
+                    </Typography>
+                </Grid>
+
+                {submissions.map(renderForms)}
+
+                <Grid item xs={12} sx={{display: (emptySubmissions ? 'flex' : 'none')}}>
+                    <Typography variant='h5' textAlign={'center'}>
+                        You have not submitted a form yet. Make a submission to view your records here.
+                    </Typography>
+                </Grid>
             </Grid>
 
-            {submissions.map(renderForms)}
-
-            <Grid item xs={12} sx={{display: (emptySubmissions ? 'flex' : 'none')}}>
-                <Typography variant='h5' textAlign={'center'}>
-                    You have not submitted a form yet. Make a submission to view your records here.
-                </Typography>
-            </Grid>
-        </Grid>
+            <Dialog 
+            open={open}
+            onClose={() => { setOpen(false) }}>
+                {/* Dialog Content */}
+                <DialogTitle></DialogTitle>
+            </Dialog>
+        </Box>
+        
     )
 }
 
