@@ -13,6 +13,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormHelperText from "@mui/material/FormHelperText";
 import LinearProgress from "@mui/material/LinearProgress";
+import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box"
 import axios from "axios";
 
@@ -21,27 +22,29 @@ const LoginForm = ({onSuccess}) => {
     const [loading, setLoading] = useState(false)
 
     const [showPassword, setShowPassword] = useState(false)
-    const [studentID, setStudentID] = useState(0)
+    const [userID, setUserID] = useState(0)
     const [password, setPassword] = useState('')
+    const [userType, setUserType] = useState(UserTypes.STUDENT)
 
-    const [sidError, setSidError] = useState(false)
-    const [sidErrorText, setSidErrorText] = useState('')
+    const [uidError, setUidError] = useState(false)
+    const [uidErrorText, setUidErrorText] = useState('')
     const [passError, setPassError] = useState(false)
     const [passErrorText, setPassErrorText] = useState('')
+    const [idFieldLabel, setIdFieldLabel] = useState(UserTypes.STUDENT_ID_LABEL)
 
     const handleLoginButtonClick = async () => {
         setLoading(true)
 
         // rules/validations
         // student id must be a non-zero 8 digit number
-        if(studentID < 1000_0000) {
-            setSidError(true)
-            setSidErrorText('Student ID must be a non-zero 8 digit number')
+        if(userID < 1000_0000) {
+            setUidError(true)
+            setUidErrorText('Student ID must be a non-zero 8 digit number')
             setLoading(false)
             return;
         } else {
-            setSidError(false)
-            setSidErrorText('')
+            setUidError(false)
+            setUidErrorText('')
         }
 
         if(password.length < 8) {
@@ -60,7 +63,7 @@ const LoginForm = ({onSuccess}) => {
                 `/api/auth/login/student`, 
                 {
                     params: {
-                        id: studentID, 
+                        id: userID, 
                         password: password
                     }
                 }
@@ -86,9 +89,9 @@ const LoginForm = ({onSuccess}) => {
             console.log('Successfully logged in.', user)
             onSuccess()
         } else {
-            setSidError(true)
+            setUidError(true)
             setPassError(true)
-            setSidErrorText('Invalid ID or password')
+            setUidErrorText('Invalid ID or password')
             setPassErrorText('Invalid ID or password')
         }
 
@@ -102,7 +105,7 @@ const LoginForm = ({onSuccess}) => {
             return
         }
 
-        setStudentID(id)
+        setUserID(id)
     }
 
     const handlePasswordChange = (e) => {
@@ -115,6 +118,18 @@ const LoginForm = ({onSuccess}) => {
         event.preventDefault();
     };
 
+    const handleUserTypeChange = () => {
+        const nextUser = getNextUserType()
+
+        setUserType(nextUser)
+        setIdFieldLabel(UserTypes[`${nextUser.toUpperCase()}_ID_LABEL`])
+    }
+
+    const getNextUserType = () => {
+        if(userType === UserTypes.STUDENT) return UserTypes.EVALUATOR
+        else return UserTypes.STUDENT
+    }
+
     return (
         <Card sx={{ width: '400px' }} elevation={4}>
             <CardHeader 
@@ -122,17 +137,17 @@ const LoginForm = ({onSuccess}) => {
 
             <CardContent>
                 
-                <FormControl fullWidth error={sidError}>
+                <FormControl fullWidth error={uidError}>
                     <TextField 
-                    label='Student ID' 
+                    label={idFieldLabel} 
                     variant="outlined"
-                    error={sidError}
+                    error={uidError}
                     sx={{ marginX: '16px', marginY: '4px', width: '35ch', }}
                     type='number'
-                    value={studentID}
+                    value={userID}
                     onChange={handleSIDChange}/>
 
-                    <FormHelperText>{sidErrorText}</FormHelperText>
+                    <FormHelperText>{uidErrorText}</FormHelperText>
                 </FormControl>
 
                 <FormControl fullWidth 
@@ -173,6 +188,22 @@ const LoginForm = ({onSuccess}) => {
                         Log in
                     </Button>
                 </FormControl>
+
+                <FormControl fullWidth>
+                    <Typography variant='body1' textAlign={'center'}>
+                        Are you a{userType === UserTypes.STUDENT ? 'n' : ''} {getNextUserType()}? 
+                    </Typography>
+                    <Typography variant='body1' textAlign='center'>
+                        Try Logging in from
+                        <Button 
+                        onClick={handleUserTypeChange}
+                        type='button' 
+                        variant='text' 
+                        sx={{ textDecoration: 'underline', marginLeft: '8px'}}>
+                            Here
+                        </Button>
+                    </Typography>
+                </FormControl>
                 
                 <Box hidden={!loading} sx={{marginX: '16px', marginY: '4px'}}>
                     <LinearProgress color={"success"}/>    
@@ -181,5 +212,12 @@ const LoginForm = ({onSuccess}) => {
         </Card>
     )
 }
+
+const UserTypes = {
+    STUDENT: 'student',
+    EVALUATOR: 'evaluator',
+    STUDENT_ID_LABEL: 'Student ID',
+    EVALUATOR_ID_LABEL: 'Evaluator ID',
+};
 
 export default LoginForm;
