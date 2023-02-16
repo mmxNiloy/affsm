@@ -6,7 +6,7 @@
 //  Render value from property.][For viewing progress of the form]
 // 3. Typography [For text]
 
-import { Card,CardHeader,CardContent } from '@mui/material'
+import { Card,CardHeader,CardContent, CardActions } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
@@ -15,9 +15,10 @@ import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import Stack from '@mui/material/Stack'
+import Dialog from '@mui/material/Dialog'
 import { useEffect, useState } from 'react'
 
-const SubmissionsPreviewFragment = ({data}) => {
+const SubmissionsPreviewFragment = ({data, clickable, onShowDialog}) => {
     const steps = [
         'Provost',
         'Accounts Office',
@@ -52,6 +53,13 @@ const SubmissionsPreviewFragment = ({data}) => {
                 alternativeLabel>
                     {['Submitted', data.department, ...steps].map(renderStep)}
                 </Stepper>
+
+                <CardActions sx={{ marginTop: '8px'}}>
+                    <Box flexGrow={1}/>
+                    <Button type='button' variant='contained' onCLick={onShowDialog}>
+                        View
+                    </Button>
+                </CardActions>
             </CardContent>
         </Card>
     )

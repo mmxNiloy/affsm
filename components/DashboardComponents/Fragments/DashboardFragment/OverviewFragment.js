@@ -110,7 +110,7 @@ const OverviewFragment = ({user}) => {
     useEffect(() => {
         fetchNotices()
         getSubmissions()
-    }, [])
+    }, [notices, submissions])
 
     return (
         <Grid container 
