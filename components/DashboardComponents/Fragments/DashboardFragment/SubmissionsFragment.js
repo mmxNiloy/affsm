@@ -287,6 +287,12 @@ const SubmissionsFragment = ({user}) => {
                         </Box>
                         
                     </Grid>
+
+                    <Grid item xs={12}>
+                        <Button type='button' variant='contained' fullWidth>
+                            Export as PDF
+                        </Button>
+                    </Grid>
                 </Grid>
                 
             </Dialog>
