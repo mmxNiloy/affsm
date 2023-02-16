@@ -26,6 +26,10 @@ const SubmissionsPreviewFragment = ({data, clickable, onShowDialog}) => {
         'Exam Controller Office'
     ]
 
+    const handleViewButtonClick = () => {
+        onShowDialog(data)
+    }
+
     const renderStep = (item, index) => {
         return (
             <Step key={`submission-stepper-${index}`}>
@@ -56,7 +60,7 @@ const SubmissionsPreviewFragment = ({data, clickable, onShowDialog}) => {
 
                 <CardActions sx={{ marginTop: '8px', display: (clickable ? 'flex' : 'none')}}>
                     <Box flexGrow={1}/>
-                    <Button type='button' variant='contained' onCLick={onShowDialog}>
+                    <Button type='button' variant='contained' onClick={handleViewButtonClick}>
                         View
                     </Button>
                 </CardActions>
