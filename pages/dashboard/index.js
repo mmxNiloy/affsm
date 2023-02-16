@@ -14,6 +14,7 @@ import AllMailsFragment from "../../components/DashboardComponents/Fragments/All
 import TrashFragment from "../../components/DashboardComponents/Fragments/TrashFragment"
 import SpamFragment from "../../components/DashboardComponents/Fragments/SpamFragment"
 import axios from "axios"
+import MyCircularProgress from "../../components/DashboardComponents/MyCircularProgress"
 
 const Dashboard = () => {
     const router = useRouter()
@@ -47,6 +48,9 @@ const Dashboard = () => {
     useEffect(() => {
         getUser()
     }, [user])
+
+    if(!Boolean(user) || !Boolean(user.first_name)) return <MyCircularProgress/>
+    
     return (
         <Box>
             {/* Do not render these componenets if the user is null */}
