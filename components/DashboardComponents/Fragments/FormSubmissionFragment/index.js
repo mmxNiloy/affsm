@@ -6,7 +6,7 @@ import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import Typography from '@mui/material/Typography'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -14,6 +14,8 @@ import Acknowledgements from './Acknowledgements'
 import Information from './Information'
 import CourseSelection from './CourseSelection'
 import Confirmation from './Confirmation'
+import axios from 'axios'
+import { useRouter } from 'next/router'
 
 const steps = [
     'Acknoledgements',
@@ -23,15 +25,46 @@ const steps = [
 ]
 
 const FormSubmissionFragment = ({user}) => {
+    const router = useRouter()
+
     const [currentStep, setCurrentStep] = useState(0)
     const [acknowledgementsFormError, setAcknowledgementsFormError] = useState(true)
     const [couseSelectionFormError, setCouseSelectionFormError] = useState(true)
     const [informationFormError, setInformationFormError] = useState(true)
     const [confirmationFormError, setConfirmationFormError] = useState(true)
+    const [currentAddress, setCurrentAddress] = useState('')
+    const [permanentAddress, setPermanentAddress] = useState('')
+    const [contact, setContact] = useState('')
+    const [courses, setCourses] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [selectedCourses, setSelectedCourses] = useState([])
 
-    const handleNextStep = () => {
+    const handleFormSubmit = async () => {
+        // Create a new form record in the database
+        try {
+            const req = await axios.post('api/forms/post_form', {
+                student_id: user.student_id,
+                semester: user.semester,
+                selectedCourses: selectedCourses,
+                contact: contact,
+                current_address: currentAddress,
+                permanent_address: permanentAddress
+            })
+
+            alert('Successfully submitted the form. You can view the form in the submission tab.')
+            router.reload()
+        } catch(ignored) {
+            // Handle error here
+            console.log('Database Error: ')
+        }
+    }
+
+    const handleNextStep = async () => {
         if(currentStep === steps.length - 1) {
             console.log('Done button clicked')
+            
+            await handleFormSubmit()
+            
             return
         }
         
@@ -64,6 +97,46 @@ const FormSubmissionFragment = ({user}) => {
         return flag
     }
 
+    
+
+    const getCourses = async () => {
+        if(loading) return
+
+        setLoading(true)
+
+        // code
+        var req = null
+        var temp = []
+        try {
+            req = await axios.get('/api/courses', {
+                params: {
+                    semester: user.semester,
+                    department: user.department_id,
+                }
+            })
+            temp = req.data.courses
+            for(let i = 0; i < temp.length; i++) {
+                temp[i] = {
+                    ...temp[i], 
+                    id: i + 1, 
+                    type: (user.semester > temp[i].semester ? 'Improvement' : 'Regular'),
+                }
+            }
+
+            setCourses(temp)
+        } catch(ignored) {
+            // Handle error here
+            console.log('FormSubmissionFragment > Course Selection', ignored)
+        }
+
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        // Get courses here
+        getCourses()
+    }, [])
+
     return(
         <Box>
             <Stack 
@@ -87,17 +160,27 @@ const FormSubmissionFragment = ({user}) => {
                 <CourseSelection
                 onError={setCouseSelectionFormError}
                 hidden={currentStep !== 1}
-                user={user}/>
+                courses={courses}
+                selectedCourses={selectedCourses}
+                onCourseSelect={setSelectedCourses}/>
                 
                 <Information
                 hidden={currentStep !== 2}
                 onError={setInformationFormError}
+                contact={contact}
+                permanentAddress={permanentAddress}
+                currentAddress={currentAddress}
+                onContactChange={setContact}
+                onPermanentAddressChange={setPermanentAddress}
+                onCurrentAddressChange={setCurrentAddress}
                 user={user}/>
 
-                <Confirmation 
+                {currentStep === 3 && <Confirmation 
                 hidden={currentStep !== 3}
                 onError={setConfirmationFormError}
-                user={user}/>
+                data={{contact, permanentAddress, currentAddress}}
+                user={user}
+                courses={selectedCourses}/>}
             </Box>
 
             {/* Stepper for the form fillup steps */}
@@ -122,7 +205,7 @@ const FormSubmissionFragment = ({user}) => {
                     endIcon={<NavigateNextIcon/>}
                     variant='contained'
                     onClick={handleNextStep}>
-                        {currentStep === steps.length - 1 ? 'Done' : 'Next'}
+                        {currentStep === steps.length - 1 ? 'Submit' : 'Next'}
                     </Button>
                 </Stack>
 

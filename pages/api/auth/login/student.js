@@ -1,6 +1,7 @@
 const mysql = require('mysql2')
 const jwt = require('jsonwebtoken')
 import Cookies from 'cookies'
+import DB_Credentials from '../../../../Database/DB_Credentials'
 
 const handler = async (req, res) => {
     const cookies = new Cookies(req, res)
@@ -8,14 +9,7 @@ const handler = async (req, res) => {
     // Get the student id and password from the query parameters
     const {id, password} = req.query
 
-    console.log('Request params', {id, password})
-
-    const connection = mysql.createPool({
-        user: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD,
-        host: process.env.DB_HOST,
-        ssl: {"rejectUnauthorized":true}
-    })
+    const connection = mysql.createPool(DB_Credentials)
 
     const poolPromise = connection.promise();
     const query = 
@@ -89,6 +83,8 @@ const handler = async (req, res) => {
     cookies.set('currentUserToken', token, {
         httpOnly: true
     })
+
+    console.log('Login successful')
 
     return res.status(200).json({message: 'Authentication successful!'})
 }

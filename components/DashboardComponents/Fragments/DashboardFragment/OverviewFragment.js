@@ -12,12 +12,106 @@ import Stack from '@mui/material/Stack'
 import { useEffect, useState } from 'react'
 import Divider from '@mui/material/Divider'
 import SubmissionsPreviewFragment from './SubmissionsPreviewFragment'
+import axios from 'axios'
+import MyCircularProgress from '../../MyCircularProgress'
 
 const OverviewFragment = ({user}) => {
     const [timeBangla, setTimeBangla] = useState(new Date() - 24*3600*1000);
     const [timeCSE, setTimeCSE] = useState(new Date() - 4 * 24*3600*1000);
     const [timePhysics, setTimePhysics] = useState(new Date() - 2 * 24*3600*1000);
     const [timeSubmitted, setTimeSubmitted] = useState(new Date() - 7 * 24 * 3600 * 1000);
+    const [loadingNotices, setLoadingNotices] = useState(false)
+    const [notices, setNotices] = useState([])
+
+    const fetchNotices = async () => {
+        if(loadingNotices) return
+
+        setLoadingNotices(true)
+        
+        try {
+            // Code
+            const req = await axios.get('/api/notices', {
+                params: {
+                    limit: 3,
+                }
+            })
+
+            const data = req.data
+            setNotices(data.data)
+        } catch (ignored) {
+            // Show an error alert dialog
+            console.log('Dashboard > Overview > Notifications | Error', ignored)
+        }
+
+        
+
+        setLoadingNotices(false)
+    }
+
+    const renderNotices = (item, index) => (
+        <Box key={`notice_preview_${index}`}>
+            <NoticePreviewFragment data={{
+            title: item.title,
+            message: item.message,
+            timestamp: item.time_stamp
+            }}/>
+            <Divider/>
+        </Box>
+    )
+
+    const [loadingSubmissions, setLoadingSubmissions] = useState(false)
+    const [submissions, setSubmissions] = useState([])
+    const [emptySubmissions, setEmptySubmissions] = useState(false)
+
+    const getSubmissions = async () => {
+        if(loadingSubmissions) return
+
+        setLoadingSubmissions(true)
+
+        try {
+            const req = await axios.get('/api/forms', {
+                params: {
+                    id: user.student_id,
+                    limit: 3,
+                }
+            })
+            setSubmissions(req.data.forms)
+
+            if(req.data.forms.length === 0) {
+                // Set empty flag
+                setEmptySubmissions(true)
+            }
+        } catch (err) {
+            // Handle error here
+            console.log('Data error: ', err)
+        }
+
+        setLoadingSubmissions(false)
+    }
+
+    const getStatusCode = (clearance) => {
+        if(clearance === 'none') return 1
+        // TODO: Change code accordingly
+        else return 2
+    }
+
+    const renderForms = (item, index) => {
+        return (
+            <SubmissionsPreviewFragment key={`submissionsPreview_${index}`}
+            data={{
+                title: `BSc Engineering of Semester ${item.semester}, Exam of ${(new Date(item.time_stamp).getFullYear())}`,
+                timestamp: item.time_stamp,
+                formStatus: getStatusCode(item.clearance_level),
+                department: `Department of ${user.department_id}`
+            }}/>
+        )
+    }
+    
+    useEffect(() => {
+        fetchNotices()
+        getSubmissions()
+    }, [])
+
     return (
         <Grid container 
         rowSpacing={2}
@@ -88,33 +182,14 @@ const OverviewFragment = ({user}) => {
             <Grid item xs={6}>
                 <Card elevation={4}>
                     <CardHeader subheader={'Notices'}/>
-                    <CardContent>
+                    <CardContent hidden={!loadingNotices}>
+                        <MyCircularProgress height={'30vh'}/>
+                    </CardContent>
+
+                    <CardContent hidden={loadingNotices}>
                         <Stack direction={'column'} spacing={2}>
                             {/* Notices has been populated using example data */}
-                            <NoticePreviewFragment 
-                            data={{
-                                title: 'Department of Bangla: Exam Routine has been Published',
-                                timestamp: timeBangla,
-                                message: 'Exam routine for 7th semester of Department of Bangla has been published.\nStudents can download the routine from the given link.\nhttps://www.cu.ac.bd/routine/bangla/ba?sem=7'
-                            }}/>
-                            <Divider/>
-
-                            <NoticePreviewFragment 
-                            data={{
-                                title: 'Department of CSE: Exam Results has been delayed',
-                                timestamp: timeCSE,
-                                message: 'Due to extreme workload the processing of results is taking longer than expected. Students are asked to continue their future classes as scheduled.'
-                            }}/>
-                            <Divider />
-                            
-
-                            <NoticePreviewFragment 
-                            data={{
-                                title: 'Department of Physics: Exam Results has been delayed',
-                                timestamp: timePhysics,
-                                message: 'The lab exams of the 3rd semester physics students will take place in two days. Please be weary of unusual time.'
-                            }}/>
-                            <Divider/>
+                            {notices.map(renderNotices)}
                         </Stack>
                         
 
@@ -132,31 +207,18 @@ const OverviewFragment = ({user}) => {
             <Grid item xs={6}>
                 <Card elevation={4}>
                     <CardHeader subheader={'Submissions'}/>
-                    <CardContent>
+
+                    <CardContent hidden={!loadingSubmissions}>
+                        <MyCircularProgress height={'30vh'}/>
+                    </CardContent>
+                    
+                    <CardContent hidden={loadingSubmissions}>
                         <Stack direction={'column'} spacing={2}>
-                            <SubmissionsPreviewFragment 
-                                data={{
-                                    title: `BSc Engineering Semester: ${user.semester}, Exam of ${(new Date).getFullYear()}`,
-                                    timestamp: timeSubmitted,
-                                    department: user.department_name,
-                                    formStatus: 2,
-                                }}/>
+                            {submissions.map(renderForms)}
 
-                            <SubmissionsPreviewFragment 
-                                data={{
-                                    title: `BSc Engineering Semester: ${user.semester - 1}, Exam of ${(new Date).getFullYear() - 1}`,
-                                    timestamp: timeSubmitted - 6 * 30 * 24 * 3600 * 1000,
-                                    department: user.department_name,
-                                    formStatus: 5,
-                                }}/>
-
-                            <SubmissionsPreviewFragment 
-                                data={{
-                                    title: `BSc Engineering Semester: ${user.semester - 2}, Exam of ${(new Date).getFullYear() - 1}`,
-                                    timestamp: timeSubmitted - 11 * 30 * 24 * 3600 * 1000,
-                                    department: user.department_name,
-                                    formStatus: 5,
-                                }}/>
+                            <Typography variant='h6' textAlign='center' sx={{display: (emptySubmissions ? 'flex' : 'none')}}>
+                            You have not submitted a form yet.
+                            </Typography>
                             
                             <CardActions sx={{ marginTop: '8px'}}>
                                 <Box flexGrow={1}/>
@@ -166,9 +228,6 @@ const OverviewFragment = ({user}) => {
                                 </Button>
                             </CardActions>
                         </Stack>
-                        
-
-
                     </CardContent>
                 </Card>
             </Grid>

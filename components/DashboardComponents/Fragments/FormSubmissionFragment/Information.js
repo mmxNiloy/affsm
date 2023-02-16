@@ -15,19 +15,16 @@ import { useEffect, useState } from 'react'
 const minDate = new Date(new Date() - 16 * 365 * 24 * 3600 * 1000)
 const absoluteMinDate = new Date(minDate - 20 * 365 * 24 * 3600 * 1000)
 
-const Information = ({onError, hidden, user }) => {
-    const [permanentAddress, setPermanentAddress] = useState('')
-    const [currentAddress, setCurrentAddress] = useState('')
+const Information = ({onError, hidden, user, permanentAddress, currentAddress, contact, onPermanentAddressChange, onCurrentAddressChange, onContactChange }) => {
     const [dateOfBirth, setDateOfBirth] = useState(dayjs(minDate))
-    const [contact, setContact] = useState('')
     const [checked, setChecked] = useState(false)
 
     const handlePermanentAddressChange = (e) => {
-        setPermanentAddress(e.target.value)
+        onPermanentAddressChange(e.target.value)
     }
 
     const handleCurrentAddressChange = (e) => {
-        setCurrentAddress(e.target.value)
+        onCurrentAddressChange(e.target.value)
     }
     
     const handleDateOfBirthChange = (newDate) => {
@@ -35,7 +32,7 @@ const Information = ({onError, hidden, user }) => {
     }
 
     const handleContactChange = (e) => {
-        setContact(e.target.value)
+        onContactChange(e.target.value)
     }
 
     const handleCheckboxChange = (e) => {
@@ -200,7 +197,7 @@ const Information = ({onError, hidden, user }) => {
                         onChange={handleCheckboxChange} 
                         checked={checked}/>
                     }
-                    label="I confirm correctness of the information and agree to the T&C set out by the academy."/>
+                    label="I confirm the correctness of the information and agree to the T&C set out by the academy."/>
                 </FormGroup>
             </Grid>
         </Grid>

@@ -160,7 +160,7 @@ const Acknowledgements = ({hidden, user, onError}) => {
                         onChange={handleAcknowledgementChange} 
                         checked={acknowledgement}/>
                     }
-                    label="I confirm correctness of the data and agree to the T&C set out by the academy."/>
+                    label="I confirm the correctness of the data and agree to the T&C set out by the academy."/>
                 </FormGroup>
             </Container>
             

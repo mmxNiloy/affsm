@@ -18,18 +18,12 @@ import Stack from '@mui/material/Stack'
 import { useEffect, useState } from 'react'
 
 const SubmissionsPreviewFragment = ({data}) => {
-    const [steps, setSteps] = useState([])
-
-    useEffect(() => {
-        const temp = [
-            data.department,
-            'Provost',
-            'Accounts Office',
-            'Bank',
-            'Exam Controller Office'
-        ]
-        setSteps(temp)
-    }, [data])
+    const steps = [
+        'Provost',
+        'Accounts Office',
+        'Bank',
+        'Exam Controller Office'
+    ]
 
     const renderStep = (item, index) => {
         return (
@@ -56,7 +50,7 @@ const SubmissionsPreviewFragment = ({data}) => {
                 }}
                 activeStep={data.formStatus - 1} 
                 alternativeLabel>
-                    {steps.map(renderStep)}
+                    {['Submitted', data.department, ...steps].map(renderStep)}
                 </Stepper>
             </CardContent>
         </Card>
