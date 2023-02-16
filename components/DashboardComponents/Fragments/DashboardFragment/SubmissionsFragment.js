@@ -105,7 +105,9 @@ const SubmissionsFragment = ({user}) => {
             open={open}
             onClose={() => { setOpen(false) }}>
                 {/* Dialog Content */}
-                <DialogTitle></DialogTitle>
+                <DialogTitle>
+                    Hello Dialog
+                </DialogTitle>
             </Dialog>
         </Box>
         

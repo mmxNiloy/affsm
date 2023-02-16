@@ -54,7 +54,7 @@ const SubmissionsPreviewFragment = ({data, clickable, onShowDialog}) => {
                     {['Submitted', data.department, ...steps].map(renderStep)}
                 </Stepper>
 
-                <CardActions sx={{ marginTop: '8px'}}>
+                <CardActions sx={{ marginTop: '8px', display: (clickable ? 'flex' : 'none')}}>
                     <Box flexGrow={1}/>
                     <Button type='button' variant='contained' onCLick={onShowDialog}>
                         View
