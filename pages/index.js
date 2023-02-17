@@ -11,8 +11,13 @@ export default function Home() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
 
-  const handleSuccess = () => {
-    router.push('/dashboard')
+  const handleSuccess = (isAdmin) => {
+    console.log('Success listener', isAdmin)
+    var url = '/'
+    if(Boolean(isAdmin)) url = 'admin/'
+    url += 'dashboard'
+
+    router.push(url)
   }
 
   const getUser = async () => {
@@ -27,7 +32,8 @@ export default function Home() {
     }
 
     if(Boolean(user)) {
-      router.push('/dashboard')
+      if(Boolean(user.isAdmin)) router.push('/admin/dashboard')
+      else router.push('/dashboard')
       return;
     }
 

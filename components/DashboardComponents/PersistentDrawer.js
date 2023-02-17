@@ -20,7 +20,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import { ListItems } from './DashboardEnums'
 import { useState } from 'react';
 
-const PersistentDrawer = ({open, handleDrawerClose, onDrawerItemChange}) => {
+const PersistentDrawer = ({open, handleDrawerClose, onDrawerItemChange, isAdmin}) => {
     const theme = useTheme();
     const [selectedItem, setSelectedItem] = useState(ListItems.DAHSBOARD)
 
@@ -32,23 +32,33 @@ const PersistentDrawer = ({open, handleDrawerClose, onDrawerItemChange}) => {
     const formsListItems = [
         {
             text: 'Notices', 
-            icon: <NotificationsIcon/>
+            icon: <NotificationsIcon/>,
+            hidden: false,
+        },
+        {
+            text: 'Post a Notice',
+            icon: <MailIcon/>,
+            hidden: !Boolean(isAdmin)
         },
         {
             text: 'Submit a Form',
-            icon: <MailIcon/>
+            icon: <MailIcon/>,
+            hidden: Boolean(isAdmin)
         },
         {
             text: 'Active Forms',
-            icon: <ContentPasteSearchIcon/>
+            icon: <ContentPasteSearchIcon/>,
+            hidden: false,
         },
         {
             text: 'Admit Cards',
-            icon: <InboxIcon/>
+            icon: <InboxIcon/>,
+            hidden: Boolean(isAdmin)
         },
         {
             text: 'History',
-            icon: <HistoryIcon/>
+            icon: <HistoryIcon/>,
+            hidden: false,
         }
     ]
 
@@ -94,18 +104,21 @@ const PersistentDrawer = ({open, handleDrawerClose, onDrawerItemChange}) => {
                 <ListSubheader>
                     Forms
                 </ListSubheader>
-            {formsListItems.map((item, index) => (
-                <ListItem key={`form_list_item_${index}`} disablePadding>
-                    <ListItemButton 
-                    selected={selectedItem === ListItems[`ITEM_${index + 1}`]}
-                    onClick={() => { handleItemClick(index) }}>
-                        <ListItemIcon>
-                            {item.icon}
-                        </ListItemIcon>
-                        <ListItemText primary={item.text} />
-                    </ListItemButton>
-                </ListItem>
-            ))}
+                {formsListItems.map((item, index) => {
+                    if(item.hidden) return null
+                    
+                    return (
+                    <ListItem key={`form_list_item_${index}`} disablePadding>
+                        <ListItemButton 
+                        selected={selectedItem === ListItems[`ITEM_${index + 1}`]}
+                        onClick={() => { handleItemClick(index) }}>
+                            <ListItemIcon>
+                                {item.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={item.text} />
+                        </ListItemButton>
+                    </ListItem>
+                )})}
             </List>
             <Divider />
 

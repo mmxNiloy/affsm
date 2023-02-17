@@ -18,7 +18,7 @@ import { useTheme } from "@mui/material/styles"
 import ResponsiveAppBar from "./ResponsiveAppBar"
 import PersistentDrawer from "./PersistentDrawer"
 
-const MyAppBar = ({onDrawerChange, onDrawerItemChange}) => {
+const MyAppBar = ({onDrawerChange, onDrawerItemChange, isAdmin}) => {
     const theme = useTheme()
     const [logoDir, setLogoDir] = useState('/affsm_logo_dark.svg')
     const [isMenuOpen, setMenuOpen] = useState(false)
@@ -124,7 +124,11 @@ const MyAppBar = ({onDrawerChange, onDrawerItemChange}) => {
                 </Toolbar>
             </ResponsiveAppBar>
 
-            <PersistentDrawer open={open} handleDrawerClose={handleDrawerClose} onDrawerItemChange={onDrawerItemChange}/>
+            <PersistentDrawer 
+            isAdmin={isAdmin}
+            open={open} 
+            handleDrawerClose={handleDrawerClose} 
+            onDrawerItemChange={onDrawerItemChange}/>
         </Box>
         
     )

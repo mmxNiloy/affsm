@@ -16,7 +16,7 @@ const handler = async (req, res) => {
     `
     SELECT *
     FROM Users
-    WHERE user_id = ${id} AND password = '${password}';
+    WHERE user_id = ${id} AND password = BINARY '${password}';
     `
     var rows = []
     var columns = []

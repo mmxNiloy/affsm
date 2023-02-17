@@ -1,7 +1,11 @@
 import DB_Credentials from '../../../../Database/DB_Credentials'
 const mysql = require('mysql2')
+import Cookies from 'cookies'
+const jwt = require('jsonwebtoken')
 
 const handler = async (req, res) => {
+    const cookies = new Cookies(req, res)
+
     const { id, password } = req.query
     
     if(!Boolean(id) || !Boolean(password)) {
@@ -19,7 +23,7 @@ const handler = async (req, res) => {
     FROM Evaluators
     JOIN Users
     ON user_id = evaluator_id
-    WHERE user_id = ${id} AND password = '${password}';
+    WHERE user_id = ${id} AND password = BINARY '${password}';
     `
     
     var rows = []
@@ -38,9 +42,22 @@ const handler = async (req, res) => {
             )
     }
 
-    const user = rows[0]
+    var user = rows[0]
+    user = {...user, isAdmin: true}
     delete user['password']
     delete user['user_id']
+
+    const token = jwt.sign(
+        {user},
+        process.env.TOKEN_KEY,
+        { expiresIn: '1h' }
+    )
+
+    cookies.set('currentUserToken', token, {
+        httpOnly: true,
+    })
+
+    console.log('User', user)
 
     // Code
     return res
