@@ -19,6 +19,7 @@ import MyCircularProgress from "../../components/DashboardComponents/MyCircularP
 const Dashboard = () => {
     const router = useRouter()
     const [user, setUser] = useState({})
+    const [hasUser, setHasUser] = useState(false)
     const [loading, setLoading] = useState(false)
     const [isDrawerOpen, setDrawerOpen] = useState(false)
     const [selectedDrawerItem, setSelectedDrawerItem] = useState(ListItems.DAHSBOARD)
@@ -32,6 +33,7 @@ const Dashboard = () => {
         try {
             const req = await axios.get('/api/auth/verify')
             setUser(req.data.user)
+            setHasUser(true)
         } catch(err) {
             // !Fatal error, session has expired
             // !Send the user to the login page
@@ -46,8 +48,10 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
+        // !Fix me: Sending request to the serve on each render
+        //if(hasUser) return
         getUser()
-    }, [user])
+    }, [])
 
     if(!Boolean(user) || !Boolean(user.first_name)) return <MyCircularProgress/>
     
@@ -59,16 +63,13 @@ const Dashboard = () => {
             <MainContentWrapper open={isDrawerOpen}>
                 {/* <MyCircularProgress loading={loading}/> */}
                 {selectedDrawerItem === ListItems.DAHSBOARD && <DashboardFragment user={user}/>}
-                {selectedDrawerItem === ListItems.ITEM_1 && <NoticeFragment/>}
+                {selectedDrawerItem === ListItems.NOTICES && <NoticeFragment/>}
                 
-                {selectedDrawerItem === ListItems.ITEM_2 && <FormSubmissionFragment user={user}/>}
+                {selectedDrawerItem === ListItems.FORM_SUBMISSION && <FormSubmissionFragment user={user}/>}
 
-                {selectedDrawerItem === ListItems.ITEM_3 && <FormActivationFragment/>}
-                {selectedDrawerItem === ListItems.ITEM_4 && <AdmitCardFragment/>}
-                {selectedDrawerItem === ListItems.ITEM_5 && <HistoryFragment/>}
-                {selectedDrawerItem === ListItems.ITEM_6 && <AllMailsFragment/>}
-                {selectedDrawerItem === ListItems.ITEM_7 && <TrashFragment/>}
-                {selectedDrawerItem === ListItems.ITEM_8 && <SpamFragment/>}
+                {selectedDrawerItem === ListItems.ACTIVE_FORMS && <FormActivationFragment/>}
+                {selectedDrawerItem === ListItems.ADMIT_CARDS && <AdmitCardFragment/>}
+                {selectedDrawerItem === ListItems.HISTORY && <HistoryFragment/>}
                 
             </MainContentWrapper>
 

@@ -16,10 +16,6 @@ import axios from 'axios'
 import MyCircularProgress from '../../MyCircularProgress'
 
 const OverviewFragment = ({user}) => {
-    const [timeBangla, setTimeBangla] = useState(new Date() - 24*3600*1000);
-    const [timeCSE, setTimeCSE] = useState(new Date() - 4 * 24*3600*1000);
-    const [timePhysics, setTimePhysics] = useState(new Date() - 2 * 24*3600*1000);
-    const [timeSubmitted, setTimeSubmitted] = useState(new Date() - 7 * 24 * 3600 * 1000);
     const [loadingNotices, setLoadingNotices] = useState(false)
     const [notices, setNotices] = useState([])
 

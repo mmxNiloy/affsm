@@ -15,12 +15,50 @@ import TrashFragment from "../../components/DashboardComponents/Fragments/TrashF
 import SpamFragment from "../../components/DashboardComponents/Fragments/SpamFragment"
 import axios from "axios"
 import MyCircularProgress from "../../components/DashboardComponents/MyCircularProgress"
+import AdminDashboardFragment from "../../components/DashboardComponents/Fragments/AdminDashboardFragment"
+import NoticeSubmissionFragment from "../../components/DashboardComponents/Fragments/NoticeSubmissionFragment"
 
 
 const AdminDashboard = () => {
+    const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [isDrawerOpen, setDrawerOpen] = useState(false)
     const [selectedDrawerItem, setSelectedDrawerItem] = useState(ListItems.DAHSBOARD)
+    const [user, setUser] = useState({})
+    const [hasUser, setHasUser] = useState(false)
+
+    const getUser = async () => {
+        if(loading) return
+
+        setLoading(true)
+        // TODO: Do not make a request over and over again?
+        // Code
+        try {
+            const req = await axios.get('/api/auth/verify')
+            setUser(req.data.user)
+            setHasUser(true)
+        } catch(err) {
+            // !Fatal error, session has expired
+            // !Send the user to the login page
+            console.log('No User Found Exception', err);
+            
+            // TODO: Show an alert about the unauthorized access
+            alert('Session has expired. Please log in again.')
+            router.replace('/')
+        }
+
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        // !Fix me: Sending request to the serve on each render
+        // !Trade offer: Gain performance boost(Memory, network, cpu) or Sacrifice performace for realtime feedback?
+        // I won't choose water over wine
+        //if(hasUser) return
+        getUser()
+    }, [])
+
+    if(!Boolean(user) || !Boolean(user.first_name)) return <MyCircularProgress/>
 
     return (
         <Box>
@@ -32,8 +70,11 @@ const AdminDashboard = () => {
 
             <MainContentWrapper open={isDrawerOpen}>
                 {/* <MyCircularProgress loading={loading}/> */}
-                TODO: Show content for admin
-                
+                {selectedDrawerItem === ListItems.DAHSBOARD && <AdminDashboardFragment user={user}/>}
+                {selectedDrawerItem === ListItems.NOTICES && <NoticeFragment user={user}/>}
+                {selectedDrawerItem === ListItems.POST_NOTICES && <NoticeSubmissionFragment user={user}/>}
+                {selectedDrawerItem === ListItems.ACTIVE_FORMS && <FormActivationFragment user={user}/>}
+                {selectedDrawerItem === ListItems.HISTORY && <HistoryFragment user={user}/>}
             </MainContentWrapper>
 
         </Box>

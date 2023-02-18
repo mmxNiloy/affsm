@@ -24,9 +24,9 @@ const PersistentDrawer = ({open, handleDrawerClose, onDrawerItemChange, isAdmin}
     const theme = useTheme();
     const [selectedItem, setSelectedItem] = useState(ListItems.DAHSBOARD)
 
-    const handleItemClick = (index) => {
-        onDrawerItemChange(ListItems[`ITEM_${index + 1}`])
-        setSelectedItem(ListItems[`ITEM_${index + 1}`])
+    const handleItemClick = (id) => {
+        onDrawerItemChange(id)
+        setSelectedItem(id)
     }
 
     const formsListItems = [
@@ -34,31 +34,31 @@ const PersistentDrawer = ({open, handleDrawerClose, onDrawerItemChange, isAdmin}
             text: 'Notices', 
             icon: <NotificationsIcon/>,
             hidden: false,
+            id: ListItems.NOTICES
         },
         {
             text: 'Post a Notice',
             icon: <MailIcon/>,
-            hidden: !Boolean(isAdmin)
+            hidden: !Boolean(isAdmin),
+            id: ListItems.POST_NOTICES
         },
         {
             text: 'Submit a Form',
             icon: <MailIcon/>,
-            hidden: Boolean(isAdmin)
-        },
-        {
-            text: 'Active Forms',
-            icon: <ContentPasteSearchIcon/>,
-            hidden: false,
+            hidden: Boolean(isAdmin),
+            id: ListItems.FORM_SUBMISSION
         },
         {
             text: 'Admit Cards',
             icon: <InboxIcon/>,
-            hidden: Boolean(isAdmin)
+            hidden: Boolean(isAdmin),
+            id: ListItems.ADMIT_CARDS
         },
         {
             text: 'History',
             icon: <HistoryIcon/>,
             hidden: false,
+            id: ListItems.HISTORY
         }
     ]
 
@@ -110,8 +110,8 @@ const PersistentDrawer = ({open, handleDrawerClose, onDrawerItemChange, isAdmin}
                     return (
                     <ListItem key={`form_list_item_${index}`} disablePadding>
                         <ListItemButton 
-                        selected={selectedItem === ListItems[`ITEM_${index + 1}`]}
-                        onClick={() => { handleItemClick(index) }}>
+                        selected={selectedItem === item.id}
+                        onClick={() => { handleItemClick(item.id) }}>
                             <ListItemIcon>
                                 {item.icon}
                             </ListItemIcon>
@@ -123,7 +123,7 @@ const PersistentDrawer = ({open, handleDrawerClose, onDrawerItemChange, isAdmin}
             <Divider />
 
             {/* List item indeces are offset by the length of the forms list items array */}
-            <List>
+            {/* <List>
             {['All mail', 'Trash', 'Spam'].map((text, index) => (
                 <ListItem key={text} disablePadding>
                     <ListItemButton 
@@ -136,7 +136,7 @@ const PersistentDrawer = ({open, handleDrawerClose, onDrawerItemChange, isAdmin}
                     </ListItemButton>
                 </ListItem>
             ))}
-            </List>
+            </List> */}
         </Drawer>
     )
 }
