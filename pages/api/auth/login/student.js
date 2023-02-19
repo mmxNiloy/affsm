@@ -63,7 +63,7 @@ const handler = async (req, res) => {
         return res
             .status(500)
             .json({
-                message: 'Database error. No record was found regarding the specified id.'
+                message: 'Invalid Credentials.'
             })
     }
 

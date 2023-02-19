@@ -42,6 +42,14 @@ const handler = async (req, res) => {
             )
     }
 
+    if(rows.length === 0) {
+        return res
+            .status(500)
+            .json({
+                message: 'Invalid credentials.'
+            })
+    }
+
     var user = rows[0]
     user = {...user, isAdmin: true}
     delete user['password']
