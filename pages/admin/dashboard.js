@@ -36,7 +36,6 @@ const AdminDashboard = () => {
         try {
             const req = await axios.get('/api/auth/verify')
             setUser(req.data.user)
-            setHasUser(true)
         } catch(err) {
             // !Fatal error, session has expired
             // !Send the user to the login page
