@@ -17,6 +17,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box"
 import axios from "axios";
 import SuccessDialog from "./LoginDialogs/SuccessDialog";
+import FailureDialog from "./LoginDialogs/FailureDialog";
 
 
 const LoginForm = ({onSuccess}) => {
@@ -33,6 +34,9 @@ const LoginForm = ({onSuccess}) => {
     const [passErrorText, setPassErrorText] = useState('')
     const [idFieldLabel, setIdFieldLabel] = useState(UserTypes.STUDENT_ID_LABEL)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
+    //
+    const [openFailureDialog,setOpenFailureDialog] = useState(false)
+    //
 
     const handleLoginButtonClick = async () => {
         setLoading(true)
@@ -71,19 +75,20 @@ const LoginForm = ({onSuccess}) => {
                 }
             )
         } catch(ignored) {
-            setLoading(false)
+            setLoading(false);
             // TODO: Handle login error
-            // Display a Dialog showing the error
-            // Do not show any technical errors
-            // Make it simple and user friendly
+            // Display a Dialog showing the error-done
+            // Do not show any technical errors-done
+            // Make it simple and user friendly-done
             // Material UI Components you will need, 
-            // <Dialog></Dialog>
-            // <DialogTitle></DialogTitle>
-            // <Box></Box> or <Grid></Grid> or <Stack></Stack>
-            // <Icon></Icon> or <IconButton></IconButton> or <Avatar></Avatar>
-            // <Typography></Typography>
-            // <Button></Button>
-            return;
+            // <Dialog></Dialog>-ok
+            // <DialogTitle></DialogTitle>-ok
+            // <Box></Box> or <Grid></Grid> or <Stack></Stack>-ok
+            // <Icon></Icon> or <IconButton></IconButton> or <Avatar></Avatar>-ok
+            // <Typography></Typography>-ok
+            // <Button></Button>-ok
+            setOpenFailureDialog(true);
+            return ;
         }
         
         var ver;
@@ -105,6 +110,8 @@ const LoginForm = ({onSuccess}) => {
             // onSuccess()
             setOpenSuccessDialog(true)
         } else {
+            
+           
             setUidError(true)
             setPassError(true)
             setUidErrorText('Invalid ID or password')
@@ -138,6 +145,9 @@ const LoginForm = ({onSuccess}) => {
         setOpenSuccessDialog(false)
         // Redirect to the dashboard
         onSuccess(userType === UserTypes.EVALUATOR)
+    }
+    const handleFailureDialogClose=() =>{
+        setOpenFailureDialog(false)
     }
 
     const handleUserTypeChange = () => {
@@ -235,6 +245,8 @@ const LoginForm = ({onSuccess}) => {
             <SuccessDialog 
             open={openSuccessDialog}
             onClose={handleSuccessDialogClose}/>
+             <FailureDialog open={openFailureDialog}
+             onClose={handleFailureDialogClose}/> 
         </Card>
     )
 }
