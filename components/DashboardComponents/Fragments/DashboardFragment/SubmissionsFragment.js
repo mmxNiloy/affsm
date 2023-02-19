@@ -21,7 +21,6 @@ const SubmissionsFragment = ({user}) => {
             const req = await axios.get('/api/forms', {
                 params: {
                     id: user.student_id,
-                    semester: user.semester,
                 }
             })
 
@@ -79,8 +78,12 @@ const SubmissionsFragment = ({user}) => {
         }
 
         return (
-            <Grid item xs={12} key={`submission_${index}`}>
+            <Grid item 
+            xs={12} sm={12} md={6} 
+            lg={6} xl={6} 
+            key={`submission_${index}`}>
                 <SubmissionsPreviewFragment
+                vertical
                 data={{
                     title: `BSc Engineering of Semester ${semester}, Exam of ${(new Date(time_stamp).getFullYear())}`,
                     timestamp: time_stamp,
@@ -105,7 +108,7 @@ const SubmissionsFragment = ({user}) => {
 
     return (
         <Box>
-            <Grid container rowSpacing={2}>
+            <Grid container rowSpacing={2} columnSpacing={2}>
                 <Grid item xs={12}>
                     <Typography variant='h4' textAlign={'center'}>
                         All Submissions

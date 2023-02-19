@@ -18,10 +18,14 @@ import IconButton from '@mui/material/IconButton'
 import CardActionArea from '@mui/material/CardActionArea'
 import Avatar from '@mui/material/Avatar'
 import MailIcon from '@mui/icons-material/Mail';
+import SubmissionsPreviewFragment from '../DashboardFragment/SubmissionsPreviewFragment'
 
 const AdminOverviewFragment = ({user}) => {
     const [loadingNotices, setLoadingNotices] = useState(false)
+    const [loadingSubmissions, setLoadingSubmissions] = useState(false)
+    const [emptySubmissions, setEmptySubmissions] = useState(false)
     const [notices, setNotices] = useState([])
+    const [submissions, setSubmissions] = useState([])
 
     const fetchNotices = async () => {
         if(loadingNotices) return
@@ -47,9 +51,36 @@ const AdminOverviewFragment = ({user}) => {
 
         setLoadingNotices(false)
     }
+
+    const fetchSubmissions = async () => {
+        if(loadingSubmissions) return
+
+        setLoadingSubmissions(true)
+
+        // API Call
+        try {
+            // Code
+            const req = await axios.get('/api/forms/get_eval_forms', {
+                params: {
+                    limit: 3,
+                    department: user.department_id,
+                    role: user.evaluator_role
+                }
+            })
+
+            setSubmissions(req.data.forms)
+
+            if(req.data.forms.length < 1) setEmptySubmissions(true)
+        } catch(err) {
+            console.log("Data retrival error: " + err)
+        }
+
+        setLoadingSubmissions(false)
+    }
     
     useEffect(() => {
         fetchNotices()
+        fetchSubmissions()
     }, [])
 
     const renderNotices = (item, index) => (
@@ -62,6 +93,37 @@ const AdminOverviewFragment = ({user}) => {
             <Divider/>
         </Box>
     )
+
+    const getStatusCode = (clearance) => {
+        if(clearance === 'none') return 1
+        // TODO: Change code accordingly
+        else return 2
+    }
+
+    const renderSubmissions = (item, index) => {
+        const courses = item.courses
+        const { 
+            semester, time_stamp, permanent_address, 
+            current_address, contact, clearance_level,
+            department_id, student_id
+        } = courses[0]
+
+        return (
+            <Box key={`submissions_preview_${index}`}>
+                {/* TODO: Make a copy of this component
+                    Rename the copied component accordingly, ie: AdminSubmissionsPreviewFragment
+                    Show additional data such as who submitted the form, what is their ID, what their session is
+                */}
+                <SubmissionsPreviewFragment data={{
+                title: `BSc Engineering of Semester ${semester}, Exam of ${(new Date(time_stamp).getFullYear())}`,
+                timestamp: time_stamp,
+                formStatus: getStatusCode(clearance_level),
+                department: `Department of ${department_id}`
+                }}/>
+                <Divider/>
+            </Box>
+        )
+    }
 
     return (
         <Grid container
@@ -192,6 +254,34 @@ const AdminOverviewFragment = ({user}) => {
 
             <Grid item xs={6}>
                 {/* TODO: Show recent submitted form for the department the user works for */}
+                <Card elevation={4}>
+                    <CardHeader subheader={'Recent Submisssions'}/>
+                    <CardContent hidden={!loadingSubmissions}>
+                        <MyCircularProgress height={'30vh'}/>
+                    </CardContent>
+
+                    <CardContent hidden={loadingSubmissions}>
+                        <Typography variant='h6'
+                        sx={{
+                            display: (emptySubmissions ? 'block' : 'none'),
+                        }}>
+                            No submissions were made.
+                        </Typography>
+
+                        <Stack direction={'column'} spacing={2}>
+                            {submissions.map(renderSubmissions)}
+                        </Stack>
+                        
+
+                        <CardActions sx={{ marginTop: '8px'}}>
+                            <Box flexGrow={1}/>
+                            <Button 
+                            variant='contained'>
+                                View All
+                            </Button>
+                        </CardActions>
+                    </CardContent>
+                </Card>
             </Grid>
         </Grid>
     )

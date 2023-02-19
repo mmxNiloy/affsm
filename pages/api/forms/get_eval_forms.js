@@ -3,9 +3,9 @@ import DB_Credentials from '../../../Database/DB_Credentials'
 const mysql = require('mysql2')
 
 const handler = async (req, res) => {
-    const { id, semester, limit } = req.query
+    const { limit, department, role, semester } = req.query
 
-    if(!Boolean(id)) return res.status(500).json({message: 'Invalid student ID'})
+    if(!Boolean(department) || !Boolean(role)) return res.status(404).send({message: 'Invalid Department ID or Role.'})
 
     const connection = mysql.createPool(DB_Credentials)
     const poolPromise = connection.promise()
@@ -19,8 +19,16 @@ const handler = async (req, res) => {
     USING (course_code)
     JOIN Students
     USING (student_id)
-    WHERE student_id = ${id}
     `
+
+    if(role === 'dept') {
+        query += ` WHERE department_id = BINARY '${department}'\n`
+    } else if(role === 'prov') {
+        // Clarification: Here department is the hall id for a provost
+        // Because we don't take null values kindly in this part of the town.
+        query += ` WHERE allotted_hall = BINARY '${department}'\n`
+    }
+    // TODO: Set filter conditions for other roles, (eg: accounts office, bank, exam controller)
 
     if(Boolean(semester)) query += ` AND Forms.semester = ${semester}`
     query += ' ORDER BY time_stamp DESC;'

@@ -64,6 +64,7 @@ const handler = async (req, res) => {
         .status(200)
         .json({
             message: 'Successfully authenticated',
+            user
         })
 }
 
