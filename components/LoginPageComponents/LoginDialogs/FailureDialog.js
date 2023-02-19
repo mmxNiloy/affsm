@@ -9,32 +9,48 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import CloseIcon from '@mui/icons-material/Close';
 import Box from "@mui/material/Box"
-const FailureDialog = ({open,onClose}) =>{
+import IconButton from "@mui/material/IconButton"
+
+const FailureDialog = ({open, onClose}) =>{
     return (
-        <Dialog maxWidth={"md"} fullWidth
-            open = {open}
-            onClose={onClose} >
+        <Dialog 
+        maxWidth={"md"} 
+        open = {open}
+        onClose={onClose} >
             <DialogTitle >
-                    <Stack direction='row' spacing={1} sx={{alignItems:'center'}}>
-                    <BlockOutlinedIcon color={"#b71c1c"}/>
-                    <Typography variant={"h5"} color={"#b71c1c"}>
-                        Failed
+                <Stack 
+                direction='row' 
+                spacing={1} 
+                sx={{alignItems:'center'}}>
+                    <BlockOutlinedIcon color={"error"}/>
+
+                    <Typography variant={"h5"} color={"error.main"}>
+                        Failure
                     </Typography>
-                    <Box flexGrow={1}></Box>
-                    <CloseIcon />
-                    </Stack>
-                   </DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Log in failed. Try again.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button variant='contained' onClick={onClose} color="secondary" >
-                        Close
-                    </Button>
-                </DialogActions>
+
+                    <Box flexGrow={1}/>
+
+                    <IconButton onClick={onClose}>
+                        <CloseIcon/>
+                    </IconButton>
+                </Stack>
+            </DialogTitle>
+
+            <DialogContent>
+                <DialogContentText>
+                    Invalid user ID or password. Please enter your ID and password again.
+                </DialogContentText>
+            </DialogContent>
+
+            <DialogActions>
+                <Button 
+                variant='contained' 
+                onClick={onClose}>
+                    Close
+                </Button>
+            </DialogActions>
         </Dialog>
     )
 }
+
 export default FailureDialog;

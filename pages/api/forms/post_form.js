@@ -44,7 +44,7 @@ const handler = async (req, res) => {
     `
     INSERT INTO FormCourses
     VALUES
-    (${rows.insertId}, '${selectedCourses[0].curse_code}')
+    (${rows.insertId}, '${selectedCourses[0].course_code}')
     `
 
     for(let i = 1 ; i < selectedCourses.length ; i++) {

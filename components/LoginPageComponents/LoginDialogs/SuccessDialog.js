@@ -7,10 +7,14 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
 
 const SuccessDialog = ({open, onClose}) => {
     return (
         <Dialog
+        maxWidth='md'
         open={open}
         onClose={onClose}>
             <DialogTitle>
@@ -21,9 +25,16 @@ const SuccessDialog = ({open, onClose}) => {
                     alignItems: 'center', 
                 }}>
                     <CheckCircleOutlineIcon color={'success'}/>
+
                     <Typography variant={'h5'} color='success.main'>
                         Success
                     </Typography>
+
+                    <Box flexGrow={1}/>
+
+                    <IconButton onClick={onClose}>
+                        <CloseIcon/>
+                    </IconButton>
                 </Stack>
             </DialogTitle>
 
