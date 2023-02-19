@@ -16,10 +16,10 @@ const SubmissionsPreviewDialog = ({open, onClose, user, dialogData}) => {
     const [pageSize, setPageSize] = useState(10)
     
     const cols = [
-        {field: 'course_code', headerName: 'Course Title', width: 160, type: 'text'},
-        {field: 'course_title', headerName: 'Course Title', width: 360, type: 'text'},
+        {field: 'course_code', headerName: 'Course Title', width: 160, type: 'string'},
+        {field: 'course_title', headerName: 'Course Title', width: 360, type: 'string'},
         {field: 'semester', headerName: 'Semester', width: 160, type: 'number'},
-        {field: 'type', headerName: 'Type', width: 160, type: 'text'},
+        {field: 'type', headerName: 'Type', width: 160, type: 'string'},
     ]
     
     return (

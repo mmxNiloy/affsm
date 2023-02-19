@@ -92,12 +92,18 @@ const OverviewFragment = ({user}) => {
     }
 
     const renderForms = (item, index) => {
+        const courses = item.courses
+        const { 
+            semester, time_stamp, permanent_address, 
+            current_address, contact, clearance_level,
+        } = courses[0]
+
         return (
             <SubmissionsPreviewFragment key={`submissionsPreview_${index}`}
             data={{
-                title: `BSc Engineering of Semester ${item.semester}, Exam of ${(new Date(item.time_stamp).getFullYear())}`,
-                timestamp: item.time_stamp,
-                formStatus: getStatusCode(item.clearance_level),
+                title: `BSc Engineering of Semester ${semester}, Exam of ${(new Date(time_stamp).getFullYear())}`,
+                timestamp: time_stamp,
+                formStatus: getStatusCode(clearance_level),
                 department: `Department of ${user.department_id}`
             }}/>
         )

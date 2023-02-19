@@ -20,9 +20,11 @@ const SubmissionsFragment = ({user}) => {
         try {
             const req = await axios.get('/api/forms', {
                 params: {
-                    id: user.student_id
+                    id: user.student_id,
+                    semester: user.semester,
                 }
             })
+
             setSubmissions(req.data.forms)
 
             if(req.data.forms.length === 0) {
@@ -64,6 +66,11 @@ const SubmissionsFragment = ({user}) => {
 
     const renderForms = (item, index) => {
         const courses = [...item.courses]
+        const { 
+            semester, time_stamp, permanent_address, 
+            current_address, contact, clearance_level,
+        } = courses[0]
+
         for(let i = 0; i < courses.length; i++) {
             var type = 'Improvement'
             if(courses[i].semester === user.semester) type = 'Regular'
@@ -75,12 +82,12 @@ const SubmissionsFragment = ({user}) => {
             <Grid item xs={12} key={`submission_${index}`}>
                 <SubmissionsPreviewFragment
                 data={{
-                    title: `BSc Engineering of Semester ${item.semester}, Exam of ${(new Date(item.time_stamp).getFullYear())}`,
-                    timestamp: item.time_stamp,
-                    permanentAddress: item.permanent_address,
-                    currentAddress: item.current_address,
-                    contact: item.contact,
-                    formStatus: getStatusCode(item.clearance_level),
+                    title: `BSc Engineering of Semester ${semester}, Exam of ${(new Date(time_stamp).getFullYear())}`,
+                    timestamp: time_stamp,
+                    permanentAddress: permanent_address,
+                    currentAddress: current_address,
+                    contact: contact,
+                    formStatus: getStatusCode(clearance_level),
                     department: `Department of ${user.department_id}`,
                     courses
                 }}
