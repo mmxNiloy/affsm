@@ -6,6 +6,7 @@ import SubmissionsPreviewFragment from './SubmissionsPreviewFragment'
 import axios from 'axios'
 import MyCircularProgress from '../../MyCircularProgress'
 import SubmissionsPreviewDialog from './SubmissionsPreviewDialog'
+import EmptyList from '../../EmptyList'
 
 const SubmissionsFragment = ({user}) => {
     const [loading, setLoading] = useState(false)
@@ -117,10 +118,8 @@ const SubmissionsFragment = ({user}) => {
 
                 {submissions.map(renderForms)}
 
-                <Grid item xs={12} sx={{display: (emptySubmissions ? 'flex' : 'none')}}>
-                    <Typography variant='h5' textAlign={'center'}>
-                        You have not submitted a form yet. Make a submission to view your records here.
-                    </Typography>
+                <Grid item xs={12}>
+                    <EmptyList hidden={!emptySubmissions}/>
                 </Grid>
             </Grid>
 

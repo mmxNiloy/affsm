@@ -25,12 +25,12 @@ const AdminDashboardFragment = ({user}) => {
                     <Box flexGrow={1}/>
                     <StyledTab label="Preferences" value={3} />
                 </Tabs>
-
-                {currentTab === 0 && <AdminOverviewFragment user={user}/>}
-                {currentTab === 1 && <PostedNoticesFragment user={user}/>}
-                {currentTab === 2 && <ActiveFormsFragment user={user}/>}
-                {currentTab === 3 && <PreferencesFragment user={user}/>}
             </Box>
+
+            {currentTab === 0 && <AdminOverviewFragment user={user}/>}
+            {currentTab === 1 && <PostedNoticesFragment user={user}/>}
+            {currentTab === 2 && <ActiveFormsFragment user={user}/>}
+            {currentTab === 3 && <PreferencesFragment user={user}/>}
         </Box>
     )
 }

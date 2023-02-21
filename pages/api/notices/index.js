@@ -35,7 +35,7 @@ const handler = async (req, res) => {
             })
     }
 
-    return res.status(200).json({message: 'Successfully fetched notices', data: rows})
+    return res.status(200).json({message: 'Successfully fetched notices', notices: rows})
 
 
 }

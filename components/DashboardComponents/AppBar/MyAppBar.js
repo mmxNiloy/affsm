@@ -16,7 +16,7 @@ import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { useTheme } from "@mui/material/styles"
 import ResponsiveAppBar from "./ResponsiveAppBar"
-import PersistentDrawer from "./PersistentDrawer"
+import PersistentDrawer from "../Drawer/PersistentDrawer"
 
 const MyAppBar = ({onDrawerChange, onDrawerItemChange, isAdmin}) => {
     const theme = useTheme()

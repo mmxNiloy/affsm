@@ -94,6 +94,26 @@ const Footer = () => {
 
             <Divider sx={{marginY: '8px'}}/>
 
+            <List>
+                <ListSubheader>
+                    <Typography textAlign={'center'}>
+                        Attributions
+                    </Typography>
+                </ListSubheader>
+
+                <ListItem>
+                    <ListItemText>
+                        <Typography textAlign={'center'}>
+                            <Link href="https://www.freepik.com/free-vector/empty-concept-illustration_7117861.htm#query=empty&position=2&from_view=search&track=sph">
+                                Images by storyset
+                            </Link> on Freepik
+                        </Typography>
+                    </ListItemText>
+                </ListItem>
+            </List>
+
+            <Divider sx={{marginY: '8px'}}/>
+
             <Typography textAlign={'center'}>Made with &#10084; by <Link rel='noopener' underline='hover' href='https://github.com/mmxNiloy'>mmx</Link></Typography>
         </Container>
     )

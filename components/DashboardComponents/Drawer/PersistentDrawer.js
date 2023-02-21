@@ -17,7 +17,7 @@ import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import HistoryIcon from '@mui/icons-material/History';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import { ListItems } from './DashboardEnums'
+import { ListItems } from '../DashboardEnums'
 import { useState } from 'react';
 
 const PersistentDrawer = ({open, handleDrawerClose, onDrawerItemChange, isAdmin}) => {

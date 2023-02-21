@@ -7,7 +7,7 @@ import CardActions from '@mui/material/CardActions'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import EditIcon from '@mui/icons-material/Edit'
-import NoticePreviewFragment from '../NoticePreviewFragment'
+import NoticePreviewFragment from '../NoticeFrags/NoticePreviewFragment'
 import Stack from '@mui/material/Stack'
 import { useEffect, useState } from 'react'
 import Divider from '@mui/material/Divider'
@@ -33,7 +33,7 @@ const OverviewFragment = ({user}) => {
             })
 
             const data = req.data
-            setNotices(data.data)
+            setNotices(data.notices)
         } catch (ignored) {
             // Show an error alert dialog
             console.log('Dashboard > Overview > Notifications | Error', ignored)
