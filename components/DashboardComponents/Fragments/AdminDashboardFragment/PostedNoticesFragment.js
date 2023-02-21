@@ -11,6 +11,7 @@ const PostedNoticesFragment = ({user}) => {
     const [loading, setLoading] = useState(false)
     const [isEmpty, setIsEmpty] = useState(false)
     const [isEdited, setEdited] = useState(false)
+    const [isDeleted, setDeleted] = useState(false)
     const [notices, setNotices] = useState([])
 
     const fetchNotices = async () => {
@@ -52,7 +53,9 @@ const PostedNoticesFragment = ({user}) => {
                 isAdmin
                 viewable
                 onEditSuccess={setEdited}
-                editFlag={isEdited}/>
+                editFlag={isEdited}
+                deleteFlag={isDeleted}
+                onDelete={setDeleted}/>
             </Grid>
         )
     }

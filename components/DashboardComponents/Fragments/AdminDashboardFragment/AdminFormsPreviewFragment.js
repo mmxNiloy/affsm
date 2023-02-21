@@ -13,6 +13,8 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 const AdminFormsPreviewFragment = ({data, clickable, onShowDialog, vertical}) => {
+    if(!Boolean(data)) return null
+    
     const [studentData, setStudentData] = useState({})
     // TODO: Loading progress bar
     // Assigned to Ayesha
@@ -61,8 +63,6 @@ const AdminFormsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =>
     useEffect(() => {
         fetchStudentInfo(data.student_id)
     })
-
-    if(!Boolean(data)) return null
     
     // TODO: Loading progress bar
     // Assigned to Ayesha
