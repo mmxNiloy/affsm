@@ -11,7 +11,7 @@ const handler = async (req, res) => {
     const poolPromise = connection.promise()
     var query = 
     `
-    SELECT Forms.semester, course_code, form_id, student_id, time_stamp, clearance_level, permanent_address, current_address, contact, course_title, department_id, allotted_hall
+    SELECT course_code AS id, (CASE WHEN Forms.semester = Students.semester THEN 'Regular' ELSE 'Improvement' END) AS type, Forms.semester, course_code, form_id, student_id, time_stamp, clearance_level, permanent_address, current_address, contact, course_title, department_id, allotted_hall
     FROM Forms
     JOIN FormCourses
     USING (form_id)
