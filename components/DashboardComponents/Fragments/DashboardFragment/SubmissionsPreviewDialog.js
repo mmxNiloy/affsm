@@ -200,8 +200,7 @@ const SubmissionsPreviewDialog = ({
                     fullWidth 
                     color='success'
                     onClick={() => {
-                        
-                         onApprove(dialogData.form_id, dialogData.clearance_level)
+                        onApprove(dialogData.form_id, dialogData.clearance_level)
                     }}
                     disabled={disabled}>
                         Approve

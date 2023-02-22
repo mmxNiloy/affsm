@@ -14,13 +14,17 @@ const ActiveFormsFragment = ({user}) => {
     const [forms, setForms] = useState([])
     const [loading, setLoading] = useState(false)
     const [loadingApproval, setLoadingApproval] = useState(false)
+    const [loadingRejection, setLoadingRejection] = useState(false)
     const [isUpdated, setIsUpdated] = useState(false)
 
     const [dialogData, setDialogData] = useState({})
     const [open, setOpen] = useState(false)
     const [studentData, setStudentData] = useState({})
-    ///Yakin
+    /// Yakin
     const [openConfirmationDialog,setOpenConfirmationDialog] = useState(false)
+    const [confirmationDialogMessage, setConfirmationDialogMessage] = useState(<>Do you want to proceed?</>)
+    const [approvalFlag, setApprovalFlag] = useState(false)
+    const [confirmationData, setConfirmationData] = useState({})
 
     const handleDialogOpen = (data, stuData) => {
         setDialogData(data)
@@ -102,13 +106,32 @@ const ActiveFormsFragment = ({user}) => {
         )
 
     }
-    ///Yakin
-    const handleConfirmationDialogOpen = ()=>{
+    /// Yakin
+    const handleConfirmationDialogOpen = (msg) => {
         setOpenConfirmationDialog(true)
-       
+        setConfirmationDialogMessage(msg)
     }
-    const handleConfirmationDialogClose = ()=>{
+
+    const handleConfirmationDialogClose = () => {
         setOpenConfirmationDialog(false)
+    }
+
+    const handleConfirm = async () => {
+        console.log('Confirm button clicked')
+        if(approvalFlag) await handleApproveForm(confirmationData.id, confirmationData.level)
+        else await handleRejectForm(confirmationData.id, confirmationData.level)
+    }
+
+    const onApprove = (id, level) => {
+        handleConfirmationDialogOpen(<>Do you want to <b>approve</b> this form?</>)
+        setApprovalFlag(true)
+        setConfirmationData({id, level})
+    }
+
+    const onReject = (id, level) => {
+        handleConfirmationDialogOpen(<>Do you want to <b>reject</b> this form?</>)
+        setApprovalFlag(false)
+        setConfirmationData({id, level})
     }
 
     const handleApproveForm = async (id, level) => {
@@ -132,12 +155,20 @@ const ActiveFormsFragment = ({user}) => {
         }
 
         setOpen(false)
-
+        setOpenConfirmationDialog(false)
         setLoadingApproval(false)
     }
 
-    const handleRejectForm = (id) => {
+    const handleRejectForm = async (id) => {
+        setLoadingRejection(true)
+        
         // Code: Request the api to make an (negative) update
+        
+        setLoadingRejection(false)
+        setOpen(false)
+        setOpenConfirmationDialog(false)
+        
+        console.log("Rejecting the form.")
     }
 
     useEffect(() => {
@@ -166,20 +197,22 @@ const ActiveFormsFragment = ({user}) => {
                 user={studentData}
                 dialogData={dialogData}
                 onClose={handleDialogClose}
-                 onApprove={handleApproveForm}
-            //    onApprove={ProceedDialogFragment}
-                onReject={handleRejectForm}
+                onApprove={onApprove}
+                onReject={onReject}
                 disabled={
                     Number.parseInt(user.clearance_level) !== Number.parseInt(dialogData.clearance_level) ||
-                    loadingApproval
+                    loadingApproval || loadingRejection
                 }
                 isAdmin />
 
             </Grid>
 
             <ProceedDialogFragment
-            open={true}
-            onClose={handleConfirmationDialogOpen}/>
+            loading={loadingApproval || loadingRejection}
+            message={confirmationDialogMessage}
+            open={openConfirmationDialog}
+            onConfirm={handleConfirm}
+            onClose={handleConfirmationDialogClose}/>
             {/* 
                 TODO: Show an aditional dialog before approval or rejection of a form 
                 Assigned to Yakin

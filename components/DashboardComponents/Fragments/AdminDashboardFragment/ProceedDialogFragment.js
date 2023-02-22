@@ -5,62 +5,87 @@ import DialogContent from "@mui/material/DialogContent";
 import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
 import DialogActions from "@mui/material/DialogActions";
+import Avatar from '@mui/material/Avatar'
+import Typography from '@mui/material/Typography'
+import LinearProgress from '@mui/material/LinearProgress'
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 
-const ProceedDialogFragment = ({ open, onClose }) => {
-  const [visible, setOpen] = useState(open);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleYes = () => {
-    setOpen(false);
-    onClose(onClose);
-  };
-
+const ProceedDialogFragment = ({ open, onClose, onConfirm, message, loading }) => {
   return (
-    <Grid container xs={6} alignItems="center">
-      <Dialog open={visible} onClose={onClose} fullWidth maxWidth="xs">
-        <Stack direction={"row"}>
-          <DialogTitle>Proceed</DialogTitle>
-          <Box flexGrow={1} />
+    <Dialog 
+    open={open} 
+    onClose={onClose} 
+    fullWidth 
+    maxWidth="xs">
+      <DialogTitle>
+        <Stack
+        direction='row'
+        spacing={1}
+        sx={{
+          alignItems: 'center',
+        }}>
+          <Typography variant='h6'>
+            Proceed?
+          </Typography>
+
+          <Box flexGrow={1}/>
+
           <IconButton
-            sx={{
-              "&:hover": {
-                backgroundColor: "red",
-                cursor: "pointer",
-                color: "white",
-              },
-            }}
-            onClick={handleClose}
-          >
-            <CloseIcon />
+          onClick={onClose}>
+            <CloseIcon color='error'/>
           </IconButton>
         </Stack>
-        <DialogContent>Are you sure?</DialogContent>
-        <DialogActions>
-          <Stack direction={"row"}>
-            <Button
-              variant="outlined"
-              style={{ marginRight: "30px", backgroundColor: "#CBEBF2" }}
-              onClick={handleYes}
-            >
-              Yes
-            </Button>
-            <Button
-              variant="outlined"
-              style={{ marginRight: "10px", backgroundColor: "#FF9B9D" }}
-              onClick={handleClose}
-            >
-              Cancel
-            </Button>
-          </Stack>
-        </DialogActions>
-      </Dialog>
-    </Grid>
+      </DialogTitle>
+
+      <DialogContent>
+        <Stack 
+        direction={'column'}
+        spacing={1}>
+          <Typography variant='body1' paragraph>
+            {Boolean(loading) && <>Loading flag is active</>}
+            {Boolean(message) ? message : <>Are you sure?</>}
+          </Typography>
+
+          <Box hidden={!Boolean(loading)}>
+            <Typography 
+            textAlign='center' 
+            variant='body2'>
+              Loading, please wait...
+            </Typography>
+
+            <LinearProgress/>
+          </Box>
+          
+        </Stack>
+        
+      </DialogContent>
+
+      <DialogActions>
+        <Stack 
+        direction={"row"}
+        spacing={1}
+        padding={1}>
+          <Button
+            variant="contained"
+            onClick={onConfirm}
+            disabled={loading}
+            color={'success'}>
+            Yes
+          </Button>
+
+          <Button
+            variant="contained"
+            onClick={onClose}
+            disabled={loading}
+            color='error'>
+            Cancel
+          </Button>
+        </Stack>
+      </DialogActions>
+    </Dialog>
   );
 };
 
