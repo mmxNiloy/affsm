@@ -31,7 +31,7 @@ const AdminOverviewFragment = ({user}) => {
     const fetchNotices = async () => {
         if(loadingNotices) return
 
-        setLoadingNotices(true)
+        setLoadingNotices(true) 
         
         try {
             // Code
@@ -42,7 +42,7 @@ const AdminOverviewFragment = ({user}) => {
             })
 
             const data = req.data
-            setNotices(data.notices)
+            setNotices(data.data)
         } catch (ignored) {
             // Show an error alert dialog
             console.log('Dashboard > Overview > Notifications | Error', ignored)

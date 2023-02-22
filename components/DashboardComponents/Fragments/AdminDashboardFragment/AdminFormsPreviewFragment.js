@@ -29,7 +29,7 @@ const AdminFormsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =>
     ]
 
     const handleViewButtonClick = () => {
-        onShowDialog(data)
+        onShowDialog(data, studentData)
     }
 
     const renderStep = (item, index) => {
@@ -56,13 +56,14 @@ const AdminFormsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =>
         })
 
         var data = req.data.student
+        console.log('student data', data)
 
         setStudentData(data)
     }
 
     useEffect(() => {
         fetchStudentInfo(data.student_id)
-    })
+    }, [])
     
     // TODO: Loading progress bar
     // Assigned to Ayesha

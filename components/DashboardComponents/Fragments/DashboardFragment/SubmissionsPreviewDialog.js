@@ -12,7 +12,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import { useState } from 'react'
 
-const SubmissionsPreviewDialog = ({open, onClose, user, dialogData}) => {
+const SubmissionsPreviewDialog = ({open, onClose, user, dialogData, isAdmin}) => {
     const [pageSize, setPageSize] = useState(10)
     
     const cols = [
@@ -122,7 +122,7 @@ const SubmissionsPreviewDialog = ({open, onClose, user, dialogData}) => {
                         InputProps={{
                             readOnly: true,
                         }}
-                        value={user.allotted_hall ? `${user.allotted_hall} Hall` : ''}/>
+                        value={user.hall_name ? `${user.hall_name} Hall` : ''}/>
                     </FormControl>
                 </Grid>
 
@@ -173,11 +173,33 @@ const SubmissionsPreviewDialog = ({open, onClose, user, dialogData}) => {
                     
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={4} sx={{
+                    display: (Boolean(isAdmin) ? 'flex' : 'none')
+                }}>
                     <Button type='button' variant='contained' fullWidth>
                         Export as PDF
                     </Button>
+
                 </Grid>
+
+                <Grid item xs={4} sx={{
+                    display: (Boolean(isAdmin) ? 'flex' : 'none')
+                }}>
+                    <Button type='button' variant='contained' fullWidth color='success'>
+                        Approve
+                    </Button>
+
+                </Grid>
+
+                <Grid item xs={4} sx={{
+                    display: (Boolean(isAdmin) ? 'flex' : 'none')
+                }}>
+                    <Button type='button' variant='contained' fullWidth color='error'>
+                        Reject
+                    </Button>
+
+                </Grid>
+
             </Grid>
             
         </Dialog>

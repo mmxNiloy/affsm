@@ -61,14 +61,14 @@ const NoticeDeleteDialog = ({open, onClose, dialogData, onDelete, deleteFlag}) =
             </DialogContent>
 
             <DialogActions>
-                <Button 
+                <Button  variant="contained"
                 onClick={handleDelete} 
                 disabled={loading}>
                     Yes
                 </Button>
 
                 <Button 
-                onClick={onClose} 
+                onClick={onClose} variant="outlined"
                 disabled={loading}>
                     No
                 </Button>

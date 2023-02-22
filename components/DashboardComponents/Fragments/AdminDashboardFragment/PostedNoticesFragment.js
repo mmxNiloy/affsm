@@ -62,7 +62,7 @@ const PostedNoticesFragment = ({user}) => {
 
     useEffect(() => {
         fetchNotices()
-    }, [isEdited])
+    }, [isEdited, isDeleted])
 
     if(loading) return <MyCircularProgress/>
 
