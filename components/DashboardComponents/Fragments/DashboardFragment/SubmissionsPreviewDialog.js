@@ -12,6 +12,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import { useEffect, useState } from 'react'
 
+
 const SubmissionsPreviewDialog = ({
         open, onClose, user, 
         dialogData, isAdmin, onApprove, 
@@ -199,7 +200,8 @@ const SubmissionsPreviewDialog = ({
                     fullWidth 
                     color='success'
                     onClick={() => {
-                        onApprove(dialogData.form_id, dialogData.clearance_level)
+                        
+                         onApprove(dialogData.form_id, dialogData.clearance_level)
                     }}
                     disabled={disabled}>
                         Approve

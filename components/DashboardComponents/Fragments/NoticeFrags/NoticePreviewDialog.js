@@ -15,7 +15,7 @@ import Divider from '@mui/material/Divider'
 import { useState } from 'react'
 import Avatar from '@mui/material/Avatar'
 import NotificationsIcon from '@mui/icons-material/Notifications';
-
+import CloseIcon from '@mui/icons-material/Close';
 const NoticePreviewDialog = ({user, open, onClose, dialogData}) => {
     if(!Boolean(dialogData)) return null
 
@@ -25,7 +25,7 @@ const NoticePreviewDialog = ({user, open, onClose, dialogData}) => {
         onClose={onClose}
         maxWidth={'md'}>
             <DialogTitle>
-                {dialogData.title}
+                {dialogData.title}   
                 {/* TODO: Add an IconButton
                     You can use <Box flexGrow={1}/> to "push" the icon to the right side
                     The icon should be a close icon, ie windows "cross icon" [X]
@@ -33,6 +33,8 @@ const NoticePreviewDialog = ({user, open, onClose, dialogData}) => {
                     Handle the click event.
                     Assigned to Sourov. 
                 */}
+                <Box flexGrow={1}></Box>
+                <CloseIcon/>
             </DialogTitle>
 
             <Divider/>

@@ -1,6 +1,6 @@
-import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import MyCircularProgress from '../../MyCircularProgress'
@@ -8,6 +8,7 @@ import EmptyList from '../../EmptyList'
 import Divider from '@mui/material/Divider'
 import AdminFormsPreviewFragment from './AdminFormsPreviewFragment'
 import SubmissionsPreviewDialog from '../DashboardFragment/SubmissionsPreviewDialog'
+import ProceedDialogFragment from './ProceedDialogFragment'
 const ActiveFormsFragment = ({user}) => {
     const [emptyForms, setEmptyForms] = useState(true)
     const [forms, setForms] = useState([])
@@ -18,6 +19,8 @@ const ActiveFormsFragment = ({user}) => {
     const [dialogData, setDialogData] = useState({})
     const [open, setOpen] = useState(false)
     const [studentData, setStudentData] = useState({})
+    ///Yakin
+    const [openConfirmationDialog,setOpenConfirmationDialog] = useState(false)
 
     const handleDialogOpen = (data, stuData) => {
         setDialogData(data)
@@ -99,8 +102,17 @@ const ActiveFormsFragment = ({user}) => {
         )
 
     }
+    ///Yakin
+    const handleConfirmationDialogOpen = ()=>{
+        setOpenConfirmationDialog(true)
+       
+    }
+    const handleConfirmationDialogClose = ()=>{
+        setOpenConfirmationDialog(false)
+    }
 
     const handleApproveForm = async (id, level) => {
+
         setLoadingApproval(true)
 
         // Code
@@ -154,7 +166,8 @@ const ActiveFormsFragment = ({user}) => {
                 user={studentData}
                 dialogData={dialogData}
                 onClose={handleDialogClose}
-                onApprove={handleApproveForm}
+                 onApprove={handleApproveForm}
+            //    onApprove={ProceedDialogFragment}
                 onReject={handleRejectForm}
                 disabled={
                     Number.parseInt(user.clearance_level) !== Number.parseInt(dialogData.clearance_level) ||
@@ -164,12 +177,16 @@ const ActiveFormsFragment = ({user}) => {
 
             </Grid>
 
+            <ProceedDialogFragment
+            open={true}
+            onClose={handleConfirmationDialogOpen}/>
             {/* 
                 TODO: Show an aditional dialog before approval or rejection of a form 
                 Assigned to Yakin
             */}
             
         </Grid>
+        
     )
 }
 
