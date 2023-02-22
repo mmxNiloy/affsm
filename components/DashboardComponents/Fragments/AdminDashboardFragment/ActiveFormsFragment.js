@@ -157,7 +157,7 @@ const ActiveFormsFragment = ({user}) => {
                 onApprove={handleApproveForm}
                 onReject={handleRejectForm}
                 disabled={
-                    Number.parseInt(user.clearance_level) < Number.parseInt(dialogData.clearance_level) ||
+                    Number.parseInt(user.clearance_level) !== Number.parseInt(dialogData.clearance_level) ||
                     loadingApproval
                 }
                 isAdmin />
