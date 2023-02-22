@@ -15,7 +15,7 @@ const handler = async (req, res) => {
     const update =
     `
     UPDATE Forms
-    SET clearance_level = ${Number.parseInt(clearance_level) + 1}
+    SET clearance_level = ${Number.parseInt(clearance_level) + 1}, time_stamp=NOW()
     WHERE form_id = ${form_id};
     `
 
