@@ -10,9 +10,13 @@ import { DataGrid } from '@mui/x-data-grid'
 import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-const SubmissionsPreviewDialog = ({open, onClose, user, dialogData, isAdmin}) => {
+const SubmissionsPreviewDialog = ({
+        open, onClose, user, 
+        dialogData, isAdmin, onApprove, 
+        onReject, disabled
+    }) => {
     const [pageSize, setPageSize] = useState(10)
     
     const cols = [
@@ -21,6 +25,10 @@ const SubmissionsPreviewDialog = ({open, onClose, user, dialogData, isAdmin}) =>
         {field: 'semester', headerName: 'Semester', width: 160, type: 'number'},
         {field: 'type', headerName: 'Type', width: 160, type: 'string'},
     ]
+
+    useEffect(() => {
+        console.log("SubmissionsPreviewDialog > User found", user)
+    }, [])
     
     return (
         <Dialog 
@@ -185,7 +193,15 @@ const SubmissionsPreviewDialog = ({open, onClose, user, dialogData, isAdmin}) =>
                 <Grid item xs={4} sx={{
                     display: (Boolean(isAdmin) ? 'flex' : 'none')
                 }}>
-                    <Button type='button' variant='contained' fullWidth color='success'>
+                    <Button 
+                    type='button' 
+                    variant='contained' 
+                    fullWidth 
+                    color='success'
+                    onClick={() => {
+                        onApprove(dialogData.form_id, dialogData.clearance_level)
+                    }}
+                    disabled={disabled}>
                         Approve
                     </Button>
 
@@ -194,7 +210,13 @@ const SubmissionsPreviewDialog = ({open, onClose, user, dialogData, isAdmin}) =>
                 <Grid item xs={4} sx={{
                     display: (Boolean(isAdmin) ? 'flex' : 'none')
                 }}>
-                    <Button type='button' variant='contained' fullWidth color='error'>
+                    <Button 
+                    type='button' 
+                    variant='contained' 
+                    fullWidth 
+                    color='error'
+                    onClick={onReject}
+                    disabled={disabled}>
                         Reject
                     </Button>
 

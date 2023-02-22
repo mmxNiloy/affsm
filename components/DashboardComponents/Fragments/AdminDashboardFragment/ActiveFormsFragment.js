@@ -12,6 +12,9 @@ const ActiveFormsFragment = ({user}) => {
     const [emptyForms, setEmptyForms] = useState(true)
     const [forms, setForms] = useState([])
     const [loading, setLoading] = useState(false)
+    const [loadingApproval, setLoadingApproval] = useState(false)
+    const [isUpdated, setIsUpdated] = useState(false)
+
     const [dialogData, setDialogData] = useState({})
     const [open, setOpen] = useState(false)
     const [studentData, setStudentData] = useState({})
@@ -55,11 +58,6 @@ const ActiveFormsFragment = ({user}) => {
         setLoading(false)
 
     }
-    const getStatusCode = (clearance) => {
-        if(clearance === 'none') return 1
-        // TODO: Change code accordingly
-        else return 2
-    }
 
     const renderForms = (item, index) => {
     
@@ -86,25 +84,53 @@ const ActiveFormsFragment = ({user}) => {
                 onShowDialog={handleDialogOpen}
                 clickable
                 data={{
-                title: `BSc Engineering of Semester ${semester}, Exam of ${(new Date(time_stamp).getFullYear())}`,
-                timestamp: time_stamp,
-                formStatus: getStatusCode(clearance_level),
-                department: `Department of ${department_id}`,
-                student_id,
-                permanentAddress: permanent_address,
-                currentAddress: current_address,
-                contact,
-                courses
-
+                    form_id: item.form_id,
+                    title: `BSc Engineering of Semester ${semester}, Exam of ${(new Date(time_stamp).getFullYear())}`,
+                    timestamp: time_stamp,
+                    clearance_level,
+                    department: `Department of ${department_id}`,
+                    student_id,
+                    permanentAddress: permanent_address,
+                    currentAddress: current_address,
+                    contact,
+                    courses
                 }}/>
             </Grid>
         )
 
     }
 
+    const handleApproveForm = async (id, level) => {
+        setLoadingApproval(true)
+
+        // Code
+        try {
+            await axios.get('/api/forms/approve_form', {
+                params: {
+                    form_id: id,
+                    evaluator_id: user.evaluator_id,
+                    clearance_level: level
+                }
+            })
+
+            setIsUpdated(!isUpdated)
+        } catch(err) {
+            // Handle error here
+            console.log("ActiveFormsFragment > handleApproveForm() > ", err)
+        }
+
+        setOpen(false)
+
+        setLoadingApproval(false)
+    }
+
+    const handleRejectForm = (id) => {
+        // Code: Request the api to make an (negative) update
+    }
+
     useEffect(() => {
         fetchForms()
-    },[])
+    },[isUpdated])
 
     if(loading) return <MyCircularProgress height='60vh' />
    
@@ -128,21 +154,23 @@ const ActiveFormsFragment = ({user}) => {
                 user={studentData}
                 dialogData={dialogData}
                 onClose={handleDialogClose}
+                onApprove={handleApproveForm}
+                onReject={handleRejectForm}
+                disabled={
+                    Number.parseInt(user.clearance_level) < Number.parseInt(dialogData.clearance_level) ||
+                    loadingApproval
+                }
                 isAdmin />
 
             </Grid>
+
+            {/* 
+                TODO: Show an aditional dialog before approval or rejection of a form 
+                Assigned to Yakin
+            */}
             
         </Grid>
     )
 }
 
 export default ActiveFormsFragment
-
-
-
-
-
-
-
-
-

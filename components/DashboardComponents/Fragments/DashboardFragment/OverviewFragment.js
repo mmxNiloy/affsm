@@ -103,7 +103,7 @@ const OverviewFragment = ({user}) => {
             data={{
                 title: `BSc Engineering of Semester ${semester}, Exam of ${(new Date(time_stamp).getFullYear())}`,
                 timestamp: time_stamp,
-                formStatus: getStatusCode(clearance_level),
+                clearance_level,
                 department: `Department of ${user.department_id}`
             }}/>
         )

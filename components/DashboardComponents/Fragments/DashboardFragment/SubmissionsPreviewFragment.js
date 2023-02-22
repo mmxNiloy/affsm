@@ -62,7 +62,7 @@ const SubmissionsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =
                     marginTop: '32px'
                 }}
                 orientation={vertical ? 'vertical' : 'horizontal'}
-                activeStep={data.formStatus - 1} 
+                activeStep={data.clearance_level - 1} 
                 alternativeLabel={!vertical}>
                     {[
                         {step: 'Submitted', text: 'The form has been received and will be processed by the evaulators soon.'}, 

@@ -91,7 +91,7 @@ const SubmissionsFragment = ({user}) => {
                     permanentAddress: permanent_address,
                     currentAddress: current_address,
                     contact: contact,
-                    formStatus: getStatusCode(clearance_level),
+                    clearance_level,
                     department: `Department of ${user.department_id}`,
                     courses
                 }}

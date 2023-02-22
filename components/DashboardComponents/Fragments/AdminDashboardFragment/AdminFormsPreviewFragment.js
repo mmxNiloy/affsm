@@ -10,16 +10,13 @@ import Stack from '@mui/material/Stack'
 import StepContent from '@mui/material/StepContent'
 import Dialog from '@mui/material/Dialog'
 import { useEffect, useState } from 'react'
+import Skeleton from '@mui/material/Skeleton';
 import axios from 'axios'
+import SubmissionsSkeleton from '../../SubmissionsSkeleton'
 
 const AdminFormsPreviewFragment = ({data, clickable, onShowDialog, vertical}) => {
-    if(!Boolean(data)) return null
-    
-    const [studentData, setStudentData] = useState({})
-    // TODO: Loading progress bar
-    // Assigned to Ayesha
-    // Ayesha: Set up a loading progress while the stuent data loads
     const [loading, setLoading] = useState(false)
+    const [studentData, setStudentData] = useState({})
     
     const steps = [
         {step: 'Provost', text: 'Awating approval from the provost.'},
@@ -49,16 +46,26 @@ const AdminFormsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =>
 
 
     const fetchStudentInfo = async (id) => {
-        const req = await axios.get('/api/students', {
-            params: {
-                id
-            }
-        })
+        if(loading) return
 
-        var data = req.data.student
-        console.log('student data', data)
+        setLoading(true)
 
-        setStudentData(data)
+        try {
+            const req = await axios.get('/api/students', {
+                params: {
+                    id
+                }
+            })
+
+            var data = req.data.student
+            console.log('student data', data)
+
+            setStudentData(data)
+        } catch (err) {
+            console.log('Admin Dashboard > Admin Forms Preview Frag > fetchStudentInfo() > ', err) 
+        }
+
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -69,6 +76,9 @@ const AdminFormsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =>
     // Assigned to Ayesha
     // If you want to hide the entire card render thee progress bar here
     // For instance, if(loading) reuturn <LinearProgress/>
+    if(!Boolean(data)) return null
+
+    if(loading) return <SubmissionsSkeleton/>
 
     return(
         <Card elevation={4}>
@@ -85,14 +95,6 @@ const AdminFormsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =>
                     Submitted By
                 </Typography>
 
-                {/* TODO: Loading progress bar, assigned to Ayesha */}
-                {/* If you don't want to hide the entire card set up a conditional rendering here */}
-                {/* For instance, {loading && <LinearProgress/>} */}
-                {/* Make sure to hide the unloaded componets that way */}
-                {/* IE: {!loading && <YourComponents/>} */}
-                {/* You are free to style the components any way you like */}
-                {/* DO NOT MAKE IT LOOK CRINGE */}
-                {/* OTHERWISE I'LL DIE OF CRINGE */}
                 <Typography variant='body1'>
                     Full name: {`${studentData.first_name} ${studentData.last_name}`}
                 </Typography>
@@ -115,7 +117,7 @@ const AdminFormsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =>
                     marginTop: '32px'
                 }}
                 orientation={vertical ? 'vertical' : 'horizontal'}
-                activeStep={data.formStatus - 1} 
+                activeStep={data.clearance_level - 1} 
                 alternativeLabel={!vertical}>
                     {[
                         {step: 'Submitted', text: 'The form has been received and will be processed by the evaulators soon.'}, 

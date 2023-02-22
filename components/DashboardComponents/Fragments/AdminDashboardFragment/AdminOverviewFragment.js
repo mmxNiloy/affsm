@@ -42,7 +42,7 @@ const AdminOverviewFragment = ({user}) => {
             })
 
             const data = req.data
-            setNotices(data.data)
+            setNotices(data.notices)
         } catch (ignored) {
             // Show an error alert dialog
             console.log('Dashboard > Overview > Notifications | Error', ignored)
@@ -120,7 +120,7 @@ const AdminOverviewFragment = ({user}) => {
                 <AdminFormsPreviewFragment data={{
                 title: `BSc Engineering of Semester ${semester}, Exam of ${(new Date(time_stamp).getFullYear())}`,
                 timestamp: time_stamp,
-                formStatus: getStatusCode(clearance_level),
+                clearance_level,
                 department: `Department of ${department_id}`,
                 student_id
                 }}/>
