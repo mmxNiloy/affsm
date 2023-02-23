@@ -49,6 +49,15 @@ const AdminDashboard = () => {
         setLoading(false)
     }
 
+    const forwardToNotices = () => {
+        //console.log('Forwarding to notifications')
+        setSelectedDrawerItem(ListItems.NOTICES)
+    }
+
+    const forwardToPostNotices = () => {
+        setSelectedDrawerItem(ListItems.POST_NOTICES)
+    }
+
     useEffect(() => {
         // !Fix me: Sending request to the serve on each render
         // !Trade offer: Gain performance boost(Memory, network, cpu) or Sacrifice performace for realtime feedback?
@@ -63,15 +72,22 @@ const AdminDashboard = () => {
         <Box>
             {/* Do not render these componenets if the user is null */}
             <MyAppBar 
+            selectedDrawerItem={selectedDrawerItem}
             isAdmin={true}
             onDrawerChange={setDrawerOpen} 
             onDrawerItemChange={setSelectedDrawerItem}/>
 
             <MainContentWrapper open={isDrawerOpen}>
                 {/* <MyCircularProgress loading={loading}/> */}
-                {selectedDrawerItem === ListItems.DAHSBOARD && <AdminDashboardFragment user={user}/>}
+                {selectedDrawerItem === ListItems.DAHSBOARD && 
+                    <AdminDashboardFragment user={user} 
+                    toNotices={forwardToNotices}
+                    toPostNotices={forwardToPostNotices}/>}
                 {selectedDrawerItem === ListItems.NOTICES && <NoticeFragment user={user}/>}
-                {selectedDrawerItem === ListItems.POST_NOTICES && <NoticeSubmissionFragment user={user}/>}
+                {selectedDrawerItem === ListItems.POST_NOTICES && 
+                    <NoticeSubmissionFragment 
+                    user={user}
+                    toNotices={forwardToNotices}/>}
                 {selectedDrawerItem === ListItems.ACTIVE_FORMS && <FormActivationFragment user={user}/>}
                 {selectedDrawerItem === ListItems.HISTORY && <HistoryFragment user={user}/>}
             </MainContentWrapper>

@@ -18,9 +18,9 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import HistoryIcon from '@mui/icons-material/History';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { ListItems } from '../DashboardEnums'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const PersistentDrawer = ({open, handleDrawerClose, onDrawerItemChange, isAdmin}) => {
+const PersistentDrawer = ({open, handleDrawerClose, onDrawerItemChange, isAdmin, parentSelectedDrawerItem}) => {
     const theme = useTheme();
     const [selectedItem, setSelectedItem] = useState(ListItems.DAHSBOARD)
 
@@ -61,6 +61,12 @@ const PersistentDrawer = ({open, handleDrawerClose, onDrawerItemChange, isAdmin}
             id: ListItems.HISTORY
         }
     ]
+
+    useEffect(() => {
+        // Code
+        if(Boolean(parentSelectedDrawerItem))
+            setSelectedItem(parentSelectedDrawerItem)
+    }, [parentSelectedDrawerItem])
 
     return (
         <Drawer

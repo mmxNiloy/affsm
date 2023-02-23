@@ -21,7 +21,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import SubmissionsPreviewFragment from '../DashboardFragment/SubmissionsPreviewFragment'
 import AdminFormsPreviewFragment from './AdminFormsPreviewFragment'
 
-const AdminOverviewFragment = ({user}) => {
+const AdminOverviewFragment = ({user, toForms, toNotices, toPostNotices}) => {
     const [loadingNotices, setLoadingNotices] = useState(false)
     const [loadingSubmissions, setLoadingSubmissions] = useState(false)
     const [emptySubmissions, setEmptySubmissions] = useState(false)
@@ -150,7 +150,9 @@ const AdminOverviewFragment = ({user}) => {
 
             <Grid item xs={4}>
                 <Card>
-                    <CardActionArea sx={{
+                    <CardActionArea 
+                    onClick={toPostNotices}
+                    sx={{
                         padding: '16px'
                     }}>
                         <Stack 
@@ -178,7 +180,9 @@ const AdminOverviewFragment = ({user}) => {
 
             <Grid item xs={4}>
                 <Card>
-                    <CardActionArea sx={{
+                    <CardActionArea 
+                    onClick={toForms}
+                    sx={{
                         padding: '16px'
                     }}>
                         <Stack 

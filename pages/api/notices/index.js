@@ -9,15 +9,19 @@ const handler = async (req, res) => {
 
     var { limit } = req.query
 
-    if(!Boolean(limit)) limit = 10
+    if(!Boolean(limit)) limit = 100
 
     const connection = mysql.createPool(DB_Credentials)
 
     const query = 
     `
-    SELECT *
+    SELECT notice_id, title, message, time_stamp, first_name, last_name, department_name
     FROM Notices
-    ORDER BY  time_stamp DESC
+    JOIN Users
+    ON user_id = evaluator_id
+    JOIN Departments
+    USING (department_id)
+    ORDER BY time_stamp DESC
     LIMIT ${limit}
     `
     const poolPromise = connection.promise()

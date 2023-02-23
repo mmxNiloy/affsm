@@ -7,7 +7,7 @@ import AdminOverviewFragment from './AdminOverviewFragment'
 import PostedNoticesFragment from './PostedNoticesFragment'
 import PreferencesFragment from '../DashboardFragment/PreferencesFragment'
 import ActiveFormsFragment from './ActiveFormsFragment'
-const AdminDashboardFragment = ({user}) => {
+const AdminDashboardFragment = ({user, toNotices, toPostNotices}) => {
     const [currentTab, setCurrentTab] = useState(0)
     const handleTabChange = (e, newTab) => {
         setCurrentTab(newTab)
@@ -27,7 +27,12 @@ const AdminDashboardFragment = ({user}) => {
                 </Tabs>
             </Box>
 
-            {currentTab === 0 && <AdminOverviewFragment user={user}/>}
+            {currentTab === 0 && 
+                <AdminOverviewFragment 
+                user={user} 
+                toForms={() => {setCurrentTab(2)}} 
+                toNotices={toNotices}
+                toPostNotices={toPostNotices}/>}
             {currentTab === 1 && <PostedNoticesFragment user={user}/>}
             {currentTab === 2 && <ActiveFormsFragment user={user}/>}
             {currentTab === 3 && <PreferencesFragment user={user}/>}
