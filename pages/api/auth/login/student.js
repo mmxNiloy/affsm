@@ -41,11 +41,7 @@ const handler = async (req, res) => {
     const studentQuery = 
     `
     SELECT *
-    FROM Students
-    JOIN Users
-    ON student_id = user_id
-    JOIN Departments
-    USING (department_id)
+    FROM studentinformations
     WHERE user_id = ${id};
     `
 

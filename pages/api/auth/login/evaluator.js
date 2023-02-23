@@ -20,9 +20,7 @@ const handler = async (req, res) => {
     var query =
     `
     SELECT *
-    FROM Evaluators
-    JOIN Users
-    ON user_id = evaluator_id
+    FROM evaluatorinformations
     WHERE user_id = ${id} AND password = BINARY '${password}';
     `
     

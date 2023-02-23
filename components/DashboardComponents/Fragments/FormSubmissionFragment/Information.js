@@ -5,6 +5,7 @@ import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import Typography from '@mui/material/Typography'
+import InputAdornment from '@mui/material/InputAdornment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
@@ -19,6 +20,9 @@ const Information = ({onError, hidden, user, permanentAddress, currentAddress, c
     const [dateOfBirth, setDateOfBirth] = useState(dayjs(minDate))
     const [checked, setChecked] = useState(false)
 
+    const [contactError, setContactError] = useState(false)
+    const [contactErrorMessage, setContactErrorMessage] = useState('')
+
     const handlePermanentAddressChange = (e) => {
         onPermanentAddressChange(e.target.value)
     }
@@ -32,7 +36,25 @@ const Information = ({onError, hidden, user, permanentAddress, currentAddress, c
     }
 
     const handleContactChange = (e) => {
-        onContactChange(e.target.value)
+        // Ignore the inputs of length greater than 11
+        const str = e.target.value + ''
+        if(str.length > 10) return;
+
+        // get rid of the decimal places
+        var num = Number.parseInt(str)
+        
+        // get rid of the negative numbers
+        num = Math.max(0, num)
+
+        if(str.length < 10) {
+            setContactError(true)
+            setContactErrorMessage('Invalid phone number')
+        } else {
+            setContactError(false)
+            setContactErrorMessage('')
+        }
+
+        onContactChange(num)
     }
 
     const handleCheckboxChange = (e) => {
@@ -43,8 +65,8 @@ const Information = ({onError, hidden, user, permanentAddress, currentAddress, c
         // TODO: An extrnsive validation is necessary
         if(
             permanentAddress.length > 0 &&
-            currentAddress.length > 0 && contact.length > 0 &&
-            Boolean(dateOfBirth) && checked
+            currentAddress.length > 0 && contact.toString().length > 0 &&
+            Boolean(dateOfBirth) && checked && !contactError
         ) onError(false)
         else onError(true)
     }
@@ -54,7 +76,7 @@ const Information = ({onError, hidden, user, permanentAddress, currentAddress, c
     }, [
         permanentAddress,
         currentAddress, contact,
-        dateOfBirth, checked
+        dateOfBirth, checked, contactError
     ])
 
     return (
@@ -151,6 +173,12 @@ const Information = ({onError, hidden, user, permanentAddress, currentAddress, c
                 <FormControl fullWidth>
                     <TextField 
                     value={contact}
+                    error={contactError}
+                    helperText={contactErrorMessage}
+                    type='number'
+                    InputProps={{
+                        startAdornment: <InputAdornment position='start'>+880</InputAdornment>
+                    }}
                     onChange={handleContactChange}
                     label="Contact" />
                 </FormControl>

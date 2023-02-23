@@ -119,7 +119,7 @@ const Acknowledgements = ({hidden, user, onError}) => {
                         InputProps={{
                             readOnly: true,
                         }}
-                        value={user.allotted_hall ? `${user.allotted_hall} Hall` : ''}/>
+                        value={user.allotted_hall ? `${user.hall_name} Hall` : ''}/>
                     </FormControl>
                 </Grid>
 

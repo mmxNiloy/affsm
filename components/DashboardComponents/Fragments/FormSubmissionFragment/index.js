@@ -34,7 +34,7 @@ const FormSubmissionFragment = ({user}) => {
     const [confirmationFormError, setConfirmationFormError] = useState(true)
     const [currentAddress, setCurrentAddress] = useState('')
     const [permanentAddress, setPermanentAddress] = useState('')
-    const [contact, setContact] = useState('')
+    const [contact, setContact] = useState(0)
     const [courses, setCourses] = useState([])
     const [loading, setLoading] = useState(false)
     const [selectedCourses, setSelectedCourses] = useState([])

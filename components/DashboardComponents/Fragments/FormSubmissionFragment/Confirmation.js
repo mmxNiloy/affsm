@@ -8,6 +8,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import InputAdornment from '@mui/material/InputAdornment'
 import Checkbox from '@mui/material/Checkbox'
 import Box from '@mui/material/Box'
 import { DataGrid } from '@mui/x-data-grid'
@@ -158,7 +159,7 @@ const Confirmation = ({user, onError, hidden, data, courses}) => {
                     InputProps={{
                         readOnly: true,
                     }}
-                    value={user.allotted_hall ? `${user.allotted_hall} Hall` : ''}/>
+                    value={user.allotted_hall ? `${user.hall_name} Hall` : ''}/>
                 </FormControl>
             </Grid>
 
@@ -190,6 +191,7 @@ const Confirmation = ({user, onError, hidden, data, courses}) => {
                     label='Contact'
                     InputProps={{
                         readOnly: true,
+                        startAdornment: <InputAdornment position='start'>+880</InputAdornment>
                     }}
                     value={data.contact}/>
                 </FormControl>
