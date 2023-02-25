@@ -18,17 +18,7 @@ const handler = async (req, res) => {
 
     const sql = 
     `
-    SELECT first_name, last_name, semester, session, hall_name,
-    student_id, name_of_father, name_of_mother, 
-    name_of_guardian, religion, date_of_birth, ethnicity,
-    nationality, allotted_hall, department_name
-    FROM Students
-    JOIN Users
-    ON user_id = student_id
-    JOIN Halls
-    ON hall_id = allotted_hall
-    JOIN Departments
-    USING (department_id)
+    SELECT * FROM studentinformations
     WHERE student_id = ${id};
     `
     var rows = []

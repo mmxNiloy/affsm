@@ -18,8 +18,7 @@ const handler = async (req, res) => {
 
     var query = 
     `
-    SELECT course_code, course_title, semester
-    FROM Courses
+    SELECT * FROM courseinformations
     WHERE department_id = '${department}' AND semester IN (${semester}
     `
 
