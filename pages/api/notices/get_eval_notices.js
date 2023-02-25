@@ -18,7 +18,7 @@ const handler = async (req, res) => {
     `
     SELECT * FROM get_eval_notices_informations
     WHERE evaluator_id = ${id}
-    ORDER BY time_stamp DESC;
+    ORDER BY time_stamp DESC
     `
 
     var rows = []
