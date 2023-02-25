@@ -1,0 +1,19 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Welcome to Overleaf --- just edit your LaTeX on the left,
+% and we'll compile it for you on the right. If you open the
+% 'Share' menu, you can invite other users to edit at the same
+% time. See www.overleaf.com/learn for more info. Enjoy!
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[10pt]{beamer}
+\usepackage{amsmath}
+\DeclareMathSizes{12}{30}{16}{12}
+\title{Amsmath example}
+\author{Overleaf}
+\date{May 2021}
+\begin{document}
+\[
+f(x) = \sum_{k=2}^{\infty} -1^{\lceil \sin{(min(1, 2, k \bmod{4}) \times max(1, 2, k \bmod{4})} \bmod{3}) \rceil} \times \frac{x^k 2^{k - 1}}{k!}
+\]
+\end{document}
