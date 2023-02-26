@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
+import IconButton from '@mui/material/IconButton'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
@@ -10,8 +11,9 @@ import { DataGrid } from '@mui/x-data-grid'
 import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
+import Snackbar from '@mui/material/Snackbar'
 import { useEffect, useState } from 'react'
-
+import CloseIcon from '@mui/icons-material/Close';
 
 const SubmissionsPreviewDialog = ({
         open, onClose, user, 
@@ -19,6 +21,16 @@ const SubmissionsPreviewDialog = ({
         onReject, disabled
     }) => {
     const [pageSize, setPageSize] = useState(10)
+    const [openSnackbar, setOpenSnackbar] = useState(false)
+    const [docTex, setDocTex] = useState('')
+
+    const showSnackbar = () => {
+        setOpenSnackbar(true)
+    }
+
+    const hideSnackbar = () => {
+        setOpenSnackbar(false)
+    }
     
     const cols = [
         {field: 'course_code', headerName: 'Course Title', width: 160, type: 'string'},
@@ -185,7 +197,13 @@ const SubmissionsPreviewDialog = ({
                 <Grid item xs={4} sx={{
                     display: (Boolean(isAdmin) ? 'flex' : 'none')
                 }}>
-                    <Button type='button' variant='contained' fullWidth>
+                    <Button 
+                    href={`/pdf/${dialogData.form_id}`}
+                    target="_blank"
+                    onClick={showSnackbar}
+                    type='button' 
+                    variant='contained' 
+                    fullWidth>
                         Export as PDF
                     </Button>
 
@@ -223,6 +241,21 @@ const SubmissionsPreviewDialog = ({
 
                 </Grid>
 
+                <Grid item xs={12}>
+                    <Snackbar open={openSnackbar}
+                    autoHideDuration={2000}
+                    onClose={hideSnackbar}
+                    message={"Exporting to PDF. Please allow popups to view the document."}
+                    action={
+                        <IconButton
+                        size="small"
+                        aria-label="close"
+                        color="inherit"
+                        onClick={hideSnackbar}>
+                            <CloseIcon fontSize="small" />
+                        </IconButton>
+                    }/>
+                </Grid>
             </Grid>
             
         </Dialog>
