@@ -32,7 +32,8 @@ const PDFDoc = () => {
             console.log(u)
             if(!Boolean(u.evaluator_id)) {
                 setUser(null)
-            } else await fetchData()
+            } 
+            await fetchData()
         } catch(err) {
             setUser(null)
         }
