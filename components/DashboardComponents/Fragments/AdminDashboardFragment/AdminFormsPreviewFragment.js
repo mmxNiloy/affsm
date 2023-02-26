@@ -15,9 +15,6 @@ import axios from 'axios'
 import SubmissionsSkeleton from '../../SubmissionsSkeleton'
 
 const AdminFormsPreviewFragment = ({data, clickable, onShowDialog, vertical}) => {
-    const [loading, setLoading] = useState(false)
-    const [studentData, setStudentData] = useState({})
-    
     const steps = [
         {step: 'Provost', text: 'Awating approval from the provost.'},
         {step: 'Accounts Office', text: 'The form is being processed by the accounts office.'},
@@ -26,7 +23,7 @@ const AdminFormsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =>
     ]
 
     const handleViewButtonClick = () => {
-        onShowDialog(data, studentData)
+        onShowDialog(data, data)
     }
 
     const renderStep = (item, index) => {
@@ -43,34 +40,6 @@ const AdminFormsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =>
             </Step>
         )
     }
-
-
-    const fetchStudentInfo = async (id) => {
-        if(loading) return
-
-        setLoading(true)
-
-        try {
-            const req = await axios.get('/api/students', {
-                params: {
-                    id
-                }
-            })
-
-            var data = req.data.student
-            console.log('student data', data)
-
-            setStudentData(data)
-        } catch (err) {
-            console.log('Admin Dashboard > Admin Forms Preview Frag > fetchStudentInfo() > ', err) 
-        }
-
-        setLoading(false)
-    }
-
-    useEffect(() => {
-        fetchStudentInfo(data.student_id)
-    }, [])
     
     // TODO: Loading progress bar
     // Assigned to Ayesha
@@ -78,17 +47,17 @@ const AdminFormsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =>
     // For instance, if(loading) reuturn <LinearProgress/>
     if(!Boolean(data)) return null
 
-    if(loading) return <SubmissionsSkeleton/>
+    // if(loading) return <SubmissionsSkeleton/>
 
     return(
         <Card elevation={4}>
             <CardContent>
                 <Typography variant='h6' textAlign={'center'}>
-                    {data.title}
+                    BSc Engineering Exam, Semester: {data.semester} of {new Date(data.time_stamp).getFullYear()}
                 </Typography>
                 
                 <Typography variant='body1' textAlign={'center'}>
-                    {`Date Submitted: ${new Date(data.timestamp).toDateString()}`}
+                    {`Date Submitted: ${new Date(data.time_stamp).toDateString()}`}
                 </Typography>
 
                 <Typography variant='h6'>
@@ -96,20 +65,20 @@ const AdminFormsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =>
                 </Typography>
 
                 <Typography variant='body1'>
-                    Full name: {`${studentData.first_name} ${studentData.last_name}`}
+                    Full name: {`${data.first_name} ${data.last_name}`}
                 </Typography>
 
                 <Typography variant='body1'>
-                    Session: {`${studentData.session - 1}-${studentData.session}`}
+                    Session: {`${data.session - 1}-${data.session}`}
                 </Typography>
 
                 {/* You can convert this semester numeric into a cardinal numeric */}
                 <Typography variant='body1'>
-                    Semester: {studentData.semester}
+                    Semester: {data.semester}
                 </Typography>
 
                 <Typography variant='body1'>
-                    Allotted Hall: {studentData.hall_name} Hall
+                    Allotted Hall: {data.hall_name} Hall
                 </Typography>
 
                 <Stepper 
@@ -121,7 +90,7 @@ const AdminFormsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =>
                 alternativeLabel={!vertical}>
                     {[
                         {step: 'Submitted', text: 'The form has been received and will be processed by the evaulators soon.'}, 
-                        {step: data.department, text: `The ${data.department} has received your form. It is being processed.`}, 
+                        {step: data.department_name, text: `The ${data.department_name} has received your form. It is being processed.`}, 
                         ...steps].map(renderStep)}
                 </Stepper>
 

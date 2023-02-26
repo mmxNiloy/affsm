@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-export default function Home() {
+export default function Home({toggleTheme}) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
 

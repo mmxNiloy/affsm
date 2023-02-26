@@ -1,4 +1,5 @@
 import DB_Credentials from '../../../Database/DB_Credentials'
+import Form from '../../../models/Form'
 
 const mysql = require('mysql2')
 
@@ -11,8 +12,8 @@ const handler = async (req, res) => {
     const poolPromise = connection.promise()
     var query = 
     `
-    SELECT * FROM get_eval_forms_informations
-    
+    SELECT * 
+    FROM form_infos
     `
 
     if(role === 'dept') {
@@ -24,7 +25,7 @@ const handler = async (req, res) => {
     }
     // TODO: Set filter conditions for other roles, (eg: accounts office, bank, exam controller)
 
-    if(Boolean(semester)) query += ` AND Forms.semester = ${semester}`
+    if(Boolean(semester)) query += ` AND semester = ${semester}`
     query += ' ORDER BY time_stamp DESC;'
 
     var rows = []
@@ -47,20 +48,22 @@ const handler = async (req, res) => {
         else forms.set(id, [...forms.get(id), rows[i]])
     }
 
-    var result = Array.from(forms, 
-        ([key, value]) => ({
-            courses: value,
-            form_id: key,
-        })
-    )
+    const formsArray = []
+    let lim = Math.min(Boolean(limit) ? limit : 0, forms.length)
 
-    if(Boolean(limit)) result = result.slice(0, Math.min(limit, result.length))
+    forms.forEach(val => {
+        if(lim < 1) return
+
+        formsArray.push(new Form())
+        formsArray[formsArray.length - 1].buildFromRows(val)
+        lim = lim - 1
+    })
 
     return res
         .status(200)
         .json({
             message: 'Successfully fetched forms', 
-            forms: result
+            forms: formsArray
         })
 }
 

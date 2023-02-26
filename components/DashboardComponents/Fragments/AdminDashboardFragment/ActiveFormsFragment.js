@@ -6,9 +6,13 @@ import axios from 'axios'
 import MyCircularProgress from '../../MyCircularProgress'
 import EmptyList from '../../EmptyList'
 import Divider from '@mui/material/Divider'
+import Button from '@mui/material/Button'
 import AdminFormsPreviewFragment from './AdminFormsPreviewFragment'
 import SubmissionsPreviewDialog from '../DashboardFragment/SubmissionsPreviewDialog'
 import ProceedDialogFragment from './ProceedDialogFragment'
+import SubmissionSkeletonGrid from '../../SubmissionSkeletonGrid'
+import { DataGrid } from '@mui/x-data-grid'
+
 const ActiveFormsFragment = ({user}) => {
     const [emptyForms, setEmptyForms] = useState(true)
     const [forms, setForms] = useState([])
@@ -67,14 +71,6 @@ const ActiveFormsFragment = ({user}) => {
     }
 
     const renderForms = (item, index) => {
-    
-        const courses = item.courses
-        const { 
-            semester, time_stamp, permanent_address, 
-            current_address, contact, clearance_level,
-            department_id, student_id
-        } = courses[0]
-
         return (
             <Grid item
             xs={12} sm={12} md={12} lg={6} xl={6}
@@ -90,18 +86,7 @@ const ActiveFormsFragment = ({user}) => {
                 vertical 
                 onShowDialog={handleDialogOpen}
                 clickable
-                data={{
-                    form_id: item.form_id,
-                    title: `BSc Engineering of Semester ${semester}, Exam of ${(new Date(time_stamp).getFullYear())}`,
-                    timestamp: time_stamp,
-                    clearance_level,
-                    department: `Department of ${department_id}`,
-                    student_id,
-                    permanentAddress: permanent_address,
-                    currentAddress: current_address,
-                    contact,
-                    courses
-                }}/>
+                data={item}/>
             </Grid>
         )
 
@@ -175,7 +160,105 @@ const ActiveFormsFragment = ({user}) => {
         fetchForms()
     },[isUpdated])
 
-    if(loading) return <MyCircularProgress height='60vh' />
+    const [pageSize, setPageSize] = useState(20)
+
+    const getFullName = (params) => {
+        return `${params.row.first_name} ${params.row.last_name}`
+    }
+
+    const getSession = (params) => {
+        return `${Number.parseInt(params.row.session) - 1}-${Number.parseInt(params.row.session)}`
+    }
+    const getFormStatus = (params) => {
+        const c = Number.parseInt(params.row.clearance_level);
+
+        switch(c) {
+            case 1: return 'Submitted'
+            case 2: return 'Dept'
+            case 3: return 'Provost'
+            case 4: return 'Account Office'
+            case 5: return 'Bank'
+            case 6: return 'Exam Controller'
+            default: return 'Rejected'
+        }
+    }
+
+    const renderViewButton = (params) => {
+        return (
+            <Button 
+            type='button' 
+            variant='contained'
+            onClick={(e) => {
+                e.stopPropagation();
+
+                handleDialogOpen(params.row, params.row)
+            }}>
+                View
+            </Button>
+        )
+    }
+
+    const cols = [
+        {
+            field: 'form_id', 
+            headerName: 'Form ID', 
+            type: 'number',
+        },
+        {
+            field: 'student_id',
+            headerName: 'Student ID',
+            type: 'string',
+        },
+        {
+            field: 'fullName',
+            headerName: 'Studnet\'s Name',
+            type: 'string',
+            valueGetter: getFullName,
+            width: 200,
+        },
+        {
+            field: 'session',
+            headerName: 'Session',
+            type: 'string',
+            valueGetter: getSession,
+        },
+        {
+            field: 'semester',
+            headerName: 'Semester',
+            type: 'number',
+        },
+        {
+            field: 'department_name',
+            headerName: 'Department',
+            type: 'string',
+            width: 200
+        },
+        
+        {
+            field: 'hall_name',
+            headerName: 'Allotted Hall',
+            type: 'string',
+        },
+        {
+            field: 'contact',
+            headerName: 'Contact',
+            type: 'string',
+            width: 156
+        },
+        {
+            field: 'formStatus',
+            headerName: 'Form Status',
+            type: 'string',
+            valueGetter: getFormStatus,
+        },
+        {
+            field: 'action',
+            headerName: 'Action',
+            renderCell: renderViewButton,
+        }
+    ]
+
+    // if(loading) return <SubmissionSkeletonGrid/>
    
     return (
         <Grid container rowSpacing={2} columnSpacing={2} >
@@ -185,7 +268,19 @@ const ActiveFormsFragment = ({user}) => {
                 </Typography>
             </Grid>
 
-            {forms.map(renderForms)}
+            <Grid item xs={12} sx={{ height: '75vh' }}>
+                <DataGrid
+                columns={cols}
+                loading={loading}
+                pageSize={pageSize}
+                onPageSizeChange={setPageSize}
+                rowsPerPageOptions={[10, 20, 50]}
+                rows={forms}
+                getRowId={(row) => row.form_id}
+                />
+            </Grid>
+
+            {/* {forms.map(renderForms)} */}
 
             <Grid item xs={12}>
                 <EmptyList hidden={!emptyForms}/>

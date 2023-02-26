@@ -95,20 +95,7 @@ const AdminOverviewFragment = ({user, toForms, toNotices, toPostNotices}) => {
         </Box>
     )
 
-    const getStatusCode = (clearance) => {
-        if(clearance === 'none') return 1
-        // TODO: Change code accordingly
-        else return 2
-    }
-
     const renderSubmissions = (item, index) => {
-        const courses = item.courses
-        const { 
-            semester, time_stamp, permanent_address, 
-            current_address, contact, clearance_level,
-            department_id, student_id
-        } = courses[0]
-
         return (
             <Box key={`submissions_preview_${index}`}>
                 {/* TODO: Make a copy of this component
@@ -117,13 +104,7 @@ const AdminOverviewFragment = ({user, toForms, toNotices, toPostNotices}) => {
                 */}
                 {/* The fuck is this shit? JS explain yourself */}
                 {/* UsEr Is NoT DeFiNeD My ASS */}
-                <AdminFormsPreviewFragment data={{
-                title: `BSc Engineering of Semester ${semester}, Exam of ${(new Date(time_stamp).getFullYear())}`,
-                timestamp: time_stamp,
-                clearance_level,
-                department: `Department of ${department_id}`,
-                student_id
-                }}/>
+                <AdminFormsPreviewFragment data={item}/>
                 <Divider/>
             </Box>
         )

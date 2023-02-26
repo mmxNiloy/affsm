@@ -16,7 +16,7 @@ import SpamFragment from "../../components/DashboardComponents/Fragments/SpamFra
 import axios from "axios"
 import MyCircularProgress from "../../components/DashboardComponents/MyCircularProgress"
 
-const Dashboard = () => {
+const Dashboard = ({toggleTheme}) => {
     const router = useRouter()
     const [user, setUser] = useState({})
     const [hasUser, setHasUser] = useState(false)
@@ -62,7 +62,7 @@ const Dashboard = () => {
 
             <MainContentWrapper open={isDrawerOpen}>
                 {/* <MyCircularProgress loading={loading}/> */}
-                {selectedDrawerItem === ListItems.DAHSBOARD && <DashboardFragment user={user}/>}
+                {selectedDrawerItem === ListItems.DAHSBOARD && <DashboardFragment toggleTheme={toggleTheme} user={user}/>}
                 {selectedDrawerItem === ListItems.NOTICES && <NoticeFragment/>}
                 
                 {selectedDrawerItem === ListItems.FORM_SUBMISSION && <FormSubmissionFragment user={user}/>}

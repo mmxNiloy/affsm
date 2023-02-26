@@ -85,27 +85,11 @@ const OverviewFragment = ({user}) => {
         setLoadingSubmissions(false)
     }
 
-    const getStatusCode = (clearance) => {
-        if(clearance === 'none') return 1
-        // TODO: Change code accordingly
-        else return 2
-    }
-
     const renderForms = (item, index) => {
-        const courses = item.courses
-        const { 
-            semester, time_stamp, permanent_address, 
-            current_address, contact, clearance_level,
-        } = courses[0]
-
         return (
-            <SubmissionsPreviewFragment key={`submissionsPreview_${index}`}
-            data={{
-                title: `BSc Engineering of Semester ${semester}, Exam of ${(new Date(time_stamp).getFullYear())}`,
-                timestamp: time_stamp,
-                clearance_level,
-                department: `Department of ${user.department_id}`
-            }}/>
+            <SubmissionsPreviewFragment 
+            key={`submissionsPreview_${index}`}
+            data={item}/>
         )
     }
     

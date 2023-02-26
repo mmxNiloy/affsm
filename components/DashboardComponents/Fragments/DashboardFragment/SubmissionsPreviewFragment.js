@@ -54,7 +54,7 @@ const SubmissionsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =
                 </Typography>
                 
                 <Typography variant='body1' textAlign={'center'}>
-                    {`Date Submitted: ${new Date(data.timestamp).toDateString()}`}
+                    {`Date Submitted: ${new Date(data.time_stamp).toDateString()}`}
                 </Typography>
 
                 <Stepper 
@@ -66,12 +66,12 @@ const SubmissionsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =
                 alternativeLabel={!vertical}>
                     {[
                         {step: 'Submitted', text: 'The form has been received and will be processed by the evaulators soon.'}, 
-                        {step: data.department, text: `The ${data.department} has received your form. It is being processed.`}, 
+                        {step: data.department_name, text: `The ${data.department_name} has received your form. It is being processed.`}, 
                         ...steps].map(renderStep)}
                 </Stepper>
 
                 <CardActions sx={{ marginTop: '8px', display: (clickable ? 'flex' : 'none')}}>
-                    <Button type='button' variant='contained' disabled={data.formStatus !== 7}>
+                    <Button type='button' variant='contained' disabled={data.clearance_level !== 7}>
                         Download Admit Card
                     </Button>
 

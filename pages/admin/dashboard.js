@@ -19,7 +19,7 @@ import AdminDashboardFragment from "../../components/DashboardComponents/Fragmen
 import NoticeSubmissionFragment from "../../components/DashboardComponents/Fragments/NoticeSubmissionFragment"
 
 
-const AdminDashboard = () => {
+const AdminDashboard = ({toggleTheme}) => {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [isDrawerOpen, setDrawerOpen] = useState(false)
@@ -80,7 +80,7 @@ const AdminDashboard = () => {
             <MainContentWrapper open={isDrawerOpen}>
                 {/* <MyCircularProgress loading={loading}/> */}
                 {selectedDrawerItem === ListItems.DAHSBOARD && 
-                    <AdminDashboardFragment user={user} 
+                    <AdminDashboardFragment toggleTheme={toggleTheme} user={user} 
                     toNotices={forwardToNotices}
                     toPostNotices={forwardToPostNotices}/>}
                 {selectedDrawerItem === ListItems.NOTICES && <NoticeFragment user={user}/>}

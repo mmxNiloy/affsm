@@ -50,7 +50,7 @@ const SubmissionsPreviewDialog = ({
         onClose={onClose}>
             {/* Dialog Content */}
             <DialogTitle>
-                {dialogData.title}
+                Form ID: {dialogData.form_id}
             </DialogTitle>
 
             <Grid container rowSpacing={2} columnSpacing={2} sx={{ padding: '16px' }}>
@@ -154,7 +154,7 @@ const SubmissionsPreviewDialog = ({
                         InputProps={{
                             readOnly: true,
                         }}
-                        value={dialogData.permanentAddress}/>
+                        value={dialogData.permanent_address}/>
                     </FormControl>
                 </Grid>
 
@@ -165,7 +165,7 @@ const SubmissionsPreviewDialog = ({
                         InputProps={{
                             readOnly: true,
                         }}
-                        value={dialogData.currentAddress}/>
+                        value={dialogData.current_address}/>
                     </FormControl>
                 </Grid>
 

@@ -7,6 +7,7 @@ import axios from 'axios'
 import MyCircularProgress from '../../MyCircularProgress'
 import SubmissionsPreviewDialog from './SubmissionsPreviewDialog'
 import EmptyList from '../../EmptyList'
+import SubmissionSkeletonGrid from '../../SubmissionSkeletonGrid'
 
 const SubmissionsFragment = ({user}) => {
     const [loading, setLoading] = useState(false)
@@ -39,23 +40,10 @@ const SubmissionsFragment = ({user}) => {
         setLoading(false)
     }
 
-    const getStatusCode = (clearance) => {
-        if(clearance === 'none') return 1
-        // TODO: Change code accordingly
-        else return 2
-    }
-
     const [open, setOpen] = useState(false)
     const [dialogData, setDialogData] = useState({})
     const handleDialogOpen = (data) => {
-        const temp = {...data}
-        const tempCourses = [...temp.courses]
-        for(let i = 0; i < tempCourses.length; i++) {
-            tempCourses[i] = {...tempCourses[i], id: `submission_${i}`}
-        }
-
-        temp.courses = tempCourses
-        setDialogData(temp)
+        setDialogData(data)
         setOpen(true)
         console.log('Modal Data', data)
     }
@@ -65,19 +53,6 @@ const SubmissionsFragment = ({user}) => {
     }
 
     const renderForms = (item, index) => {
-        const courses = [...item.courses]
-        const { 
-            semester, time_stamp, permanent_address, 
-            current_address, contact, clearance_level,
-        } = courses[0]
-
-        for(let i = 0; i < courses.length; i++) {
-            var type = 'Improvement'
-            if(courses[i].semester === user.semester) type = 'Regular'
-
-            courses[i] = {...courses[i], type}
-        }
-
         return (
             <Grid item 
             xs={12} sm={12} md={6} 
@@ -85,16 +60,7 @@ const SubmissionsFragment = ({user}) => {
             key={`submission_${index}`}>
                 <SubmissionsPreviewFragment
                 vertical
-                data={{
-                    title: `BSc Engineering of Semester ${semester}, Exam of ${(new Date(time_stamp).getFullYear())}`,
-                    timestamp: time_stamp,
-                    permanentAddress: permanent_address,
-                    currentAddress: current_address,
-                    contact: contact,
-                    clearance_level,
-                    department: `Department of ${user.department_id}`,
-                    courses
-                }}
+                data={item}
                 clickable
                 onShowDialog={handleDialogOpen}/>
             </Grid>
@@ -105,7 +71,7 @@ const SubmissionsFragment = ({user}) => {
         getSubmissions()
     }, [])
 
-    if(loading) return <MyCircularProgress height='60vh'/>
+    if(loading) return <SubmissionSkeletonGrid/>
 
     return (
         <Box>

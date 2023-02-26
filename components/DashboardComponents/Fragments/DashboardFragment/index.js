@@ -7,7 +7,7 @@ import OverviewFragment from './OverviewFragment'
 import SubmissionsFragment from './SubmissionsFragment'
 import PreferencesFragment from './PreferencesFragment'
 
-const DashboardFragment = ({user}) => {
+const DashboardFragment = ({user, toggleTheme}) => {
     const [currentTab, setCurrentTab] = useState(0)
     const handleTabChange = (e, newTab) => {
         setCurrentTab(newTab)
@@ -28,7 +28,7 @@ const DashboardFragment = ({user}) => {
 
             {currentTab === 0 && <OverviewFragment user={user}/>}
             {currentTab === 1 && <SubmissionsFragment user={user}/>}
-            {currentTab === 2 && <PreferencesFragment/>}
+            {currentTab === 2 && <PreferencesFragment toggleTheme={toggleTheme}/>}
         </Box>
         
     )
