@@ -48,7 +48,7 @@ export default function Home({toggleTheme}) {
     <>
       <Head>
         <title>Academic Form Fillup System Modernized | Login</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/cu_icon.ico" />
       </Head>
       <main style={{display: (loading ? 'none' : 'block')}}>
         <Grid container columns={10} 

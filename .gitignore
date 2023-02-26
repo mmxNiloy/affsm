@@ -33,5 +33,4 @@ yarn-error.log*
 
 # Secret sauce
 /pages/api/test_req.js
-/pages/api/delete_token.js
 /components/DeviceIPs.js

@@ -17,6 +17,7 @@ import axios from "axios"
 import MyCircularProgress from "../../components/DashboardComponents/MyCircularProgress"
 import AdminDashboardFragment from "../../components/DashboardComponents/Fragments/AdminDashboardFragment"
 import NoticeSubmissionFragment from "../../components/DashboardComponents/Fragments/NoticeSubmissionFragment"
+import Head from "next/head"
 
 
 const AdminDashboard = ({toggleTheme}) => {
@@ -69,30 +70,42 @@ const AdminDashboard = ({toggleTheme}) => {
     if(!Boolean(user) || !Boolean(user.first_name)) return <MyCircularProgress/>
 
     return (
-        <Box>
-            {/* Do not render these componenets if the user is null */}
-            <MyAppBar 
-            selectedDrawerItem={selectedDrawerItem}
-            isAdmin={true}
-            onDrawerChange={setDrawerOpen} 
-            onDrawerItemChange={setSelectedDrawerItem}/>
+        <>
+            <Head>
+                <title>
+                    AFFSM | Admin | Dashboard
+                </title>
+                <link rel="icon" href="/cu_icon.ico" />
+            </Head>
+            <main>
+                <Box>
+                    {/* Do not render these componenets if the user is null */}
+                    <MyAppBar 
+                    selectedDrawerItem={selectedDrawerItem}
+                    isAdmin={true}
+                    onDrawerChange={setDrawerOpen} 
+                    onDrawerItemChange={setSelectedDrawerItem}/>
 
-            <MainContentWrapper open={isDrawerOpen}>
-                {/* <MyCircularProgress loading={loading}/> */}
-                {selectedDrawerItem === ListItems.DAHSBOARD && 
-                    <AdminDashboardFragment toggleTheme={toggleTheme} user={user} 
-                    toNotices={forwardToNotices}
-                    toPostNotices={forwardToPostNotices}/>}
-                {selectedDrawerItem === ListItems.NOTICES && <NoticeFragment user={user}/>}
-                {selectedDrawerItem === ListItems.POST_NOTICES && 
-                    <NoticeSubmissionFragment 
-                    user={user}
-                    toNotices={forwardToNotices}/>}
-                {selectedDrawerItem === ListItems.ACTIVE_FORMS && <FormActivationFragment user={user}/>}
-                {selectedDrawerItem === ListItems.HISTORY && <HistoryFragment user={user}/>}
-            </MainContentWrapper>
+                    <MainContentWrapper open={isDrawerOpen}>
+                        {/* <MyCircularProgress loading={loading}/> */}
+                        {selectedDrawerItem === ListItems.DAHSBOARD && 
+                            <AdminDashboardFragment toggleTheme={toggleTheme} user={user} 
+                            toNotices={forwardToNotices}
+                            toPostNotices={forwardToPostNotices}/>}
+                        {selectedDrawerItem === ListItems.NOTICES && <NoticeFragment user={user}/>}
+                        {selectedDrawerItem === ListItems.POST_NOTICES && 
+                            <NoticeSubmissionFragment 
+                            user={user}
+                            toNotices={forwardToNotices}/>}
+                        {selectedDrawerItem === ListItems.ACTIVE_FORMS && <FormActivationFragment user={user}/>}
+                        {selectedDrawerItem === ListItems.HISTORY && <HistoryFragment user={user}/>}
+                    </MainContentWrapper>
 
-        </Box>
+                </Box>
+            </main>
+        
+        </>
+        
     )
 }
 

@@ -6,7 +6,10 @@ const mysql = require('mysql2')
 const handler = async (req, res) => {
     const { limit, department, role, semester } = req.query
 
-    if(!Boolean(department) || !Boolean(role)) return res.status(404).send({message: 'Invalid Department ID or Role.'})
+    if(!Boolean(department) || 
+    !Boolean(role) ||
+    (Boolean(limit) && !Boolean(Number.parseInt(limit)))
+    ) return res.status(404).send({message: 'Invalid Department ID or Role.'})
 
     const connection = mysql.createPool(DB_Credentials)
     const poolPromise = connection.promise()
@@ -49,21 +52,20 @@ const handler = async (req, res) => {
     }
 
     const formsArray = []
-    let lim = Math.min(Boolean(limit) ? limit : 0, forms.length)
-
+    
     forms.forEach(val => {
-        if(lim < 1) return
-
         formsArray.push(new Form())
         formsArray[formsArray.length - 1].buildFromRows(val)
-        lim = lim - 1
     })
-
+    
+    const l = Number.parseInt(limit)
+    let lim = Math.min(l, formsArray.length)
+    
     return res
         .status(200)
         .json({
             message: 'Successfully fetched forms', 
-            forms: formsArray
+            forms: (l > 0 ? formsArray.slice(0, lim) : formsArray)
         })
 }
 

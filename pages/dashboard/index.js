@@ -15,6 +15,7 @@ import TrashFragment from "../../components/DashboardComponents/Fragments/TrashF
 import SpamFragment from "../../components/DashboardComponents/Fragments/SpamFragment"
 import axios from "axios"
 import MyCircularProgress from "../../components/DashboardComponents/MyCircularProgress"
+import Head from "next/head"
 
 const Dashboard = ({toggleTheme}) => {
     const router = useRouter()
@@ -56,24 +57,35 @@ const Dashboard = ({toggleTheme}) => {
     if(!Boolean(user) || !Boolean(user.first_name)) return <MyCircularProgress/>
     
     return (
-        <Box>
-            {/* Do not render these componenets if the user is null */}
-            <MyAppBar onDrawerChange={setDrawerOpen} onDrawerItemChange={setSelectedDrawerItem}/>
+        <>
+            <Head>
+                <title>
+                    AFFSM | Dashboard
+                </title>
+                <link rel="icon" href="/cu_icon.ico" />
+            </Head>
 
-            <MainContentWrapper open={isDrawerOpen}>
-                {/* <MyCircularProgress loading={loading}/> */}
-                {selectedDrawerItem === ListItems.DAHSBOARD && <DashboardFragment toggleTheme={toggleTheme} user={user}/>}
-                {selectedDrawerItem === ListItems.NOTICES && <NoticeFragment/>}
-                
-                {selectedDrawerItem === ListItems.FORM_SUBMISSION && <FormSubmissionFragment user={user}/>}
+            <main>
+                <Box>
+                    {/* Do not render these componenets if the user is null */}
+                    <MyAppBar onDrawerChange={setDrawerOpen} onDrawerItemChange={setSelectedDrawerItem}/>
 
-                {selectedDrawerItem === ListItems.ACTIVE_FORMS && <FormActivationFragment/>}
-                {selectedDrawerItem === ListItems.ADMIT_CARDS && <AdmitCardFragment/>}
-                {selectedDrawerItem === ListItems.HISTORY && <HistoryFragment/>}
-                
-            </MainContentWrapper>
+                    <MainContentWrapper open={isDrawerOpen}>
+                        {/* <MyCircularProgress loading={loading}/> */}
+                        {selectedDrawerItem === ListItems.DAHSBOARD && <DashboardFragment toggleTheme={toggleTheme} user={user}/>}
+                        {selectedDrawerItem === ListItems.NOTICES && <NoticeFragment/>}
+                        
+                        {selectedDrawerItem === ListItems.FORM_SUBMISSION && <FormSubmissionFragment user={user}/>}
 
-        </Box>
+                        {selectedDrawerItem === ListItems.ACTIVE_FORMS && <FormActivationFragment/>}
+                        {selectedDrawerItem === ListItems.ADMIT_CARDS && <AdmitCardFragment/>}
+                        {selectedDrawerItem === ListItems.HISTORY && <HistoryFragment/>}
+                        
+                    </MainContentWrapper>
+
+                </Box>
+            </main>
+        </>
     )
 }
 

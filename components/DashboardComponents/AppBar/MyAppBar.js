@@ -17,9 +17,12 @@ import Image from "next/image"
 import { useTheme } from "@mui/material/styles"
 import ResponsiveAppBar from "./ResponsiveAppBar"
 import PersistentDrawer from "../Drawer/PersistentDrawer"
+import { useRouter } from "next/router"
+import axios from "axios"
 
 const MyAppBar = ({onDrawerChange, onDrawerItemChange, isAdmin, selectedDrawerItem}) => {
     const theme = useTheme()
+    const router = useRouter()
     const [logoDir, setLogoDir] = useState('/affsm_logo_dark.svg')
     const [isMenuOpen, setMenuOpen] = useState(false)
     const [open, setOpen] = useState(false);
@@ -60,6 +63,21 @@ const MyAppBar = ({onDrawerChange, onDrawerItemChange, isAdmin, selectedDrawerIt
             icon: <LogoutIcon/>,
         }
     ]
+
+    const logout = async () => {
+        try {
+            await axios.get('/api/delete_token')
+            alert('Logout Successful')
+            router.replace('/')
+        } catch(err) {
+            alert('Logout Error')
+        }
+    }
+
+    const handleMenuItemClick = (index) => {
+        if(settings[index].text === 'Logout') logout()
+        return
+    }
 
     return (
         <Box flexGrow={1}>
@@ -105,7 +123,10 @@ const MyAppBar = ({onDrawerChange, onDrawerItemChange, isAdmin, selectedDrawerIt
                         }}
                         onClose={() => { setMenuOpen(false) }}>
                             {settings.map((item, index) => (
-                                <MenuItem key={`profile_menu_item_${index}`}>
+                                <MenuItem key={`profile_menu_item_${index}`} 
+                                onClick={(e) => {
+                                    handleMenuItemClick(index)
+                                }}>
                                     <Stack
                                     direction={'row'} 
                                     spacing={2} 

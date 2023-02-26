@@ -5,6 +5,7 @@ import { useRouter } from "next/router"
 import axios from "axios"
 import MyCircularProgress from "../../components/DashboardComponents/MyCircularProgress"
 import EmptyList from "../../components/DashboardComponents/EmptyList"
+import Head from "next/head"
 const DynamicPDFViewer = dynamic(
     () => import("../../components/DashboardComponents/PDF/MyPDFViewer"), {
     ssr: false,
@@ -74,12 +75,23 @@ const PDFDoc = () => {
     if(isEmpty) return <EmptyList/>
 
     return (
-        <Box sx={{
-            alignItems: 'center',
-            justifyContent: 'center',
-        }}>
-            <DynamicPDFViewer data={formData}/>
-        </Box>
+        <>
+            <Head>
+                <title>
+                    AFFSM | Form | PDF
+                </title>
+                <link rel="icon" href="/cu_icon.ico" />
+            </Head>
+            <main>
+                <Box sx={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                }}>
+                    <DynamicPDFViewer data={formData}/>
+                </Box>
+            </main>
+        </>
+        
     )
 }
 
