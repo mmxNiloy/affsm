@@ -2,6 +2,7 @@ import { Document, Image, Page, Text, View } from "@react-pdf/renderer"
 import { useEffect, useState } from "react";
 import PDFAdmitCardFrag from "./PDFAdmitCardFrag";
 import PDFStudentInfoFrag from "./PDFStudentInfoFrag";
+import ExamRulesFragment from "./ExamRulesFragment";
 import styles from './styles'
 
 const MyDocument = ({data}) => {
@@ -216,7 +217,10 @@ const MyDocument = ({data}) => {
 
                     <Text style={styles.text.body2}>
                         {/* TODO: Translate the boring part. Assigned to Yakin */}
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                       I certify that the student's curricular practices were satisfactory and recommend his participation in
+                        B.Sc. Engineering {toCardinal(data.semester)}-semester  examination of the year {new Date(data.time_stamp).getFullYear()}. I also further verified 
+                       the validation of the exam assessment papers.
+
                     </Text>
                 </View>
 
@@ -250,8 +254,12 @@ const MyDocument = ({data}) => {
             <Page size='A4' wrap style={styles.page}>
                 <View style={styles.section}>
                     <Text style={styles.text.body2}>
+                        {/* TODO: gender neutral */}
                         {/* TODO: Translate the boring part. Assigned to Yakin */}
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        I certify the candidate's compilation of the conditions of accommodation and his righteous character. To my knowledge, all details in the application are true.
+                        The examinee was admitted in honours 1st year in  {parseInt(new Date().getFullYear()/100)}{parseInt(data.student_id/1000000)}. The applicant has readmitted
+                        in the {toCardinal(parseInt(new Date().getFullYear()%100)-parseInt(data.student_id/1000000)-1)} Year B.Sc. Engineering course of the year {parseInt(new Date().getFullYear())-1}.
+                        I am recommending to allow the applicant to participate in {parseInt(new Date().getFullYear())-1} year's {toCardinal(data.semester)} semester examination.
                     </Text>
                 </View>
 
@@ -303,6 +311,9 @@ const MyDocument = ({data}) => {
 
                 {/* This is the student copy */}
                 <PDFAdmitCardFrag data={data} student/>
+            </Page>
+            <Page size='A4' wrap>
+            <ExamRulesFragment/>
             </Page>
         </Document>
     )
