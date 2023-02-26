@@ -16,14 +16,9 @@ const handler = async (req, res) => {
     const poolPromise = connection.promise()
     const sql = 
     `
-    SELECT notice_id, title, message, time_stamp, first_name, last_name, department_name
-    FROM Notices
-    JOIN Users
-    ON user_id = evaluator_id
-    JOIN Departments
-    USING (department_id)
+    SELECT * FROM get_eval_notices_informations
     WHERE evaluator_id = ${id}
-    ORDER BY time_stamp DESC;
+    ORDER BY time_stamp DESC
     `
 
     var rows = []

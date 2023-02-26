@@ -11,20 +11,7 @@ const handler = async (req, res) => {
     const poolPromise = connection.promise()
     var query = 
     `
-    SELECT Forms.semester, 
-        course_code, form_id, student_id, 
-        time_stamp, clearance_level, permanent_address, 
-        current_address, contact, course_title, 
-        department_id, allotted_hall, hall_name
-    FROM Forms
-    JOIN FormCourses
-    USING (form_id)
-    JOIN Courses
-    USING (course_code)
-    JOIN Students
-    USING (student_id)
-    JOIN Halls
-    ON allotted_hall = hall_id
+    SELECT * FROM forminformations
     WHERE student_id = ${id}
     `
 

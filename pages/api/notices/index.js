@@ -15,13 +15,7 @@ const handler = async (req, res) => {
 
     const query = 
     `
-    SELECT notice_id, title, message, time_stamp, first_name, last_name, department_name
-    FROM Notices
-    JOIN Users
-    ON user_id = evaluator_id
-    JOIN Departments
-    USING (department_id)
-    ORDER BY time_stamp DESC
+    SELECT * FROM noticeinformations
     LIMIT ${limit}
     `
     const poolPromise = connection.promise()
