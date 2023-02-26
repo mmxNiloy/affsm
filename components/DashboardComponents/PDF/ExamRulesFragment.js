@@ -4,35 +4,37 @@ const ExamRulesFragment = () => {
   return (
     <View>
       <View style={{ textAlign: "center", margin: "30px" }}>
-        <Text style={styles.text.h6}>: Regulations :</Text>
+        <Text style={styles.text.h6}>Regulations</Text>
       </View>
       <View style={{ margin: "10px" }}>
         <Text style={styles.text.body1}>
           Regulations against misconducts in the exams of university:-
         </Text>
+
         <Text style={styles.text.body1}>
-          Belows are considered as misconduct in exam:-
+          Belows are considered as misconducts in exam:-
         </Text>
+
         <Text style={styles.text.body1}>
-          Candidate is not allowed to enter exam hall without the admit card
-          issued by University of Chittagong.
+          A candidate is not allowed to enter exam hall without an admit card
+          issued by the University of Chittagong.
         </Text>
       </View>
       <View style={{ margin: "10px" }}>
         <Text style={styles.text.body2}>
-          (a) Communication with other examinee in the exam hall.
+          (a) Communication with peers in the exam hall.
         </Text>
         <Text style={styles.text.body2}>(b) Smoking in the exam hall.</Text>
         <Text style={styles.text.body2}>
-          (c) Using mobile phone and other electronic devices with sim such as
-          watch,calculator, and pen during exam is completely prohibited.
+          (c) Using mobile phones and other electronic devices with SIM such as
+          watches, calculators, and pen during exam is completely prohibited.
         </Text>
         <Text style={styles.text.body2}>(d) Possessing cheatsheet.</Text>
         <Text style={styles.text.body2}>
           (e) Copying from possessed cheatsheet or other candidate's paper.
         </Text>
         <Text style={styles.text.body2}>
-          (f) Misbehaving or intimidating exam invigilator or any stuff involved
+          (f) Misbehaving or intimidating exam invigilator or staff involved
           in exam process.
         </Text>
         <Text style={styles.text.body2}>
@@ -42,18 +44,18 @@ const ExamRulesFragment = () => {
           (f) Peeking at any cheatsheet or book left in toilet or on the way.
         </Text>
         <Text style={styles.text.body2}>
-          (g) Beating or try to beating any stuff involved in exam process in
+          (g) Causing a brawl or trying to cause a brawl against staff involved in exam process in
           exam hall or in peripheral area of the exam hall.
         </Text>
         <Text style={styles.text.body2}>
           (h) Candidate's action that are considered as misconduct by the exam
-          invigilator or the pricipal invigilator.
+          invigilator or the principal invigilator.
         </Text>
       </View>
       <View style={{ margin: "14px" }}>
         <Text style={styles.text.body2}>
-            Offender's, charged with the above charges, exam can be canceled or  cancelation of the exam together with the prohibition of 
-            the subsequece exams can be carried on.
+            Offenders charged with the above charges can cause exam to be cancelled or cancelation of the exam together with the prohibition of 
+            the subsequent exams to be imposed.
         </Text>
       </View>
 

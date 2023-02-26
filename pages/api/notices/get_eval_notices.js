@@ -16,7 +16,7 @@ const handler = async (req, res) => {
     const poolPromise = connection.promise()
     const sql = 
     `
-    SELECT * FROM get_eval_notices_informations
+    SELECT * FROM eval_notices
     WHERE evaluator_id = ${id}
     ORDER BY time_stamp DESC
     `

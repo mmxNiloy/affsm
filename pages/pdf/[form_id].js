@@ -17,6 +17,27 @@ const PDFDoc = () => {
     const [formData, setFormData] = useState([])
     const [isEmpty, setIsEmpty] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [loadingUser, setLoadingUser] = useState(false)
+    const [user, setUser] = useState({})
+
+    const verify = async () => {
+        if(loadingUser) return
+        setLoadingUser(true)
+
+        try {
+            const req = await axios.get('/api/auth/verify')
+            const u = req.data.user
+            setUser(u)
+            console.log(u)
+            if(!Boolean(u.evaluator_id)) {
+                setUser(null)
+            } else await fetchData()
+        } catch(err) {
+            setUser(null)
+        }
+
+        setLoadingUser(false)
+    }
 
     const fetchData = async () => {
         if(loading || !Boolean(form_id)) return
@@ -45,10 +66,11 @@ const PDFDoc = () => {
     }
 
     useEffect(() => {
-        fetchData()
+        verify()
     }, [form_id])
 
     if(loading || !Boolean(form_id)) return <MyCircularProgress/>
+    if(!Boolean(user)) return <>Access Denied</>
     if(isEmpty) return <EmptyList/>
 
     return (

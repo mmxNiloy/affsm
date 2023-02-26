@@ -22,7 +22,7 @@ const PDFAdmitCardFrag = ({ data, student }) => {
     return (
       <View style={{alignItems:"left", textAlign:"left",margin:"5px"}}>
         <Text style={styles.text.body1}>
-          FootNote:-
+          Foot note:-
         </Text>
         <Text style={styles.text.body2}>
         1. Examine must fill the form himself. 
@@ -40,6 +40,18 @@ const PDFAdmitCardFrag = ({ data, student }) => {
       </View>
     );
   };
+
+  const renderImprovementCourses = () => {
+    let ans = ''
+    data.courses.forEach(course => {
+      if(course.type !== 'Regular')
+        ans += course.course_code + ', '
+    });
+
+    if(ans.length < 1) return 'N/A'
+
+    return ans.slice(0, ans.length - 2)
+  }
   return (
     <View style={{ border: student && "1px solid black", margin: "4px" }}>
       <View style={styles.title}>
@@ -101,13 +113,14 @@ const PDFAdmitCardFrag = ({ data, student }) => {
             {/* TODO: Course Number and Cour id's needed to be fixed. */}
             <View style={{ flexDirection: "column", textAlign: "left",marginRight:"50px",width:"150px" }}>
               <Text style={styles.text.body2}>
-                Course Number (Applied only for improvement and readmitted
-                applicants)
+                Improvement Courses:
               </Text>
             </View>
 
             <View style={{ flexDirection: "column", textAlign: "right",marginLeft:"50px" }}>
-              <Text style={styles.text.body2}>{data.course_id}</Text>
+              <Text style={styles.text.body2}>
+                {renderImprovementCourses()}
+              </Text>
             </View>
           </View>
 

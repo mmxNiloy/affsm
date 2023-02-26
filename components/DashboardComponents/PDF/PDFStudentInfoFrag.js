@@ -103,7 +103,7 @@ const PDFStudentInfoFrag = ({data}) => {
                 
                 <View style={{ flexDirection: 'column', textAlign: 'right' }} >
                     <Text style={styles.text.body2}>
-                        {data.date_of_birth ? data.date_of_birth : 'N/A'}
+                        {data.date_of_birth ? new Date(data.date_of_birth).toDateString() : 'N/A'}
                     </Text>
                 </View>
             </View>
