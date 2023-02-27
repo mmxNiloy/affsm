@@ -12,6 +12,7 @@ import SubmissionsPreviewDialog from '../DashboardFragment/SubmissionsPreviewDia
 import ProceedDialogFragment from './ProceedDialogFragment'
 import SubmissionSkeletonGrid from '../../SubmissionSkeletonGrid'
 import { DataGrid } from '@mui/x-data-grid'
+import Snackbar from '@mui/material/Snackbar'
 
 const ActiveFormsFragment = ({user}) => {
     const [emptyForms, setEmptyForms] = useState(true)
@@ -62,7 +63,7 @@ const ActiveFormsFragment = ({user}) => {
 
         }catch(err){
             console.log('AdminDashboard > ActiveFormsFragment > fetchForms', err)
-
+            
         }
 
         //request API
@@ -70,27 +71,6 @@ const ActiveFormsFragment = ({user}) => {
 
     }
 
-    const renderForms = (item, index) => {
-        return (
-            <Grid item
-            xs={12} sm={12} md={12} lg={6} xl={6}
-            key={`submissions_preview_${index}`}>
-                {/* TODO: Make a copy of this component
-                    Rename the copied component accordingly, ie: AdminSubmissionsPreviewFragment
-                    Show additional data such as who submitted the form, what is their ID, what their session is
-                */}
-                {/* The fuck is this shit? JS explain yourself */}
-                {/* UsEr Is NoT DeFiNeD My ASS */}
-
-                <AdminFormsPreviewFragment 
-                vertical 
-                onShowDialog={handleDialogOpen}
-                clickable
-                data={item}/>
-            </Grid>
-        )
-
-    }
     /// Yakin
     const handleConfirmationDialogOpen = (msg) => {
         setOpenConfirmationDialog(true)
@@ -144,16 +124,27 @@ const ActiveFormsFragment = ({user}) => {
         setLoadingApproval(false)
     }
 
-    const handleRejectForm = async (id) => {
+    const handleRejectForm = async (id, level) => {
         setLoadingRejection(true)
         
         // Code: Request the api to make an (negative) update
+        console.log('Rejection form id', id)
+        try {
+            await axios.get('/api/forms/reject_form', {
+                params: {
+                    form_id: id
+                }
+            })
+
+            setIsUpdated(!isUpdated)
+        } catch(err) {
+            // Handle error here
+            console.log("Active form fragment > handleRejectForm() > ", err)
+        }
         
         setLoadingRejection(false)
         setOpen(false)
         setOpenConfirmationDialog(false)
-        
-        console.log("Rejecting the form.")
     }
 
     useEffect(() => {

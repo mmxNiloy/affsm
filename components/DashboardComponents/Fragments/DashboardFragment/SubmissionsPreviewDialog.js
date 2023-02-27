@@ -203,6 +203,7 @@ const SubmissionsPreviewDialog = ({
                     onClick={showSnackbar}
                     type='button' 
                     variant='contained' 
+                    disabled={dialogData.clearance_level < 1}
                     fullWidth>
                         Export as PDF
                     </Button>
@@ -234,7 +235,9 @@ const SubmissionsPreviewDialog = ({
                     variant='contained' 
                     fullWidth 
                     color='error'
-                    onClick={onReject}
+                    onClick={() => {
+                        onReject(dialogData.form_id, dialogData.clearance_level)
+                    }}
                     disabled={disabled}>
                         Reject
                     </Button>

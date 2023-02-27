@@ -18,6 +18,8 @@ import Stack from '@mui/material/Stack'
 import StepContent from '@mui/material/StepContent'
 import Dialog from '@mui/material/Dialog'
 import { useEffect, useState } from 'react'
+import CloseIcon from '@mui/icons-material/Close';
+import InfoIcon from '@mui/icons-material/Info';
 
 const SubmissionsPreviewFragment = ({data, clickable, onShowDialog, vertical}) => {
     const steps = [
@@ -46,6 +48,38 @@ const SubmissionsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =
         )
     }
 
+    const renderStepper = () => {
+        if(data.clearance_level === 0) {
+            return (
+                <Stack direction='row' spacing={1} sx={{
+                    alignItem: 'center',
+                    justifyContent: 'center',
+                }}>
+                    <InfoIcon color='error'/>
+                    
+                    <Typography variant='body1' color='error'>
+                        Form Rejected
+                    </Typography>
+                </Stack>
+            )
+        }
+
+        return (
+            <Stepper 
+            sx={{
+                marginTop: '32px'
+            }}
+            orientation={vertical ? 'vertical' : 'horizontal'}
+            activeStep={data.clearance_level - 1} 
+            alternativeLabel={!vertical}>
+                {[
+                    {step: 'Submitted', text: 'The form has been received and will be processed by the evaulators soon.'}, 
+                    {step: data.department_name, text: `The ${data.department_name} has received your form. It is being processed.`}, 
+                    ...steps].map(renderStep)}
+            </Stepper>
+        )
+    }
+
     return(
         <Card elevation={4}>
             <CardContent>
@@ -57,18 +91,7 @@ const SubmissionsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =
                     {`Date Submitted: ${new Date(data.time_stamp).toDateString()}`}
                 </Typography>
 
-                <Stepper 
-                sx={{
-                    marginTop: '32px'
-                }}
-                orientation={vertical ? 'vertical' : 'horizontal'}
-                activeStep={data.clearance_level - 1} 
-                alternativeLabel={!vertical}>
-                    {[
-                        {step: 'Submitted', text: 'The form has been received and will be processed by the evaulators soon.'}, 
-                        {step: data.department_name, text: `The ${data.department_name} has received your form. It is being processed.`}, 
-                        ...steps].map(renderStep)}
-                </Stepper>
+                {renderStepper()}
 
                 <CardActions sx={{ marginTop: '8px', display: (clickable ? 'flex' : 'none')}}>
                     <Button type='button' variant='contained' disabled={data.clearance_level !== 7}>

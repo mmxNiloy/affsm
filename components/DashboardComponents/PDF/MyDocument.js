@@ -120,7 +120,7 @@ const MyDocument = ({data}) => {
                 </View>
 
                 {/* Main application */}
-                <View style={styles.section}>
+                <View style={[styles.section]}>
                     <Text style={{
                         ...styles.text.h6,
                         ...styles.center
@@ -146,9 +146,7 @@ const MyDocument = ({data}) => {
                         Sir,
                     </Text>
 
-                    <Text style={{
-                        ...styles.text.body2
-                    }}>
+                    <Text style={[styles.text.body2]}>
                         I request your permission to participate in the upcoming {toCardinal(data.semester ? data.semester : 0)} semester BSc Engineering exam of {(new Date(data.time_stamp)).getFullYear()}. 
                         I pledge that I'll oblige to the decisions made by the officials.
                     </Text>

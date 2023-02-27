@@ -6,7 +6,7 @@ const ExamRulesFragment = () => {
       <View style={{ textAlign: "center", margin: "30px" }}>
         <Text style={styles.text.h6}>Regulations</Text>
       </View>
-      <View style={{ margin: "10px" }}>
+      <View style={styles.section}>
         <Text style={styles.text.body1}>
           Regulations against misconducts in the exams of university:-
         </Text>
@@ -20,7 +20,7 @@ const ExamRulesFragment = () => {
           issued by the University of Chittagong.
         </Text>
       </View>
-      <View style={{ margin: "10px" }}>
+      <View style={styles.section}>
         <Text style={styles.text.body2}>
           (a) Communication with peers in the exam hall.
         </Text>
@@ -52,7 +52,7 @@ const ExamRulesFragment = () => {
           invigilator or the principal invigilator.
         </Text>
       </View>
-      <View style={{ margin: "14px" }}>
+      <View style={styles.section}>
         <Text style={styles.text.body2}>
             Offenders charged with the above charges can cause exam to be cancelled or cancelation of the exam together with the prohibition of 
             the subsequent exams to be imposed.

@@ -20,7 +20,7 @@ const PDFAdmitCardFrag = ({ data, student }) => {
   const renderFootNote = () => {
     if (!Boolean(student)) return null;
     return (
-      <View style={{ alignItems: "left", textAlign: "left", margin: "5px" }}>
+      <View style={[styles.section, { alignItems: "left", textAlign: "left"}]}>
         <Text style={styles.text.body1}>Foot note:-</Text>
         <Text style={styles.text.body2}>
           1. Examine must fill the form himself.
@@ -51,7 +51,7 @@ const PDFAdmitCardFrag = ({ data, student }) => {
   return (
     <View
       style={[
-        { border: student && "1px solid black", margin: "4px" },
+        { border: student && "1px solid black", marginVertical: "2px", marginHorizontal: '16px' },
       ]}
     >
       <View style={styles.title}>
@@ -82,15 +82,14 @@ const PDFAdmitCardFrag = ({ data, student }) => {
           </Text>
         </View>
 
-        <View style={{alignItems: "center"}}>
+        <View>
           <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <View style={styles.textViewLeftAdmitCard}>
+            style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <View style={styles.textViewLeft}>
               <Text style={styles.text.body2}>Honour's Subject</Text>
             </View>
 
-            <View style={styles.textViewRightAdmitCard}>
+            <View style={styles.textViewRight}>
               <Text style={styles.text.body2}>{data.department_name}</Text>
             </View>
           </View>
@@ -215,35 +214,21 @@ const PDFAdmitCardFrag = ({ data, student }) => {
             </View>
           </View>
         </View>
-
-        <View style={styles.subsection}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "end",
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "column",
-                textAlign: "right",
-                marginLeft: "400px",
-              }}
-            >
-              <Text style={[styles.text.body2]}> _____________________</Text>
-              <Text
-                style={[
-                  styles.text.body2,
-                  { marginTop: "16px", marginBottom: "8px" },
-                ]}
-              >
-                Exam Controller
-              </Text>
-            </View>
-          </View>
-        </View>
       </View>
+
+      <View style={styles.section}>
+        <Text style={[styles.text.body2, {textAlign: 'right'}]}>
+        _____________________
+        </Text>
+        <Text
+          style={[
+            styles.text.body2,
+            { marginTop: "16px", textAlign: 'right' },
+          ]}>
+          Exam Controller
+        </Text>
+      </View>
+
       {renderFootNote()}
     </View>
   );

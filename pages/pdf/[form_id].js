@@ -32,8 +32,7 @@ const PDFDoc = () => {
             console.log(u)
             if(!Boolean(u.evaluator_id)) {
                 setUser(null)
-            } 
-            await fetchData()
+            }
         } catch(err) {
             setUser(null)
         }
@@ -69,6 +68,7 @@ const PDFDoc = () => {
 
     useEffect(() => {
         verify()
+        fetchData()
     }, [form_id])
 
     if(loading || !Boolean(form_id)) return <MyCircularProgress/>

@@ -45,11 +45,13 @@ const styles = StyleSheet.create({
         border: '1px solid black',
     },
     section: {
-        margin: 4,
+        marginVertical: '8px',
+        marginHorizontal: '26px',
         padding: 10,
     },
     subsection: {
         margin: 1,
+        marginHorizontal: '26px',
         padding: 10,
     },
     title: {
