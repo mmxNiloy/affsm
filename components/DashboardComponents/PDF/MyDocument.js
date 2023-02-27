@@ -23,16 +23,16 @@ const MyDocument = ({data}) => {
     }
 
     const renderCourses = (item, index) => {
-        return (
+     return (
             <View key={`selected-course-${index}`} 
             style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
-                <View style={{ flexDirection: 'column' }} >
+                <View style={{ flexDirection: 'column',marginRight:"50px"}} >
                     <Text style={[styles.text.body2, {textAlign: 'center'}]}>
                         {item.course_code}
                     </Text>
                 </View>
                 
-                <View style={{ flexDirection: 'column' }} >
+                <View style={{ flexDirection: 'column',marginLeft:"50px"}} >
                     <Text style={[styles.text.body2, {width: '150ch', textAlign: 'center'},]} wrap>
                         {item.course_title}
                     </Text>
@@ -288,12 +288,11 @@ const MyDocument = ({data}) => {
                         
                     </View>
                     
-                    <View style={{ flexDirection: 'column', textAlign: 'right' }} >
-                        <Text style={styles.text.body2}>
+                    <View style={{ flexDirection: 'column', textAlign: 'right',marginLeft:'150px' }} >
+                        <Text style={[styles.text.body2,{marginBottom:'2px'}]}>
                             {data.hall_name} Hall,
                         </Text>
-
-                        <Text style={styles.text.body1}>
+                        <Text style={[styles.text.body1,]}>
                             University of Chittagong
                         </Text>
                     </View>

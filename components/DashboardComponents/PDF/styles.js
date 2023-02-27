@@ -1,6 +1,34 @@
 import { StyleSheet } from "@react-pdf/renderer"
 
 const styles = StyleSheet.create({
+    textViewLeftAdmitCard:{
+        marginLeft : "64px",
+        flexDirection: 'column', 
+        textAlign: 'left',
+        marginBottom:'5px',
+        marginRight:"32px"
+        
+    },
+    textViewRightAdmitCard:{
+        marginRight: "64px",
+        flexDirection: 'column', 
+        textAlign: 'right',
+        marginBottom: "5px",
+        marginLeft:"32px"
+    },
+    textViewLeft:{
+        marginLeft : "128px",
+        flexDirection: 'column', 
+        textAlign: 'left',
+        marginBottom:'5px'
+        
+    },
+    textViewRight:{
+        marginRight: "128px",
+        flexDirection: 'column', 
+        textAlign: 'right',
+        marginBottom: "5px"
+    },
     page: {
         flexDirection: 'column',
     },

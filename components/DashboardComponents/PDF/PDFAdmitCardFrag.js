@@ -20,12 +20,10 @@ const PDFAdmitCardFrag = ({ data, student }) => {
   const renderFootNote = () => {
     if (!Boolean(student)) return null;
     return (
-      <View style={{alignItems:"left", textAlign:"left",margin:"5px"}}>
-        <Text style={styles.text.body1}>
-          Foot note:-
-        </Text>
+      <View style={{ alignItems: "left", textAlign: "left", margin: "5px" }}>
+        <Text style={styles.text.body1}>Foot note:-</Text>
         <Text style={styles.text.body2}>
-        1. Examine must fill the form himself. 
+          1. Examine must fill the form himself.
         </Text>
         <Text style={styles.text.body2}>
           2. Provost will attest the photo of the candidate.
@@ -36,24 +34,26 @@ const PDFAdmitCardFrag = ({ data, student }) => {
         <Text style={styles.text.body2}>
           4. Details in admit card must be clear.
         </Text>
-        
       </View>
     );
   };
 
   const renderImprovementCourses = () => {
-    let ans = ''
-    data.courses.forEach(course => {
-      if(course.type !== 'Regular')
-        ans += course.course_code + ', '
+    let ans = "";
+    data.courses.forEach((course) => {
+      if (course.type !== "Regular") ans += course.course_code + ", ";
     });
 
-    if(ans.length < 1) return 'N/A'
+    if (ans.length < 1) return "N/A";
 
-    return ans.slice(0, ans.length - 2)
-  }
+    return ans.slice(0, ans.length - 2);
+  };
   return (
-    <View style={{ border: student && "1px solid black", margin: "4px" }}>
+    <View
+      style={[
+        { border: student && "1px solid black", margin: "4px" },
+      ]}
+    >
       <View style={styles.title}>
         <Text
           style={{
@@ -74,50 +74,50 @@ const PDFAdmitCardFrag = ({ data, student }) => {
             }}
           />
         )}
-        <View style={{margin:"8px"}}>
-        <Text style={styles.text.body2}>
-          {new Date(data.time_stamp).getFullYear()} Year's{" "}
-          {toCardinal(data.semester)}
-          -Semester B.Sc. Engineering Exam
-        </Text>
+        <View style={{ margin: "8px" }}>
+          <Text style={styles.text.body2}>
+            {new Date(data.time_stamp).getFullYear()} Year's{" "}
+            {toCardinal(data.semester)}
+            -Semester B.Sc. Engineering Exam
+          </Text>
         </View>
-       
-        <View>
+
+        <View style={{alignItems: "center"}}>
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around"}}
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <View style={{ flexDirection: "column", textAlign: "left",marginRight:"50px" }}>
+            <View style={styles.textViewLeftAdmitCard}>
               <Text style={styles.text.body2}>Honour's Subject</Text>
             </View>
 
-            <View style={{ flexDirection: "column", textAlign: "right" ,marginLeft:"50px"}}>
+            <View style={styles.textViewRightAdmitCard}>
               <Text style={styles.text.body2}>{data.department_name}</Text>
             </View>
           </View>
 
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <View style={{ flexDirection: "column", textAlign: "left",marginRight:"50px" }}>
+            <View style={styles.textViewLeftAdmitCard}>
               <Text style={styles.text.body2}>Exam Starting Date</Text>
             </View>
 
-            <View style={{ flexDirection: "column", textAlign: "right",marginLeft:"50px" }}>
-              <Text style={styles.text.body2}>{new Date(data.time_stamp).toLocaleDateString()}</Text>
+            <View style={styles.textViewRightAdmitCard}>
+              <Text style={styles.text.body2}>
+                {new Date(data.time_stamp).toLocaleDateString()}
+              </Text>
             </View>
           </View>
 
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             {/* TODO: Course Number and Cour id's needed to be fixed. */}
-            <View style={{ flexDirection: "column", textAlign: "left",marginRight:"50px",width:"150px" }}>
-              <Text style={styles.text.body2}>
-                Improvement Courses:
-              </Text>
+            <View style={styles.textViewLeftAdmitCard}>
+              <Text style={styles.text.body2}>Improvement Courses:</Text>
             </View>
 
-            <View style={{ flexDirection: "column", textAlign: "right",marginLeft:"50px" }}>
+            <View style={styles.textViewRightAdmitCard}>
               <Text style={styles.text.body2}>
                 {renderImprovementCourses()}
               </Text>
@@ -125,25 +125,29 @@ const PDFAdmitCardFrag = ({ data, student }) => {
           </View>
 
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <View style={{ flexDirection: "column", textAlign: "left",marginRight:"50px" }}>
+            <View style={styles.textViewLeftAdmitCard}>
               <Text style={styles.text.body2}>Candidate's ID</Text>
             </View>
 
-            <View style={{ flexDirection: "column", textAlign: "right",marginLeft:"50px" }}>
+            <View
+              style={styles.textViewRightAdmitCard}
+            >
               <Text style={styles.text.body2}>{data.student_id}</Text>
             </View>
           </View>
 
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <View style={{ flexDirection: "column", textAlign: "left",marginRight:"50px" }}>
+            <View style={styles.textViewLeftAdmitCard}>
               <Text style={styles.text.body2}>Session</Text>
             </View>
 
-            <View style={{ flexDirection: "column", textAlign: "right",marginLeft:"50px" }}>
+            <View
+              style={styles.textViewRightAdmitCard}
+            >
               <Text style={styles.text.body2}>
                 {parseInt(data.session) - 1} {"-"} {data.session}
               </Text>
@@ -151,13 +155,15 @@ const PDFAdmitCardFrag = ({ data, student }) => {
           </View>
 
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <View style={{ flexDirection: "column", textAlign: "left" ,marginRight:"50px"}}>
+            <View style={styles.textViewLeftAdmitCard}>
               <Text style={styles.text.body2}>Candidate's Name</Text>
             </View>
 
-            <View style={{ flexDirection: "column", textAlign: "right",marginLeft:"50px" }}>
+            <View
+              style={styles.textViewRightAdmitCard}
+            >
               <Text style={styles.text.body2}>
                 {data.first_name} {data.last_name}
               </Text>
@@ -165,49 +171,66 @@ const PDFAdmitCardFrag = ({ data, student }) => {
           </View>
 
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <View style={{ flexDirection: "column", textAlign: "left",marginRight:"50px" }}>
+            <View style={styles.textViewLeftAdmitCard}>
               <Text style={styles.text.body2}>Father's Name</Text>
             </View>
 
-            <View style={{ flexDirection: "column", textAlign: "right",marginLeft:"50px" }}>
+            <View
+              style={styles.textViewRightAdmitCard}
+            >
               <Text style={styles.text.body2}>{data.name_of_father}</Text>
             </View>
           </View>
 
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <View style={{ flexDirection: "column", textAlign: "left",marginRight:"50px" }}>
+            <View style={styles.textViewLeftAdmitCard}>
               <Text style={styles.text.body2}>Mother's Name</Text>
             </View>
 
-            <View style={{ flexDirection: "column", textAlign: "right",marginLeft:"50px" }}>
+            <View
+              style={styles.textViewRightAdmitCard}
+            >
               <Text style={styles.text.body2}>{data.name_of_mother}</Text>
             </View>
           </View>
 
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <View style={{ flexDirection: "column", textAlign: "left",marginRight:"50px" }}>
+            <View style={styles.textViewLeftAdmitCard}>
               <Text style={styles.text.body2}>Hall Name</Text>
             </View>
 
-            <View style={{ flexDirection: "column", textAlign: "right",marginLeft:"50px" }}>
-              <Text style={styles.text.body2}>{data.hall_name}{" Hall"}</Text>
+            <View
+              style={styles.textViewRightAdmitCard}
+            >
+              <Text style={styles.text.body2}>
+                {data.hall_name}
+                {" Hall"}
+              </Text>
             </View>
           </View>
         </View>
 
-
-
         <View style={styles.subsection}>
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around",alignItems:"end" }}
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "end",
+            }}
           >
-            <View style={{ flexDirection: "column", textAlign: "right", marginLeft:"400px"}}>
+            <View
+              style={{
+                flexDirection: "column",
+                textAlign: "right",
+                marginLeft: "400px",
+              }}
+            >
               <Text style={[styles.text.body2]}> _____________________</Text>
               <Text
                 style={[
@@ -215,13 +238,11 @@ const PDFAdmitCardFrag = ({ data, student }) => {
                   { marginTop: "16px", marginBottom: "8px" },
                 ]}
               >
-               Exam Controller
+                Exam Controller
               </Text>
             </View>
           </View>
         </View>
-
-
       </View>
       {renderFootNote()}
     </View>
