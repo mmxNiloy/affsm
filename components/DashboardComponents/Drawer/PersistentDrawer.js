@@ -51,13 +51,13 @@ const PersistentDrawer = ({open, handleDrawerClose, onDrawerItemChange, isAdmin,
         {
             text: 'Admit Cards',
             icon: <InboxIcon/>,
-            hidden: Boolean(isAdmin),
+            hidden: true,
             id: ListItems.ADMIT_CARDS
         },
         {
             text: 'History',
             icon: <HistoryIcon/>,
-            hidden: false,
+            hidden: true,
             id: ListItems.HISTORY
         }
     ]

@@ -7,6 +7,7 @@ import CardActions from '@mui/material/CardActions'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import EditIcon from '@mui/icons-material/Edit'
+import CloseIcon from '@mui/icons-material/Close'
 import NoticePreviewFragment from '../NoticeFrags/NoticePreviewFragment'
 import Stack from '@mui/material/Stack'
 import { useEffect, useState } from 'react'
@@ -14,10 +15,21 @@ import Divider from '@mui/material/Divider'
 import SubmissionsPreviewFragment from './SubmissionsPreviewFragment'
 import axios from 'axios'
 import MyCircularProgress from '../../MyCircularProgress'
+import Snackbar from '@mui/material/Snackbar'
+import IconButton from '@mui/material/IconButton'
 
-const OverviewFragment = ({user}) => {
+const OverviewFragment = ({user, toSubmissions, toNotices}) => {
     const [loadingNotices, setLoadingNotices] = useState(false)
     const [notices, setNotices] = useState([])
+    const [openSnack, setOpenSnack] = useState(false)
+
+    const handleOpenSnack = () => {
+        setOpenSnack(true)
+    }
+
+    const handleCloseSnack = () => {
+        setOpenSnack(false)
+    }
 
     const fetchNotices = async () => {
         if(loadingNotices) return
@@ -157,7 +169,7 @@ const OverviewFragment = ({user}) => {
                             <Box flexGrow={1}/>
                             <Button 
                             startIcon={<EditIcon/>}
-                            variant='contained'>
+                            variant='contained' onClick={handleOpenSnack}>
                                 Request Edit Access
                             </Button>
                         </CardActions>
@@ -182,7 +194,8 @@ const OverviewFragment = ({user}) => {
                         <CardActions sx={{ marginTop: '8px'}}>
                             <Box flexGrow={1}/>
                             <Button 
-                            variant='contained'>
+                            variant='contained'
+                            onClick={toNotices}>
                                 View All
                             </Button>
                         </CardActions>
@@ -209,13 +222,30 @@ const OverviewFragment = ({user}) => {
                             <CardActions sx={{ marginTop: '8px'}}>
                                 <Box flexGrow={1}/>
                                 <Button 
-                                variant='contained'>
+                                variant='contained'
+                                onClick={toSubmissions}>
                                     View All
                                 </Button>
                             </CardActions>
                         </Stack>
                     </CardContent>
                 </Card>
+
+                <Grid item xs={12}>
+                <Snackbar open={openSnack}
+                autoHideDuration={2000}
+                onClose={handleCloseSnack}
+                message={"This feature will be availabe after the admission processing system gets online."}
+                action={
+                    <IconButton
+                    size="small"
+                    aria-label="close"
+                    color="inherit"
+                    onClick={handleCloseSnack}>
+                        <CloseIcon fontSize="small" />
+                    </IconButton>
+                }/>
+                </Grid>
             </Grid>
             
         </Grid>
