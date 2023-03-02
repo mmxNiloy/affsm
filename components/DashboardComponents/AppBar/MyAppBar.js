@@ -66,7 +66,13 @@ const MyAppBar = ({onDrawerChange, onDrawerItemChange, isAdmin, selectedDrawerIt
 
     const logout = async () => {
         try {
-            await axios.get('/api/delete_token')
+            const key = localStorage.getItem(process.env.NEXT_PUBLIC_LOCAL_STORAGE_SECRET_KEY)
+            await axios.get('/api/delete_token', {
+                params: {
+                    key
+                }
+            })
+            localStorage.removeItem(process.env.NEXT_PUBLIC_LOCAL_STORAGE_SECRET_KEY)
             alert('Logout Successful')
             router.replace('/')
         } catch(err) {

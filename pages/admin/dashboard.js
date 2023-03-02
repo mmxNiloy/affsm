@@ -35,7 +35,12 @@ const AdminDashboard = ({toggleTheme}) => {
         // TODO: Do not make a request over and over again?
         // Code
         try {
-            const req = await axios.get('/api/auth/verify')
+            const key = localStorage.getItem(process.env.NEXT_PUBLIC_LOCAL_STORAGE_SECRET_KEY)
+            const req = await axios.get('/api/auth/verify', {
+                params: {
+                    key
+                }
+            })
             setUser(req.data.user)
         } catch(err) {
             // !Fatal error, session has expired

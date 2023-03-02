@@ -1,7 +1,27 @@
 import DB_Credentials from '../../../../Database/DB_Credentials'
 const mysql = require('mysql2')
 import Cookies from 'cookies'
+import User from '../../../../models/User'
 const jwt = require('jsonwebtoken')
+
+const encodeMessage = (message) => {
+    // Prime encoding, avoid for better security
+    // Uses a permutation of primes to encode the id(message)
+    // Only encode valid evaluator id
+    const msg = message.toString() + ''
+    if(msg.length != 6) {
+        return msg
+    }
+  
+    const encoder = new TextEncoder()
+    const data = encoder.encode(msg)
+    const positions = [11, 5, 2, 3, 13, 7]
+    const bytes = []
+    for(let i = 0 ; i < 16 ; i++) bytes.push(Math.floor(Math.random() * 16))
+    for(let i = 0 ; i < data.length ; i++) bytes[positions[i]] = data[i]
+    //console.log('bytes', new Uint8Array(bytes))
+    return Array.from(new Uint8Array(bytes)).map(b => b.toString(16).padStart(2, '0')).join('')
+}
 
 const handler = async (req, res) => {
     const cookies = new Cookies(req, res)
@@ -48,18 +68,21 @@ const handler = async (req, res) => {
             })
     }
 
-    var user = rows[0]
-    user = {...user, isAdmin: true}
-    delete user['password']
-    delete user['user_id']
+    const user = new User()
+    user.buildFromRow({...rows[0], isAdmin: true})
+    user.password = ''
 
     const token = jwt.sign(
-        {user},
+        { user },
         process.env.TOKEN_KEY,
         { expiresIn: '1h' }
     )
 
-    cookies.set('currentUserToken', token)
+    const encodedID = encodeMessage(user.user_id + '') + encodeMessage((Date.now() % 1000000).toString().padStart(6, '0'))
+
+    cookies.set(process.env.MY_SECRET_USER_KEY + encodedID, token, {
+        httpOnly: true
+    })
 
     console.log('User', user)
 
@@ -68,7 +91,7 @@ const handler = async (req, res) => {
         .status(200)
         .json({
             message: 'Successfully authenticated',
-            user
+            secret: encodedID
         })
 }
 

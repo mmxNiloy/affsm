@@ -216,7 +216,7 @@ const AdminOverviewFragment = ({user, toForms, toNotices, toPostNotices}) => {
                 </Card>
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
                 <Card elevation={4}>
                     <CardHeader subheader={'Recent Notices'}/>
                     <CardContent hidden={!loadingNotices}>
@@ -242,7 +242,7 @@ const AdminOverviewFragment = ({user, toForms, toNotices, toPostNotices}) => {
                 </Card>
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
                 {/* TODO: Show recent submitted form for the department the user works for */}
                 <Card elevation={4}>
                     <CardHeader subheader={'Recent Submisssions'}/>

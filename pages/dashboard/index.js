@@ -32,7 +32,12 @@ const Dashboard = ({toggleTheme}) => {
 
         // Code
         try {
-            const req = await axios.get('/api/auth/verify')
+            const key = localStorage.getItem(process.env.NEXT_PUBLIC_LOCAL_STORAGE_SECRET_KEY)
+            const req = await axios.get('/api/auth/verify', {
+                params: {
+                    key,
+                }
+            })
             setUser(req.data.user)
             setHasUser(true)
         } catch(err) {

@@ -65,7 +65,7 @@ const LoginForm = ({onSuccess}) => {
 
 
         try {
-            await axios.get(
+            const req = await axios.get(
                 `/api/auth/login/${userType}`, 
                 {
                     params: {
@@ -74,6 +74,9 @@ const LoginForm = ({onSuccess}) => {
                     }
                 }
             )
+
+            const secret = req.data.secret
+            localStorage.setItem(process.env.NEXT_PUBLIC_LOCAL_STORAGE_SECRET_KEY, secret)
         } catch(ignored) {
             setLoading(false);
             // TODO: Handle login error
@@ -93,7 +96,12 @@ const LoginForm = ({onSuccess}) => {
         
         var ver;
         try {
-            ver = await axios.get('/api/auth/verify')
+            const key = localStorage.getItem(process.env.NEXT_PUBLIC_LOCAL_STORAGE_SECRET_KEY)
+            ver = await axios.get('/api/auth/verify', {
+                params: {
+                    key
+                }
+            })
         } catch(err) {
             // TODO: Make another dialog to show error message
             // Invalid token error
@@ -106,7 +114,7 @@ const LoginForm = ({onSuccess}) => {
         
         if(Boolean(user)) {
             // TODO: Show a success message/dialog
-            console.log('Successfully logged in.', user)
+            // console.log('Successfully logged in.', user)
             // onSuccess()
             setOpenSuccessDialog(true)
         } else {

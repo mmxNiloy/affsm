@@ -26,9 +26,21 @@ export default function Home({toggleTheme}) {
     setLoading(true)
     var user
     try {
-      const req = await axios.get('/api/auth/verify')
+      const key = localStorage.getItem(process.env.NEXT_PUBLIC_LOCAL_STORAGE_SECRET_KEY)
+
+      if(!Boolean(key) || key.length < 1) {
+        setLoading(false)
+        return
+      }
+      
+      const req = await axios.get('/api/auth/verify', {
+        params: {
+          key
+        }
+      })
       user = req.data.user
     } catch (ignored) {
+      console.log('Verification failed')
     }
 
     if(Boolean(user)) {

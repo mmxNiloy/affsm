@@ -69,7 +69,7 @@ const NoticePreviewFragment = ({data, isAdmin, viewable, onEditSuccess, editFlag
                                 <NotificationsIcon/>
                             </Avatar>
                             
-                            <Typography variant='h6'>
+                            <Typography variant='h6' noWrap>
                                 {(data && data.title) ? data.title : 'Empty Title'}
                             </Typography>
                         </Stack>
