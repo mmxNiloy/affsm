@@ -274,7 +274,7 @@ const ActiveFormsFragment = ({user}) => {
             {/* {forms.map(renderForms)} */}
 
             <Grid item xs={12}>
-                <EmptyList hidden={!emptyForms}/>
+                <EmptyList hidden={true}/>
             </Grid>
 
             <Grid item xs={12} >
