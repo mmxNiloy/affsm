@@ -59,9 +59,7 @@ const handler = async (req, res) => {
         { expiresIn: '1h' }
     )
 
-    cookies.set('currentUserToken', token, {
-        httpOnly: true,
-    })
+    cookies.set('currentUserToken', token)
 
     console.log('User', user)
 
