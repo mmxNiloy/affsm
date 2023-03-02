@@ -15,11 +15,11 @@ export default function App({ Component, pageProps }) {
   }
 
   useEffect(() => {
-    let t = localStorage.getItem('theme')
-    if(t === 'dark') setToggleTheme(true)
+    let t = localStorage.getItem(process.env.NEXT_PUBLIC_THEME_KEY)
+    if(t === process.env.NEXT_PUBLIC_DARK_THEME_KEY) setToggleTheme(true)
     else setToggleTheme(false)
     
-    if(toggleTheme || t === 'dark') setCurrentTheme(darkTheme)
+    if(toggleTheme || t === process.env.NEXT_PUBLIC_DARK_THEME_KEY) setCurrentTheme(darkTheme)
     else setCurrentTheme(lightTheme)
   }, [toggleTheme])
 

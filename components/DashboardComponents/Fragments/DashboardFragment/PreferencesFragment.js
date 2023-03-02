@@ -7,24 +7,31 @@ import Switch from '@mui/material/Switch'
 import { useEffect, useState } from 'react'
 
 const PreferencesFragment = ({toggleTheme}) => {
-    const [theme, setTheme] = useState('light')
+    const [theme, setTheme] = useState('Light')
 
     const handleThemeSwitch = () => {
         let t = theme
-        if(t === 'light') t = 'dark'
-        else t = 'light'
+        let temp = theme
+        if(t === 'Light') {
+            t = process.env.NEXT_PUBLIC_DARK_THEME_KEY
+            temp = 'Dark'
+        } else {
+            temp = 'Light'
+            t = process.env.NEXT_PUBLIC_LIGHT_THEME_KEY
+        }
 
-        setTheme(t)
-        localStorage.setItem('theme', t.toLowerCase())
+        setTheme(temp)
+        localStorage.setItem(process.env.NEXT_PUBLIC_THEME_KEY, t)
         toggleTheme()
     }
 
     useEffect(() => {
-        let t = localStorage.getItem('theme')
-        if(t === 'dark') t = 'dark'
-        else t = 'light'
+        let t = localStorage.getItem(process.env.NEXT_PUBLIC_THEME_KEY)
+        let temp = 'Light'
+        if(t === process.env.NEXT_PUBLIC_DARK_THEME_KEY) temp = 'Dark'
+        else temp = 'Light'
 
-        setTheme(t)
+        setTheme(temp)
     }, [])
 
     return (
@@ -33,7 +40,7 @@ const PreferencesFragment = ({toggleTheme}) => {
                 Set the theme of the application
             </Typography>
             <FormGroup>
-                <FormControlLabel control={<Switch checked={theme === 'dark'} onChange={handleThemeSwitch}/>} label={theme}/>
+                <FormControlLabel control={<Switch checked={theme === 'Dark'} onChange={handleThemeSwitch}/>} label={theme}/>
             </FormGroup>
             
         </Container>
