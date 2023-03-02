@@ -5,7 +5,7 @@ import PDFStudentInfoFrag from "./PDFStudentInfoFrag";
 import ExamRulesFragment from "./ExamRulesFragment";
 import styles from './styles'
 
-const MyDocument = ({data}) => {
+const MyDocument = ({data, admitCard}) => {
     if(!Boolean(data)) return null
 
     const toCardinal = (num) => {
@@ -40,6 +40,15 @@ const MyDocument = ({data}) => {
             </View>
         )
     }
+
+    if(admitCard) 
+        return(
+            <Document>
+                <Page size='A4' style={[styles.page, {padding: '32px'}]}>
+                    <PDFAdmitCardFrag data={data} student/>
+                </Page>
+            </Document>
+        )
 
     return (
         <Document>

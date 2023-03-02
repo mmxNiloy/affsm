@@ -76,9 +76,7 @@ const handler = async (req, res) => {
         } 
     )
 
-    cookies.set('currentUserToken', token, {
-        httpOnly: true
-    })
+    cookies.set('currentUserToken', token)
 
     console.log('Login successful')
 

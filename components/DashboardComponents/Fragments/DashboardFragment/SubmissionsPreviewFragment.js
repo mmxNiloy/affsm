@@ -17,6 +17,8 @@ import StepLabel from '@mui/material/StepLabel'
 import Stack from '@mui/material/Stack'
 import StepContent from '@mui/material/StepContent'
 import Dialog from '@mui/material/Dialog'
+import IconButton from '@mui/material/IconButton'
+import Snackbar from '@mui/material/Snackbar'
 import { useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import InfoIcon from '@mui/icons-material/Info';
@@ -28,6 +30,16 @@ const SubmissionsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =
         {step: 'Bank', text: 'The form has been passed to the bank. Please pay your dues to proceed.'},
         {step: 'Exam Controller Office', text: 'The form is being finalized. You will receive your admit card soon.'},
     ]
+
+    const [open, setOpen] = useState(false)
+
+    const handleSnackbarOpen = () => {
+        setOpen(true)
+    }
+
+    const handleSnackbarClose = () => {
+        setOpen(false)
+    }
 
     const handleViewButtonClick = () => {
         onShowDialog(data)
@@ -46,6 +58,10 @@ const SubmissionsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =
                 </StepContent>}
             </Step>
         )
+    }
+
+    const handleDownloadAdmit = () => {
+        handleSnackbarOpen()
     }
 
     const renderStepper = () => {
@@ -70,7 +86,7 @@ const SubmissionsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =
                 marginTop: '32px'
             }}
             orientation={vertical ? 'vertical' : 'horizontal'}
-            activeStep={data.clearance_level - 1} 
+            activeStep={data.clearance_level} 
             alternativeLabel={!vertical}>
                 {[
                     {step: 'Submitted', text: 'The form has been received and will be processed by the evaulators soon.'}, 
@@ -94,7 +110,13 @@ const SubmissionsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =
                 {renderStepper()}
 
                 <CardActions sx={{ marginTop: '8px', display: (clickable ? 'flex' : 'none')}}>
-                    <Button type='button' variant='contained' disabled={data.clearance_level !== 7}>
+                    <Button 
+                    type='button' 
+                    variant='contained' 
+                    disabled={data.clearance_level < 6}
+                    href={`/pdf/admit/${data.form_id}`}
+                    target='_blank' 
+                    onClick={handleDownloadAdmit}>
                         Download Admit Card
                     </Button>
 
@@ -105,6 +127,20 @@ const SubmissionsPreviewFragment = ({data, clickable, onShowDialog, vertical}) =
                     </Button>
                 </CardActions>
             </CardContent>
+
+            <Snackbar open={open}
+            autoHideDuration={2000}
+            onClose={handleSnackbarClose}
+            message={"Exporting to PDF. Please allow popups to view the document."}
+            action={
+                <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleSnackbarClose}>
+                    <CloseIcon fontSize="small" />
+                </IconButton>
+            }/>
         </Card>
     )
 }
