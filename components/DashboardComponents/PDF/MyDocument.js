@@ -1,9 +1,17 @@
-import { Document, Image, Page, Text, View } from "@react-pdf/renderer"
+import { Document, Image, Page, Text, View, Font } from "@react-pdf/renderer"
 import { useEffect, useState } from "react";
 import PDFAdmitCardFrag from "./PDFAdmitCardFrag";
 import PDFStudentInfoFrag from "./PDFStudentInfoFrag";
 import ExamRulesFragment from "./ExamRulesFragment";
 import styles from './styles'
+
+Font.register({
+    family: 'NotoBengali', 
+    format: 'truetype',
+    src: 'https://firebasestorage.googleapis.com/v0/b/serveturtle.appspot.com/o/latex%2FNotoSerifBengali-Regular.ttf?alt=media&token=ead77452-da6f-416a-8b6e-1366a33e9b2d',
+    fontStyle: 'normal', 
+    fontWeight: 'normal'
+})
 
 const MyDocument = ({data, admitCard}) => {
     if(!Boolean(data)) return null
@@ -51,7 +59,7 @@ const MyDocument = ({data, admitCard}) => {
         )
 
     return (
-        <Document>
+        <Document title={`Form_${data.form_id}`}>
             <Page size="A4" style={styles.page}>
                 <View style={styles.title}>
                     <Image src='/cu_logo.png' style={{
@@ -59,12 +67,15 @@ const MyDocument = ({data, admitCard}) => {
                         width: '86px',
                     }}/>
                     
-                    <Text style={{
-                        ...styles.text.h2,
-                        marginTop: '8px',
-                        marginBottom: '8px',
-                    }}>
-                        University of Chittagong
+                    <Text style={[
+                        styles.text.h2,
+                        {
+                            marginTop: '8px',
+                            marginBottom: '8px'
+                        },
+                        styles.bengaliText
+                    ]}>
+                        {`চট্টগ্রাম বিশ্ববিদ্যালয়`}
                     </Text>
                     
                     <Text style={styles.text.h5}>

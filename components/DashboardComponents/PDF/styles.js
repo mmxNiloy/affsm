@@ -1,6 +1,9 @@
 import { StyleSheet } from "@react-pdf/renderer"
 
 const styles = StyleSheet.create({
+    bengaliText: {
+        fontFamily: 'NotoBengali',
+    },
     textViewLeftAdmitCard:{
         marginLeft : "64px",
         flexDirection: 'column', 
