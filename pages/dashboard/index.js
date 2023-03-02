@@ -48,6 +48,11 @@ const Dashboard = ({toggleTheme}) => {
         setLoading(false)
     }
 
+    const forwardToNotices = () => {
+        //console.log('Forwarding to notifications')
+        setSelectedDrawerItem(ListItems.NOTICES)
+    }
+
     useEffect(() => {
         // !Fix me: Sending request to the serve on each render
         //if(hasUser) return
@@ -68,11 +73,18 @@ const Dashboard = ({toggleTheme}) => {
             <main>
                 <Box>
                     {/* Do not render these componenets if the user is null */}
-                    <MyAppBar onDrawerChange={setDrawerOpen} onDrawerItemChange={setSelectedDrawerItem}/>
+                    <MyAppBar 
+                    selectedDrawerItem={selectedDrawerItem}
+                    onDrawerChange={setDrawerOpen} 
+                    onDrawerItemChange={setSelectedDrawerItem}/>
 
                     <MainContentWrapper open={isDrawerOpen}>
                         {/* <MyCircularProgress loading={loading}/> */}
-                        {selectedDrawerItem === ListItems.DAHSBOARD && <DashboardFragment toggleTheme={toggleTheme} user={user}/>}
+                        {selectedDrawerItem === ListItems.DAHSBOARD && 
+                        <DashboardFragment 
+                        toggleTheme={toggleTheme} 
+                        user={user}
+                        toNotices={forwardToNotices}/>}
                         {selectedDrawerItem === ListItems.NOTICES && <NoticeFragment/>}
                         
                         {selectedDrawerItem === ListItems.FORM_SUBMISSION && <FormSubmissionFragment user={user}/>}

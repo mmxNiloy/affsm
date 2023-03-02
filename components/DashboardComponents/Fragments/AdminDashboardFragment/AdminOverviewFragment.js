@@ -233,7 +233,8 @@ const AdminOverviewFragment = ({user, toForms, toNotices, toPostNotices}) => {
                         <CardActions sx={{ marginTop: '8px'}}>
                             <Box flexGrow={1}/>
                             <Button 
-                            variant='contained'>
+                            variant='contained'
+                            onClick={toNotices}>
                                 View All
                             </Button>
                         </CardActions>
@@ -265,7 +266,8 @@ const AdminOverviewFragment = ({user, toForms, toNotices, toPostNotices}) => {
                         <CardActions sx={{ marginTop: '8px'}}>
                             <Box flexGrow={1}/>
                             <Button 
-                            variant='contained'>
+                            variant='contained'
+                            onClick={toForms}>
                                 View All
                             </Button>
                         </CardActions>
