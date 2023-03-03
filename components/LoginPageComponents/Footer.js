@@ -31,7 +31,14 @@ const Footer = () => {
                     <ListSubheader>Info</ListSubheader>
 
                     <ListItem>
-                        <ListItemText>About us</ListItemText>
+                        <ListItemText>
+                            <Link 
+                            href='/about/'
+                            rel='noopener'
+                            underline='none'>
+                                About
+                            </Link>
+                        </ListItemText>
                     </ListItem>
 
                     <ListItem>
