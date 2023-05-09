@@ -3,7 +3,7 @@ import { useTheme } from '@mui/material/styles'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-const LogoDescription = () => {
+const LogoDescription = ({center}) => {
     const theme = useTheme()
     const [logoDir, setLogoDir] = useState('/affsm_logo_dark.svg')
 
@@ -13,8 +13,11 @@ const LogoDescription = () => {
     }, [theme])
 
     return (
-        <Stack spacing={1} direction='column'>
-            <Image src={logoDir} alt='logo' height={360} width={480}/>
+        <Stack spacing={1} direction='column' 
+        sx={{
+            alignItems: (center && 'center'),
+        }}>
+            <Image src={logoDir} alt='logo' height={360} width={480} priority/>
             {/* <img src={'/affsm_logo_2.svg'} alt='logo' height={'360px'} width={'480px'} /> */}
             {/* <Typography textAlign={'center'} variant='h4'>Welcome to AFFSM</Typography> */}
         </Stack>

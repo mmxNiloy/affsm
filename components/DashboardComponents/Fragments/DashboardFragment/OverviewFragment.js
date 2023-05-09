@@ -177,7 +177,7 @@ const OverviewFragment = ({user, toSubmissions, toNotices}) => {
                 </Card>
             </Grid>
             
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
                 <Card elevation={4}>
                     <CardHeader subheader={'Notices'}/>
                     <CardContent hidden={!loadingNotices}>
@@ -203,7 +203,7 @@ const OverviewFragment = ({user, toSubmissions, toNotices}) => {
                 </Card>
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
                 <Card elevation={4}>
                     <CardHeader subheader={'Submissions'}/>
 
