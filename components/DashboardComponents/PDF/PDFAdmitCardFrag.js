@@ -1,7 +1,15 @@
 import { textAlign } from "@mui/system";
-import { Document, Image, Page, Text, View } from "@react-pdf/renderer";
+import { Document, Image, Page, Text, View, Font } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
 import styles from "./styles";
+
+Font.register({
+  family: 'NotoBengali', 
+  format: 'truetype',
+  src: 'https://firebasestorage.googleapis.com/v0/b/serveturtle.appspot.com/o/latex%2FNotoSerifBengali-Regular.ttf?alt=media&token=ead77452-da6f-416a-8b6e-1366a33e9b2d',
+  fontStyle: 'normal', 
+  fontWeight: 'normal'
+})
 
 const PDFAdmitCardFrag = ({ data, student }) => {
   const toCardinal = (num) => {
@@ -21,18 +29,18 @@ const PDFAdmitCardFrag = ({ data, student }) => {
     if (!Boolean(student)) return null;
     return (
       <View style={[styles.section, { alignItems: "left", textAlign: "left"}]}>
-        <Text style={styles.text.body1}>Foot note:-</Text>
-        <Text style={styles.text.body2}>
-          1. Examine must fill the form himself.
+        <Text style={[styles.text.body1, styles.bengaliText]}>{`বি:দ্র: `}</Text>
+        <Text style={[styles.text.body2, styles.bengaliText]}>
+          {`১। পরীক্ষার্থী স্বহস্তে উপরের তথ্যগুলো পূরণ করবে। `}
         </Text>
-        <Text style={styles.text.body2}>
-          2. Provost will attest the photo of the candidate.
+        <Text style={[styles.text.body2, styles.bengaliText]}>
+          {`২। প্রভোস্ট পরীক্ষার্থীর ফটো সিলমোহরদানে সত্যায়িত করবেন। `}
         </Text>
-        <Text style={styles.text.body2}>
-          3. Provosts verified details will be considered as final.
+        <Text style={[styles.text.body2, styles.bengaliText]}>
+          {`৩। প্রভোস্ট কর্তৃক পরীক্ষাকৃত তথ্যাবলী চূড়ান্ত বলে বিবেচিত হবে। `}
         </Text>
-        <Text style={styles.text.body2}>
-          4. Details in admit card must be clear.
+        <Text style={[styles.text.body2, styles.bengaliText]}>
+          {`৪। প্রবেশপত্রের লিখিত বিবরণের কোন ক্ষেত্রে কাটাকাটি বা বা ঘষামাজা থাকলে গ্রহণযোগ্য হবে না। `}
         </Text>
       </View>
     );
@@ -56,13 +64,16 @@ const PDFAdmitCardFrag = ({ data, student }) => {
     >
       <View style={styles.title}>
         <Text
-          style={{
-            ...styles.text.h6,
-            marginTop: "8px",
-            marginBottom: "8px",
-          }}
+          style={[
+            styles.text.h6,
+            {
+                marginTop: '8px',
+                marginBottom: '8px'
+            },
+            styles.bengaliText
+        ]}
         >
-          University of Chittagong
+          {`চট্টগ্রাম বিশ্ববিদ্যালয় `}
         </Text>
 
         {student && (
@@ -74,6 +85,17 @@ const PDFAdmitCardFrag = ({ data, student }) => {
             }}
           />
         )}
+
+        <Text
+          style={[
+            styles.text.h6,
+            
+            styles.bengaliText
+        ]}
+        >
+          {`প্রবেশপত্র `}
+        </Text>
+        
         <View style={{ margin: "8px" }}>
           <Text style={styles.text.body2}>
             {new Date(data.time_stamp).getFullYear()} Year's{" "}
@@ -82,23 +104,16 @@ const PDFAdmitCardFrag = ({ data, student }) => {
           </Text>
         </View>
 
+        <View style={{ marginBottom: "8px" }}>
+        <Text style={[styles.text.body2, styles.center]}>{data.department_name}</Text>
+        </View>
+
         <View>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}>
-            <View style={styles.textViewLeft}>
-              <Text style={styles.text.body2}>Honour's Subject</Text>
-            </View>
-
-            <View style={styles.textViewRight}>
-              <Text style={styles.text.body2}>{data.department_name}</Text>
-            </View>
-          </View>
-
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <View style={styles.textViewLeftAdmitCard}>
-              <Text style={styles.text.body2}>Exam Starting Date</Text>
+              <Text style={[styles.text.body2, styles.bengaliText]}>{`পরীক্ষারম্ভের তারিখ: `}</Text>
             </View>
 
             <View style={styles.textViewRightAdmitCard}>
@@ -113,7 +128,9 @@ const PDFAdmitCardFrag = ({ data, student }) => {
           >
             {/* TODO: Course Number and Cour id's needed to be fixed. */}
             <View style={styles.textViewLeftAdmitCard}>
-              <Text style={styles.text.body2}>Improvement Courses:</Text>
+              <Text style={[styles.text.body2, styles.bengaliText]}>
+                {`কোর্স নং(কেবলমাত্র মানউন্নয়ন ও পুনঃ পরীক্ষার্থীর বেলায় প্রযোজ্য): `}
+              </Text>
             </View>
 
             <View style={styles.textViewRightAdmitCard}>
@@ -127,7 +144,7 @@ const PDFAdmitCardFrag = ({ data, student }) => {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <View style={styles.textViewLeftAdmitCard}>
-              <Text style={styles.text.body2}>Candidate's ID</Text>
+              <Text style={[styles.text.body2, styles.bengaliText]}>{`আই.ডি. নং:`}</Text>
             </View>
 
             <View
@@ -141,7 +158,7 @@ const PDFAdmitCardFrag = ({ data, student }) => {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <View style={styles.textViewLeftAdmitCard}>
-              <Text style={styles.text.body2}>Session</Text>
+              <Text style={[styles.text.body2, styles.bengaliText]}>{`শিক্ষাবর্ষ: `}</Text>
             </View>
 
             <View
@@ -157,7 +174,7 @@ const PDFAdmitCardFrag = ({ data, student }) => {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <View style={styles.textViewLeftAdmitCard}>
-              <Text style={styles.text.body2}>Candidate's Name</Text>
+              <Text style={[styles.text.body2, styles.bengaliText]}>{`পরীক্ষার্থীর নাম:` }</Text>
             </View>
 
             <View
@@ -173,7 +190,7 @@ const PDFAdmitCardFrag = ({ data, student }) => {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <View style={styles.textViewLeftAdmitCard}>
-              <Text style={styles.text.body2}>Father's Name</Text>
+              <Text style={[styles.text.body2, styles.bengaliText]}>{`পিতার নাম: `}</Text>
             </View>
 
             <View
@@ -187,7 +204,7 @@ const PDFAdmitCardFrag = ({ data, student }) => {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <View style={styles.textViewLeftAdmitCard}>
-              <Text style={styles.text.body2}>Mother's Name</Text>
+              <Text style={[styles.text.body2, styles.bengaliText]}>{`মাতার নাম: `}</Text>
             </View>
 
             <View
@@ -201,7 +218,7 @@ const PDFAdmitCardFrag = ({ data, student }) => {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <View style={styles.textViewLeftAdmitCard}>
-              <Text style={styles.text.body2}>Hall Name</Text>
+              <Text style={[styles.text.body2, styles.bengaliText]}>{`হলের নাম: `}</Text>
             </View>
 
             <View
@@ -224,8 +241,9 @@ const PDFAdmitCardFrag = ({ data, student }) => {
           style={[
             styles.text.body2,
             { marginTop: "16px", textAlign: 'right' },
+            styles.bengaliText
           ]}>
-          Exam Controller
+          {` পরীক্ষা নিয়ন্ত্রক`}
         </Text>
       </View>
 
