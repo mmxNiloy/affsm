@@ -35,7 +35,7 @@ const PDFStudentInfoFrag = ({data}) => {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
                 <View style={styles.textViewLeft}>
                     <Text style={[styles.text.body2, styles.bengaliText]}>
-                        {`.পিতার নাম: `}
+                        {`পিতার নাম: `}
                     </Text>
                 </View>
                 

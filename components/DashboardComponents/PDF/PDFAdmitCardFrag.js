@@ -53,7 +53,8 @@ const PDFAdmitCardFrag = ({ data, student }) => {
     });
 
     if (ans.length < 1) return "N/A";
-
+    // A stupid way to unit test but sure gets the job done.
+    // ans = ans + ans + ans + ans + ans + ans + ans + ans + ans + ans + ans + ans + ans
     return ans.slice(0, ans.length - 2);
   };
   return (
@@ -129,7 +130,7 @@ const PDFAdmitCardFrag = ({ data, student }) => {
             {/* TODO: Course Number and Cour id's needed to be fixed. */}
             <View style={styles.textViewLeftAdmitCard}>
               <Text style={[styles.text.body2, styles.bengaliText]}>
-                {`কোর্স নং(কেবলমাত্র মানউন্নয়ন ও পুনঃ পরীক্ষার্থীর বেলায় প্রযোজ্য): `}
+                {`কোর্স নং: \n(কেবলমাত্র মানউন্নয়ন ও পুনঃ পরীক্ষার্থীর বেলায় প্রযোজ্য) `}
               </Text>
             </View>
 

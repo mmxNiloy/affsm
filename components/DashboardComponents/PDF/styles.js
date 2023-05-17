@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
         marginRight: "64px",
         flexDirection: 'column', 
         textAlign: 'right',
+        maxWidth: '35%',
         marginBottom: "5px",
         marginLeft:"32px"
     },
@@ -56,6 +57,9 @@ const styles = StyleSheet.create({
         margin: 1,
         marginHorizontal: '26px',
         padding: 10,
+    },
+    textList: {
+        width: ''
     },
     title: {
         margin: 6,
