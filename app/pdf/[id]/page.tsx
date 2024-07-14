@@ -28,7 +28,7 @@ export default function AcademicFormPDF({
   const { user } = useContext(UserContext);
 
   const fetchData = useCallback(async () => {
-    if (form && exam && student) return;
+    // if (form && exam && student) return;
 
     setLoading(true);
 
@@ -57,7 +57,7 @@ export default function AcademicFormPDF({
     }
 
     setLoading(false);
-  }, [exam, form, params.id, student]);
+  }, [params.id]);
 
   useEffect(() => {
     fetchData();
