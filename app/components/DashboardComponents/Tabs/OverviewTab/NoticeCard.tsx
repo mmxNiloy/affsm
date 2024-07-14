@@ -38,7 +38,7 @@ export default function NoticeCard({ notice }: Props) {
         <a
           className="min-w-0 whitespace-nowrap text-nowrap text-ellipsis overflow-hidden"
           target="_blank"
-          href={`http://api.bike-csecu.com/upload/${
+          href={`https://api.bike-csecu.com/upload/${
             !notice.notice_attachment || notice.notice_attachment.length === 0
               ? "test.webp"
               : notice.notice_attachment
