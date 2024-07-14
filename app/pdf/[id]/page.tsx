@@ -23,12 +23,12 @@ export default function AcademicFormPDF({
   const [form, setForm] = useState<FormDetail>();
   const [exam, setExam] = useState<Exam>();
   const [student, setStudent] = useState<User>();
-
+  const [gotAllData, setGotAllData] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
 
   const fetchData = useCallback(async () => {
-    // if (form && exam && student) return;
+    if (gotAllData) return;
 
     setLoading(true);
 
@@ -37,27 +37,32 @@ export default function AcademicFormPDF({
       const req = await fetch(`/api/form/${fid}`);
       if (req.ok) {
         const data = (await req.json()) as FormDetail;
+        var count = 1;
 
         // Get exam data
         const examRes = await fetch(`/api/exam/${data.exam_id}`);
         if (examRes.ok) {
+          count = count + 2;
           setExam((await examRes.json()) as Exam);
         } else setExam(undefined);
 
         // Get student information
         const stuRes = await fetch(`/api/student/${data.student_id}`);
         if (stuRes.ok) {
+          count = count + 1;
           setStudent((await stuRes.json()) as User);
         } else setStudent(undefined);
 
         setForm(data);
+        if (count === 3) setGotAllData(true);
+        else setGotAllData(false);
       } else setForm(undefined);
     } catch (err) {
       setForm(undefined);
     }
 
     setLoading(false);
-  }, [params.id]);
+  }, [gotAllData, params.id]);
 
   useEffect(() => {
     fetchData();
