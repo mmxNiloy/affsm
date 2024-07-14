@@ -85,7 +85,7 @@ export default function NavDrawer() {
           <Separator />
 
           <Link
-            href={user ? (user.roles ? "/dashboard/admin" : "dashboard") : "/"}
+            href={user ? (user.roles ? "/dashboard/admin" : "/dashboard") : "/"}
             passHref
             className="px-2 md:px-4"
           >
