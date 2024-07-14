@@ -95,10 +95,10 @@ export default function NavDrawer() {
             >
               <Icons.dashboard />
               <p className="flex flex-grow">Dashboard</p>
-              {path.endsWith("dashboard") ||
-                (path.endsWith("dashboard/admin") && (
-                  <span className="bg-blue-500 rounded-full h-2 w-2" />
-                ))}
+              {(path.endsWith("dashboard") ||
+                path.endsWith("dashboard/admin")) && (
+                <span className="bg-blue-500 rounded-full h-2 w-2" />
+              )}
             </Button>
           </Link>
 
