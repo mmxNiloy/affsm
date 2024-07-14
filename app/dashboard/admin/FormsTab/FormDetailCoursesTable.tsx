@@ -29,15 +29,12 @@ export default async function FormDetailCoursesTable({ form }: Props) {
     );
   }
 
-  const apiRes = await fetch(
-    `http://api.bike-csecu.com/api/form/${form.form_id}`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `bearer ${sessionCookie.value}`,
-      },
-    }
-  );
+  const apiRes = await fetch(`http://localhost:5000/api/form/${form.form_id}`, {
+    method: "GET",
+    headers: {
+      Authorization: `bearer ${sessionCookie.value}`,
+    },
+  });
   const data = (await apiRes.json()) as FormDetail;
   const courses = data.courses;
 

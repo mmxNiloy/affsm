@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     password: string;
   };
 
-  const apiRes = await fetch("http://api.bike-csecu.com/api/login/student", {
+  const apiRes = await fetch("http://localhost:5000/api/login/student", {
     method: "POST",
     headers: {
       Accept: "*/*",

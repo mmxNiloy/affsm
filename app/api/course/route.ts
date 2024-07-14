@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
 
   // Req 1: Get current semester courses
   const currRes = await fetch(
-    `http://api.bike-csecu.com/api/course-semester?semester=${semester}`,
+    `http://localhost:5000/api/course-semester?semester=${semester}`,
     {
       method: "GET",
     }
@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
   }
 
   const imprvRes = await fetch(
-    `http://api.bike-csecu.com/api/course-semester?semester=${
+    `http://localhost:5000/api/course-semester?semester=${
       Number.parseInt(semester) - 2
     }`,
     {

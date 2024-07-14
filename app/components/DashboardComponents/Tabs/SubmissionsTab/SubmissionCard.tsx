@@ -18,12 +18,9 @@ type Props = {
 };
 
 export default async function SubmissionCard({ form }: Props) {
-  const apiRes = await fetch(
-    `http://api.bike-csecu.com/api/exam/${form.exam_id}`,
-    {
-      method: "GET",
-    }
-  );
+  const apiRes = await fetch(`http://localhost:5000/api/exam/${form.exam_id}`, {
+    method: "GET",
+  });
 
   const examInfo = (await apiRes.json()) as Exam;
   const examYear = new Date(examInfo.exam_start_date).getFullYear().toString();

@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
   const bod = await req.formData();
 
   // Upload to csecu server
-  const apiRes = await fetch("http://api.bike-csecu.com/api/upload", {
+  const apiRes = await fetch("http://localhost:5000/api/upload", {
     method: "POST",
     body: bod,
   });

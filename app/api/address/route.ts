@@ -7,7 +7,7 @@ export async function GET() {
     return NextResponse.json({ message: "Session expired" }, { status: 403 });
   }
 
-  const apiRes = await fetch(`http://api.bike-csecu.com/api/address/my`, {
+  const apiRes = await fetch(`http://localhost:5000/api/address/my`, {
     headers: { Authorization: `bearer ${sessionCookie.value}` },
   });
 

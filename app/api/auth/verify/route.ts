@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   if (!Boolean(session_id) || session_id.length < 1)
     return NextResponse.json({ message: "Session expired" }, { status: 401 });
 
-  const apiRes = await fetch("http://api.bike-csecu.com/api/user", {
+  const apiRes = await fetch("http://localhost:5000/api/user", {
     method: "GET",
     headers: {
       Authorization: `bearer ${session_id}`,

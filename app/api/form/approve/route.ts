@@ -9,15 +9,12 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ message: "Session expired" }, { status: 403 });
   }
 
-  const apiRes = await fetch(
-    `http://api.bike-csecu.com/api/form/approve/${id}`,
-    {
-      method: "PUT",
-      headers: {
-        Authorization: `bearer ${sessionCookie.value}`,
-      },
-    }
-  );
+  const apiRes = await fetch(`http://localhost:5000/api/form/approve/${id}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `bearer ${sessionCookie.value}`,
+    },
+  });
 
   return NextResponse.json(await apiRes.json(), { status: apiRes.status });
 }
