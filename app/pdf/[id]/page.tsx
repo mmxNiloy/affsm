@@ -38,14 +38,14 @@ export default function AcademicFormPDF({
       if (req.ok) {
         const data = (await req.json()) as FormDetail;
         var count = 1;
-        console.log("Form found", data);
+        // console.log("Form found", data);
 
         // Get exam data
         const examRes = await fetch(`/api/exam/${data.exam_id}`);
         if (examRes.ok) {
           count = count + 2;
           const examData = (await examRes.json()) as Exam;
-          console.log("Exam data", examData);
+          // console.log("Exam data", examData);
           setExam(examData);
         } else setExam(undefined);
 
@@ -54,7 +54,7 @@ export default function AcademicFormPDF({
         if (stuRes.ok) {
           count = count + 1;
           const studentData = (await stuRes.json()) as User;
-          console.log("Student data", studentData);
+          // console.log("Student data", studentData);
           setStudent(studentData);
         } else setStudent(undefined);
 
