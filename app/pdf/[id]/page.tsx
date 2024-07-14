@@ -38,25 +38,33 @@ export default function AcademicFormPDF({
       if (req.ok) {
         const data = (await req.json()) as FormDetail;
         var count = 1;
+        console.log("Form found", data);
 
         // Get exam data
         const examRes = await fetch(`/api/exam/${data.exam_id}`);
         if (examRes.ok) {
           count = count + 2;
-          setExam((await examRes.json()) as Exam);
+          const examData = (await examRes.json()) as Exam;
+          console.log("Exam data", examData);
+          setExam(examData);
         } else setExam(undefined);
 
         // Get student information
         const stuRes = await fetch(`/api/student/${data.student_id}`);
         if (stuRes.ok) {
           count = count + 1;
-          setStudent((await stuRes.json()) as User);
+          const studentData = (await stuRes.json()) as User;
+          console.log("Student data", studentData);
+          setStudent(studentData);
         } else setStudent(undefined);
 
         setForm(data);
         if (count === 3) setGotAllData(true);
         else setGotAllData(false);
-      } else setForm(undefined);
+      } else {
+        setForm(undefined);
+        setGotAllData(false);
+      }
     } catch (err) {
       setForm(undefined);
     }
