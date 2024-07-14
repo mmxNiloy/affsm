@@ -58,6 +58,10 @@ interface User {
   department_abbr?: string;
   session?: string;
   semester?: number;
+
+  permanent_address?: Address;
+  present_address?: Address;
+  guardian_address?: Address;
 }
 
 interface Course {

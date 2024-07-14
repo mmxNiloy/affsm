@@ -2,10 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -13,7 +10,6 @@ import {
 import { Button } from "@/components/ui/button";
 import Icons from "../../Icons";
 import { Separator } from "@/components/ui/separator";
-import { LucideProps } from "lucide-react";
 import Link from "next/link";
 import UserContext from "@/app/providers/UserContex";
 import { usePathname } from "next/navigation";

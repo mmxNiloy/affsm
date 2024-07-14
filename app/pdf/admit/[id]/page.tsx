@@ -7,19 +7,17 @@ import MyLoadingSpinner from "@/app/components/MyLoadingSpinner";
 import { Exam, FormDetail, StudentAddress, User } from "@/util/types";
 import Icons from "@/app/components/Icons";
 const DynamicPDFViewer = dynamic(
-  () => import("../../components/DashboardComponents/PDF/MyPDFViewer"),
+  () => import("../../../components/DashboardComponents/PDF/MyPDFViewer"),
   {
     ssr: false,
   }
 );
 
-export default function AcademicFormPDF({
+export default function AcademicFormAdmitCardPDF({
   params,
 }: {
   params: { id: string };
 }) {
-  const id = params.id;
-
   const [form, setForm] = useState<FormDetail>();
   const [exam, setExam] = useState<Exam>();
   const [student, setStudent] = useState<User>();
@@ -80,7 +78,7 @@ export default function AcademicFormPDF({
 
   return (
     <div className="flex items-center justify-center">
-      <DynamicPDFViewer form={form} exam={exam} student={student} />
+      <DynamicPDFViewer form={form} exam={exam} student={student} admitCard />
     </div>
   );
 }

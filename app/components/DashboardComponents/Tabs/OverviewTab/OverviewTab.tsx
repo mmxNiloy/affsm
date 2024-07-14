@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import UserContext from "@/app/providers/UserContex";
-import Loading from "@/app/loading";
 import { Button } from "@/components/ui/button";
 import Icons from "../../../Icons";
 import NoticePreview from "./NoticePreview";

@@ -1,60 +1,14 @@
 "use client";
-import Toolbar from "@mui/material/Toolbar";
-import AppBar from "@mui/material/AppBar";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import MenuIcon from "@mui/icons-material/Menu";
-import IconButton from "@mui/material/IconButton";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
-import SettingsIcon from "@mui/icons-material/Settings";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import LogoutIcon from "@mui/icons-material/Logout";
-import Tooltip from "@mui/material/Tooltip";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { useTheme } from "@mui/material/styles";
-import ResponsiveAppBar from "./ResponsiveAppBar";
-import PersistentDrawer from "../Drawer/PersistentDrawer";
+import { useCallback, useContext } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import UserContext from "@/app/providers/UserContex";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import Icons from "../../Icons";
-import {
-  Menubar,
-  MenubarCheckboxItem,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarRadioGroup,
-  MenubarRadioItem,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
-  MenubarTrigger,
-} from "@/components/ui/menubar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import NavDrawer from "../Drawer/NavDrawer";
@@ -67,15 +21,15 @@ const MyAppBar = () => {
   const settings = [
     {
       text: "Profile",
-      icon: <AccountCircleIcon />,
+      icon: <Icons.user />,
     },
     {
       text: "Preferences",
-      icon: <SettingsIcon />,
+      icon: <Icons.settings />,
     },
     {
       text: "Logout",
-      icon: <LogoutIcon />,
+      icon: <Icons.logout />,
     },
   ];
 
@@ -91,7 +45,7 @@ const MyAppBar = () => {
     } else {
       alert("Logout failed");
     }
-  }, []);
+  }, [router, setUser]);
 
   const handleMenuItemClick = (index: number) => {
     if (settings[index].text === "Logout") logout();
@@ -127,7 +81,7 @@ const MyAppBar = () => {
               {settings.map((item, index) => (
                 <DropdownMenuItem
                   key={`profile_menu_item_${index}`}
-                  onClick={(e) => {
+                  onClick={() => {
                     handleMenuItemClick(index);
                   }}
                 >

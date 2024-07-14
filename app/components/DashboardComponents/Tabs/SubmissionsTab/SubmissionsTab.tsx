@@ -6,28 +6,16 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from "@/components/ui/pagination";
 import UserContext from "@/app/providers/UserContex";
 import Icons from "@/app/components/Icons";
-import { Form, PaginatedForms } from "@/util/types";
+import { PaginatedForms } from "@/util/types";
 import { Button } from "@/components/ui/button";
-import Loading from "@/app/loading";
 import SubmissionCard from "./SubmissionCard";
 import SubmissionCardSkeleton from "./SubmissionCardSkeleton";
 import MyLoadingSpinner from "@/app/components/MyLoadingSpinner";

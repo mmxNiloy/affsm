@@ -1,5 +1,6 @@
 "use server";
-import Link from "@mui/material/Link";
+
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -21,9 +22,7 @@ const Footer = () => {
 
           <ul>
             <li>
-              <Link href="/about/" rel="noopener" underline="none">
-                About
-              </Link>
+              <Link href="/about/">About</Link>
             </li>
             <li>Contact us</li>
             <li>Career</li>
@@ -37,47 +36,27 @@ const Footer = () => {
 
           <ul>
             <li>
-              <Link
-                rel="noopener"
-                underline="none"
-                href="https://open.spotify.com/track/35dSYPOnoGvis2ZOUe4xDv?si=be5ce0ab47494974"
-              >
+              <Link href="https://open.spotify.com/track/35dSYPOnoGvis2ZOUe4xDv?si=be5ce0ab47494974">
                 House on Fire - Rise Against
               </Link>
             </li>
             <li>
-              <Link
-                rel="noopener"
-                underline="none"
-                href="https://open.spotify.com/track/0bkW98npv8EsWQ2fXFzK56?si=4ae8c8337f0d4309"
-              >
+              <Link href="https://open.spotify.com/track/0bkW98npv8EsWQ2fXFzK56?si=4ae8c8337f0d4309">
                 From Eden - Hozier
               </Link>
             </li>
             <li>
-              <Link
-                rel="noopener"
-                underline="none"
-                href="https://open.spotify.com/track/4bHsxqR3GMrXTxEPLuK5ue?si=3c57d2f92bc9450c"
-              >
+              <Link href="https://open.spotify.com/track/4bHsxqR3GMrXTxEPLuK5ue?si=3c57d2f92bc9450c">
                 Don&apos;t stop believin&apos; - Journey
               </Link>
             </li>
             <li>
-              <Link
-                rel="noopener"
-                underline="none"
-                href="https://open.spotify.com/track/64VLqyvVCCAXyqKCqs40z8?si=180a8d94852e44cb"
-              >
+              <Link href="https://open.spotify.com/track/64VLqyvVCCAXyqKCqs40z8?si=180a8d94852e44cb">
                 While we sleep - Insomnium
               </Link>
             </li>
             <li>
-              <Link
-                rel="noopener"
-                underline="none"
-                href="https://open.spotify.com/track/0ePmfd8y7g4zs3E6ew7pDB?si=9aa4ce75f0284514"
-              >
+              <Link href="https://open.spotify.com/track/0ePmfd8y7g4zs3E6ew7pDB?si=9aa4ce75f0284514">
                 The Red Baron - Sabaton
               </Link>
             </li>
@@ -90,13 +69,7 @@ const Footer = () => {
 
       <p className="text-center">
         Made with &#10084; by{" "}
-        <Link
-          rel="noopener"
-          underline="hover"
-          href="https://github.com/mmxNiloy"
-        >
-          mmxNiloy
-        </Link>
+        <Link href="https://github.com/mmxNiloy">mmxNiloy</Link>
       </p>
     </div>
   );

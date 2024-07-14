@@ -1,14 +1,8 @@
 "use server";
 
-import Head from "next/head";
-import Grid from "@mui/material/Grid";
 import LoginForm from "@/app/components/LoginPageComponents/LoginForm";
 import Footer from "@/app/components/LoginPageComponents/Footer";
 import LogoDescription from "@/app/components/LoginPageComponents/LogoDescription";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { User } from "@/util/types";
 
 export default async function Home() {
   return (

@@ -1,9 +1,15 @@
 import { Document, Image, Page, Text, View, Font } from "@react-pdf/renderer";
-import { useEffect, useState } from "react";
 import PDFAdmitCardFrag from "./PDFAdmitCardFrag";
 import PDFStudentInfoFrag from "./PDFStudentInfoFrag";
 import ExamRulesFragment from "./ExamRulesFragment";
-import styles from "./styles";
+import styles, { TextStyles } from "./styles";
+import { Course, Exam, FormDetail, User } from "@/util/types";
+import {
+  getExamName,
+  toAddressString,
+  toDD_MM_YYYY,
+  toOrdinal,
+} from "@/util/Functions";
 
 Font.register({
   family: "NotoBengali",
@@ -14,48 +20,55 @@ Font.register({
 });
 
 const MyDocument = ({
-  data,
+  form,
+  exam,
+  student,
   admitCard,
 }: {
-  data: any;
+  form: FormDetail;
+  exam: Exam;
+  student: User;
   admitCard?: boolean;
 }) => {
-  if (!Boolean(data)) return null;
+  if (!form)
+    return (
+      <Document title={`Error: Form Not Found`}>
+        <Page size="A4" style={styles.page}>
+          <View style={styles.title}>
+            <Text
+              style={[
+                TextStyles.h2,
+                {
+                  marginTop: "8px",
+                  marginBottom: "8px",
+                },
+                styles.bengaliText,
+              ]}
+            >
+              Error: Form not found!
+            </Text>
+          </View>
+        </Page>
+      </Document>
+    );
 
-  const toCardinal = (num) => {
-    // Limited to 1-9
-    switch (num) {
-      case 1:
-        return "1st";
-      case 2:
-        return "2nd";
-      case 3:
-        return "3rd";
-      default:
-        return num + "th";
-    }
-  };
-
-  const renderCourses = (item, index) => {
+  const renderCourses = (item: Course, index: number) => {
     return (
       <View
         key={`selected-course-${index}`}
-        style={{ flexDirection: "row", justifyContent: "space-around" }}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
+          gap: "4px",
+        }}
       >
-        <View style={{ flexDirection: "column", marginRight: "50px" }}>
-          <Text style={[styles.text.body2, { textAlign: "center" }]}>
-            {item.course_code}
-          </Text>
-        </View>
-
-        <View style={{ flexDirection: "column", marginLeft: "50px" }}>
-          <Text
-            style={[styles.text.body2, { width: "150ch", textAlign: "center" }]}
-            wrap
-          >
-            {item.course_title}
-          </Text>
-        </View>
+        <Text style={[TextStyles.textXS, { width: "50%", textAlign: "left" }]}>
+          {item.course_code}
+        </Text>
+        <Text style={[TextStyles.textXS, { width: "50%", textAlign: "right" }]}>
+          {item.course_title}
+        </Text>
       </View>
     );
   };
@@ -64,26 +77,26 @@ const MyDocument = ({
     return (
       <Document>
         <Page size="A4" style={[styles.page, { padding: "32px" }]}>
-          <PDFAdmitCardFrag data={data} student />
+          <PDFAdmitCardFrag form={form} exam={exam} student={student} />
         </Page>
       </Document>
     );
 
   return (
-    <Document title={`Form_${data.form_id}`}>
+    <Document title={`Form_${form.form_id}`}>
       <Page size="A4" style={styles.page}>
         <View style={styles.title}>
           <Image
             src="/cu_logo.png"
             style={{
-              height: "128px",
-              width: "86px",
+              height: "64px",
+              width: "43px",
             }}
           />
 
           <Text
             style={[
-              styles.text.h2,
+              TextStyles.h2,
               {
                 marginTop: "8px",
                 marginBottom: "8px",
@@ -94,159 +107,200 @@ const MyDocument = ({
             {`চট্টগ্রাম বিশ্ববিদ্যালয়`}
           </Text>
 
-          <Text style={styles.text.h5}>
-            {toCardinal(data.semester)} Semester, BSc Engineering Exam,{" "}
-            {new Date(data.time_stamp).getFullYear()}
-          </Text>
+          <Text style={TextStyles.h5}>{getExamName(exam)}</Text>
         </View>
 
         {/* Thank you tim-soft, very cool */}
         {/* Student info box */}
-        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "4px",
+            alignItems: "center",
+            alignSelf: "center",
+            justifyContent: "space-around",
+            maxWidth: "90vw",
+            border: "1px solid black",
+          }}
+        >
           <View
             style={{
+              display: "flex",
+              gap: "4px",
               flexDirection: "column",
-              border: "1px solid black",
+              borderRight: "1px solid black",
               padding: "8px",
+              width: "50%",
+              flexWrap: "wrap",
             }}
           >
-            <Text style={[styles.text.body1, styles.bengaliText]}>
-              {`আইডি নম্বর : ${data.student_id}`}
+            <Text style={[TextStyles.body2, styles.bengaliText]}>
+              {`আইডি নম্বর : ${form.student_id}`}
             </Text>
 
-            <Text style={[styles.text.body1, styles.bengaliText]}>
-              {`শিক্ষার্থীর নাম : ${data.first_name} ${data.last_name}`}
+            <Text style={[TextStyles.body2, styles.bengaliText]}>
+              {`শিক্ষার্থীর নাম : ${student.first_name_bn} ${student.last_name_bn} `}
             </Text>
 
-            <Text style={[styles.text.body1, styles.bengaliText]}>
-              {`সেশন : ${Number.parseInt(data.session) - 1}-${Number.parseInt(
-                data.session
-              )}`}
+            <Text style={[TextStyles.body2, styles.bengaliText]}>
+              {`সেশন : ${student.session}`}
             </Text>
 
-            <Text style={[styles.text.body1, styles.bengaliText]}>
-              {`ডিপার্টমেন্ট : ${data.department_name}`}
+            <Text style={[TextStyles.body2, styles.bengaliText]}>
+              {`ডিপার্টমেন্ট : ${student.department_name}`}
             </Text>
           </View>
 
           <View
             style={{
+              display: "flex",
+              gap: "4px",
               flexDirection: "column",
-              border: "1px solid black",
               padding: "8px",
+              width: "50%",
+              flexWrap: "wrap",
             }}
           >
-            <Text style={[styles.text.body1, styles.bengaliText]}>
-              {`হল : ${data.hall_name} Hall`}
+            <Text style={[TextStyles.body2, styles.bengaliText]}>
+              {`হল : ${student.hall_name}`}
             </Text>
 
-            <Text style={[styles.text.body1, styles.bengaliText]}>
-              {`জমা দেওয়ার তারিখ: ${new Date(data.time_stamp).toDateString()}`}
+            <Text style={[TextStyles.body2, styles.bengaliText]}>
+              {`জমা দেওয়ার তারিখ: ${toDD_MM_YYYY(form.form_submission_time)}`}
             </Text>
 
-            <Text style={[styles.text.body1, styles.bengaliText]}>
-              {`সেমিস্টার: ${data.semester}`}
+            <Text style={[TextStyles.body2, styles.bengaliText]}>
+              {`সেমিস্টার: ${exam.semester}`}
             </Text>
 
-            <Text style={[styles.text.body1, styles.bengaliText]}>
-              {`বর্তমান ঠিকানা : ${data.current_address}`}
+            <Text style={[TextStyles.body2, styles.bengaliText]}>
+              {`বর্তমান ঠিকানা : ${toAddressString(student.present_address)}`}
             </Text>
           </View>
         </View>
 
         {/* Main application */}
         <View style={[styles.section]}>
-          <Text style={[styles.text.h6, styles.center, styles.bengaliText]}>
+          <Text style={[TextStyles.h6, styles.center, styles.bengaliText]}>
             {`আবেদনপত্র `}
           </Text>
 
-          <Text style={[styles.text.body1, styles.bengaliText]}>
+          <Text style={[TextStyles.body1, styles.bengaliText]}>
             {`পরীক্ষা নিয়ন্ত্রক `}
           </Text>
 
-          <Text style={[styles.text.body1, styles.bengaliText]}>
+          <Text style={[TextStyles.body1, styles.bengaliText]}>
             {`চট্টগ্রাম বিশ্ববিদ্যালয়, চট্টগ্রাম `}
           </Text>
 
-          <Text style={[styles.text.body1, styles.bengaliText]}>জনাব,</Text>
+          <Text style={[TextStyles.body1, styles.bengaliText]}>জনাব,</Text>
 
-          <Text style={[styles.text.body2, styles.bengaliText]}>
-            {`আমি আসন্ন ${new Date().getFullYear()} সালের বিএসসি ইঞ্জিনিয়ারিং ${
-              data.semester
-            } সেমিস্টার পরীক্ষায় অংশ গ্রহণের জন্য অনুমতি প্রার্থনা করছি। 
+          <Text style={[TextStyles.body2, styles.bengaliText]}>
+            {`আমি আসন্ন ${getExamName(
+              exam
+            )} পরীক্ষায় অংশ গ্রহণের জন্য অনুমতি প্রার্থনা করছি। 
                         আমি অঙ্গীকার করছি যে , আমার অত্র পরীক্ষা সংক্রান্ত ব্যাপারে সিন্ডিকেট বা তদ্কর্তৃক ক্ষমতা প্রদত্ত অফিসার এর সিদ্ধান্ত
                         চূড়ান্ত বলে মেনে নিতে বাধ্য  থাকবো। `}
           </Text>
 
-          <Text style={[styles.text.body2, styles.bengaliText]}>
+          <Text style={[TextStyles.body2, styles.bengaliText]}>
             {`আপনার একান্ত অনুগত `}
           </Text>
 
-          <Text
-            style={{
-              ...styles.text.body2,
-            }}
-          >
-            {`${data.first_name} ${data.last_name}`}
+          <Text style={[TextStyles.body2, styles.bengaliText]}>
+            {`${student.first_name_bn} ${student.last_name_bn} `}
           </Text>
         </View>
-
         {/* Selected courses */}
         <View>
-          <Text style={[styles.text.h6, styles.center, styles.bengaliText]}>
+          <Text style={[TextStyles.h6, styles.center, styles.bengaliText]}>
             {`নির্বাচিত কোর্সসমূহ `}
           </Text>
         </View>
 
-        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-          <View style={{ flexDirection: "column" }}>
-            <Text style={styles.text.body1}>Course Code</Text>
-          </View>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "4px",
+            alignItems: "center",
+            justifyContent: "center",
+            alignSelf: "center",
+            width: "90vw",
+          }}
+        >
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              gap: "4px",
+            }}
+          >
+            <Text
+              style={[TextStyles.body1, { width: "50%", textAlign: "left" }]}
+            >
+              Course Code
+            </Text>
 
-          <View style={{ flexDirection: "column" }}>
-            <Text style={styles.text.body1}>Course Title</Text>
+            <Text
+              style={[TextStyles.body1, { width: "50%", textAlign: "right" }]}
+            >
+              Course Title
+            </Text>
           </View>
+          {form.courses.map(renderCourses)}
         </View>
-        {data.courses.map(renderCourses)}
 
         <View
-          style={[styles.section, { textAlign: "right" }, styles.bengaliText]}
+          style={[
+            styles.section,
+            {
+              textAlign: "right",
+              width: "40%",
+              alignSelf: "flex-end",
+              flexWrap: "wrap",
+            },
+            styles.bengaliText,
+          ]}
         >
-          <Text style={[styles.text.body2]}>
+          <Text style={[TextStyles.body2]}>
             {`পরীক্ষার্থীর পূর্ণ স্বাক্ষর: `}
           </Text>
           <Text
             style={[
-              styles.text.body2,
+              TextStyles.body2,
               { marginTop: "16px", marginBottom: "8px" },
             ]}
           >
             _____________________
           </Text>
 
-          <Text style={[styles.text.body2, styles.bengaliText]}>
+          <Text style={[TextStyles.body2, styles.bengaliText]}>
             {`অনাবাসিক / আবাসিক (কক্ষ নম্বর সহ `}
           </Text>
 
-          <Text style={[styles.text.body2, styles.bengaliText]}>
-            {`হলের  নাম `}: {data.hall_name}
+          <Text style={[TextStyles.body2, styles.bengaliText]}>
+            {`হলের  নাম `}: {student.hall_name}
           </Text>
 
-          <Text style={[styles.text.body2]}>
-            {`বর্তমান ঠিকানা: `} {data.current_address}
+          <Text style={[TextStyles.body2]}>
+            {`বর্তমান ঠিকানা: `} {toAddressString(student.present_address)}
           </Text>
         </View>
 
         {/* Application of the department staff */}
         <View style={styles.section}>
-          <Text style={[styles.text.h6, styles.center, styles.bengaliText]}>
+          <Text style={[TextStyles.h6, styles.center, styles.bengaliText]}>
             {`সার্টিফিকেট `}
           </Text>
 
-          <Text style={[styles.text.body2, styles.bengaliText]}>
-            {/* TODO: Translate the boring part. Assigned to Yakin */}
-            {`আমি প্রত্যয়ন করছি যে , উল্লেখিত ছাত্রের পাঠক্রম অনুশীলন সন্তোষজনক এবং আমি তার ....... বর্ষ বিএসসি ইঞ্জিনিয়ারিং
-                        ${data.semester} সেমিস্টার পরীক্ষায় অংশগ্রহণের  অনুমতির জন্য সুপারিশ করছি।  আমি আরো যাচাই করে দেখেছি যে, 
+          <Text style={[TextStyles.body2, styles.bengaliText]}>
+            {`আমি প্রত্যয়ন করছি যে , উল্লেখিত ছাত্রের পাঠক্রম অনুশীলন সন্তোষজনক এবং আমি তার ....... বর্ষ বিএসসি ইঞ্জিনিয়ারিং  
+                        ${toOrdinal(
+                          student.semester!
+                        )} সেমিস্টার পরীক্ষায় অংশগ্রহণের  অনুমতির জন্য সুপারিশ করছি।  আমি আরো যাচাই করে দেখেছি যে, 
                         অনার্স পরীক্ষার পত্রসমূহ সঠিকভাবে লিখিত আছে। `}
           </Text>
         </View>
@@ -256,12 +310,12 @@ const MyDocument = ({
             style={{ flexDirection: "row", justifyContent: "space-around" }}
           >
             <View style={{ flexDirection: "column", textAlign: "left" }}>
-              <Text style={[styles.text.body2, styles.bengaliText]}>
+              <Text style={[TextStyles.body2, styles.bengaliText]}>
                 {`পরীক্ষার্থীর ক্লাসে উপস্থিতির হার: `}
               </Text>
               <Text
                 style={[
-                  styles.text.body2,
+                  TextStyles.body2,
                   { marginTop: "16px", marginBottom: "8px" },
                 ]}
               >
@@ -270,12 +324,12 @@ const MyDocument = ({
             </View>
 
             <View style={{ flexDirection: "column", textAlign: "right" }}>
-              <Text style={[styles.text.body2, styles.bengaliText]}>
+              <Text style={[TextStyles.body2, styles.bengaliText]}>
                 {`বিভাগীয় সভাপতির স্বাক্ষর ও সিলমোহর: `}
               </Text>
               <Text
                 style={[
-                  styles.text.body2,
+                  TextStyles.body2,
                   { marginTop: "16px", marginBottom: "8px" },
                 ]}
               >
@@ -286,7 +340,7 @@ const MyDocument = ({
 
           <Text
             style={[
-              styles.text.body2,
+              TextStyles.body2,
               { marginTop: "4px", textAlign: "center" },
               styles.bengaliText,
             ]}
@@ -298,39 +352,24 @@ const MyDocument = ({
 
       <Page size="A4" wrap style={styles.page}>
         <View style={styles.section}>
-          <Text style={[styles.text.body2, styles.bengaliText]}>
-            {/* TODO: gender neutral */}
-            {/* TODO: Translate the boring part. Assigned to Yakin */}
+          <Text style={[TextStyles.body2, styles.bengaliText]}>
             {`আমি প্রত্যয়ন করছি যে , পরীক্ষার্থী আবাসের শর্তাবলী পালন করেছে এবং সে সৎ চরিত্রের অধিকারী। 
-                        আমার জানামতে দরখাস্তের যাবতীয় বিবরণ সত্য। সে ${parseInt(
-                          new Date().getFullYear() / 100
-                        )}${parseInt(
-              data.student_id / 1000000
-            )} সালের ১ম বর্ষ অনার্স কোর্স এ ভর্তি হয়েছে। 
-                        ${
-                          parseInt(new Date().getFullYear()) - 1
-                        } সালের ${toCardinal(
-              parseInt(new Date().getFullYear() % 100) -
-                parseInt(data.student_id / 1000000) -
-                1
-            )} বর্ষ বিএসসি ইঞ্জিনিয়ারিং কোর্স 
-                        এ পুনঃভর্তি হয়েছে। দরখাস্তকারীকে ${
-                          parseInt(new Date().getFullYear()) - 1
-                        } সনের
-                        ${toCardinal(
-                          data.semester
-                        )} সেমিস্টার  পরীক্ষায় অংশ গ্রহণের অনুমতির জন্য সুপারিশ করছি। `}
+                        আমার জানামতে দরখাস্তের যাবতীয় বিবরণ সত্য। সে .......... সালের ১ম বর্ষ অনার্স কোর্স এ ভর্তি হয়েছে। 
+                        .......... বর্ষ বিএসসি ইঞ্জিনিয়ারিং কোর্স 
+                        এ পুনঃভর্তি হয়েছে। দরখাস্তকারীকে ${getExamName(
+                          exam
+                        )} পরীক্ষায় অংশ গ্রহণের অনুমতির জন্য সুপারিশ করছি। `}
           </Text>
         </View>
 
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
           <View style={{ flexDirection: "column", textAlign: "left" }}>
-            <Text style={[styles.text.body2, styles.bengaliText]}>
+            <Text style={[TextStyles.body2, styles.bengaliText]}>
               {`তারিখ: `}
             </Text>
             <Text
               style={[
-                styles.text.body2,
+                TextStyles.body2,
                 { marginTop: "16px", marginBottom: "8px" },
               ]}
             >
@@ -339,12 +378,12 @@ const MyDocument = ({
           </View>
 
           <View style={{ flexDirection: "column", textAlign: "right" }}>
-            <Text style={[styles.text.body2, styles.bengaliText]}>
+            <Text style={[TextStyles.body2, styles.bengaliText]}>
               {`প্রভোস্ট: `}
             </Text>
             <Text
               style={[
-                styles.text.body2,
+                TextStyles.body2,
                 { marginTop: "16px", marginBottom: "8px" },
               ]}
             >
@@ -363,10 +402,10 @@ const MyDocument = ({
               marginLeft: "150px",
             }}
           >
-            <Text style={[styles.text.body2, { marginBottom: "2px" }]}>
-              {data.hall_name} Hall,
+            <Text style={[TextStyles.body2, { marginBottom: "2px" }]}>
+              {student.hall_name},
             </Text>
-            <Text style={[styles.text.body1, styles.bengaliText]}>
+            <Text style={[TextStyles.body1, styles.bengaliText]}>
               {`চট্টগ্রাম বিশ্ববিদ্যালয় `}
             </Text>
           </View>
@@ -375,15 +414,21 @@ const MyDocument = ({
         {/* Student info */}
         {/* TODO: Fix the margin padding and style accordingly */}
         {/* Optional form fields */}
-        <PDFStudentInfoFrag data={data} />
+        <PDFStudentInfoFrag student={student} />
       </Page>
 
       <Page size="A4" wrap>
         {/* This is the exam controller copy */}
-        <PDFAdmitCardFrag data={data} />
-
+        <PDFAdmitCardFrag form={form} exam={exam} student={student} />
+      </Page>
+      <Page size="A4" wrap>
         {/* This is the student copy */}
-        <PDFAdmitCardFrag data={data} student />
+        <PDFAdmitCardFrag
+          form={form}
+          exam={exam}
+          student={student}
+          isStudentCopy
+        />
       </Page>
       <Page size="A4" wrap>
         <ExamRulesFragment />

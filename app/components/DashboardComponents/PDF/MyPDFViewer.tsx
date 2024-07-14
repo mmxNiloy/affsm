@@ -1,17 +1,20 @@
 import { PDFViewer } from "@react-pdf/renderer";
-import { useEffect, useState } from "react";
-import EmptyList from "../EmptyList";
 import MyDocument from "./MyDocument";
 import Icons from "../../Icons";
+import { Exam, FormDetail, User } from "@/util/types";
 
 const MyPDFViewer = ({
-  data,
+  form,
+  exam,
+  student,
   admitCard,
 }: {
-  data: any;
+  form: FormDetail;
+  exam: Exam;
+  student: User;
   admitCard?: boolean;
 }) => {
-  if (!Boolean(data))
+  if (!Boolean(form))
     return (
       <div className="flex flex-col gap-1 h-64 w-full">
         <Icons.rabbit size={32} />
@@ -30,7 +33,7 @@ const MyPDFViewer = ({
           height: "100vh",
         }}
       >
-        <MyDocument data={data} admitCard />
+        <MyDocument form={form} exam={exam} student={student} admitCard />
       </PDFViewer>
     );
 
@@ -44,7 +47,7 @@ const MyPDFViewer = ({
         height: "100vh",
       }}
     >
-      <MyDocument data={data} />
+      <MyDocument form={form} exam={exam} student={student} />
     </PDFViewer>
   );
 };

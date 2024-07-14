@@ -1,17 +1,12 @@
-import React, { Suspense } from "react";
+import React from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import Icons from "@/app/components/Icons";
-import { Notice, PaginatedNotice } from "@/util/types";
 import NoticeCardSkeleton from "./NoticeCardSkeleton";
-import NoticeCard from "./NoticeCard";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function NoticePreviewSkeleton() {
