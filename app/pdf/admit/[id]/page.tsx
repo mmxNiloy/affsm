@@ -21,12 +21,12 @@ export default function AcademicFormAdmitCardPDF({
   const [form, setForm] = useState<FormDetail>();
   const [exam, setExam] = useState<Exam>();
   const [student, setStudent] = useState<User>();
-
+  const [gotAllData, setGotAllData] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
 
   const fetchData = useCallback(async () => {
-    if (form && exam && student) return;
+    if (gotAllData) return;
 
     setLoading(true);
 
@@ -35,27 +35,40 @@ export default function AcademicFormAdmitCardPDF({
       const req = await fetch(`/api/form/${fid}`);
       if (req.ok) {
         const data = (await req.json()) as FormDetail;
+        var count = 1;
+        // console.log("Form found", data);
 
         // Get exam data
         const examRes = await fetch(`/api/exam/${data.exam_id}`);
         if (examRes.ok) {
-          setExam((await examRes.json()) as Exam);
+          count = count + 2;
+          const examData = (await examRes.json()) as Exam;
+          // console.log("Exam data", examData);
+          setExam(examData);
         } else setExam(undefined);
 
         // Get student information
         const stuRes = await fetch(`/api/student/${data.student_id}`);
         if (stuRes.ok) {
-          setStudent((await stuRes.json()) as User);
+          count = count + 1;
+          const studentData = (await stuRes.json()) as User;
+          // console.log("Student data", studentData);
+          setStudent(studentData);
         } else setStudent(undefined);
 
         setForm(data);
-      } else setForm(undefined);
+        if (count === 3) setGotAllData(true);
+        else setGotAllData(false);
+      } else {
+        setForm(undefined);
+        setGotAllData(false);
+      }
     } catch (err) {
       setForm(undefined);
     }
 
     setLoading(false);
-  }, [exam, form, params.id, student]);
+  }, [gotAllData, params.id]);
 
   useEffect(() => {
     fetchData();

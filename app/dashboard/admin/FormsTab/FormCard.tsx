@@ -164,6 +164,7 @@ export default function FormCard({ form }: Props) {
           </Button>
         </a>
 
+        {/* This opens up a dialog to show the form details. */}
         {!loading && examInfo && (
           <FormDetailDialog form={form} exam={examInfo} />
         )}

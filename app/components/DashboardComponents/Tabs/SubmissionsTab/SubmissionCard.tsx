@@ -1,5 +1,5 @@
-"use server";
-import React from "react";
+"use client";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -12,21 +12,34 @@ import { Exam, Form } from "@/util/types";
 import Icons from "@/app/components/Icons";
 import { Button } from "@/components/ui/button";
 import { getExamName, toDD_MM_YYYY, toOrdinal } from "@/util/Functions";
+import SubmissionCardSkeleton from "./SubmissionCardSkeleton";
 
 type Props = {
   form: Form;
 };
 
-export default async function SubmissionCard({ form }: Props) {
-  const apiRes = await fetch(
-    `http://api.bike-csecu.com/api/exam/${form.exam_id}`,
-    {
-      method: "GET",
-    }
-  );
+export default function SubmissionCard({ form }: Props) {
+  const [examInfo, setExamInfo] = useState<Exam>();
+  const [examYear, setExamYear] = useState<string>("");
 
-  const examInfo = (await apiRes.json()) as Exam;
-  const examYear = new Date(examInfo.exam_start_date).getFullYear().toString();
+  const getExamInfo = useCallback(async () => {
+    const apiRes = await fetch(
+      `http://api.bike-csecu.com/api/exam/${form.exam_id}`,
+      {
+        method: "GET",
+      }
+    );
+
+    const data = (await apiRes.json()) as Exam;
+    setExamInfo(data);
+    setExamYear(new Date(data.exam_start_date).getFullYear().toString());
+  }, [form.exam_id]);
+
+  useEffect(() => {
+    getExamInfo();
+  }, [getExamInfo]);
+
+  if (!examInfo) return <SubmissionCardSkeleton />;
 
   return (
     <Card>
@@ -65,6 +78,7 @@ export default async function SubmissionCard({ form }: Props) {
         </div>
       </CardContent>
       <CardFooter className="flex flex-row gap-1 md:gap-2">
+        {/* TODO: Make download admit card available when the form has clearance level 6 */}
         <a href={`/pdf/admit/${form.form_id}`} target="_blank">
           <Button className="gap-1 md:gap-2 items-center bg-green-500 hover:bg-green-400">
             <Icons.fileText />
@@ -72,6 +86,8 @@ export default async function SubmissionCard({ form }: Props) {
           </Button>
         </a>
 
+        {/* TODO: Should trigger a dialog to pop-up that shows the form details. */}
+        {/* For reference: @/app/dashboard/admin/FormsTab/FormCard.tsx */}
         <Button className="gap-1 md:gap-2 items-center">
           <Icons.visible />
           View

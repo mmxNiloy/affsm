@@ -59,15 +59,6 @@ function hasClearanceLevel2(user: User): boolean {
 function hasClearanceLevel3(user: User): boolean {
   if (user.roles)
     return (
-      user.roles.filter((role) => /exam_controller/i.test(role.role)).length > 0
-    );
-
-  return false;
-}
-
-function hasClearanceLevel4(user: User): boolean {
-  if (user.roles)
-    return (
       user.roles.filter(
         (role) =>
           /accounts|accountant|accountants/i.test(role.role) ||
@@ -78,7 +69,7 @@ function hasClearanceLevel4(user: User): boolean {
   return false;
 }
 
-function hasClearanceLevel5(user: User): boolean {
+function hasClearanceLevel4(user: User): boolean {
   if (user.roles)
     return (
       user.roles.filter(
@@ -86,6 +77,15 @@ function hasClearanceLevel5(user: User): boolean {
           /bank|banks|banking/i.test(role.role) ||
           /bank|banks|banking/i.test(role.factor)
       ).length > 0
+    );
+
+  return false;
+}
+
+function hasClearanceLevel5(user: User): boolean {
+  if (user.roles)
+    return (
+      user.roles.filter((role) => /exam_controller/i.test(role.role)).length > 0
     );
 
   return false;
