@@ -12,7 +12,7 @@ export async function GET(req: NextRequest, { params }: { params: Params }) {
     return NextResponse.json({ message: "Session expired!" }, { status: 403 });
   }
 
-  const apiRes = await fetch(`http://api.bike-csecu.com/api/student/${id}`, {
+  const apiRes = await fetch(`https://api.bike-csecu.com/api/student/${id}`, {
     headers: {
       Authorization: `bearer ${sessionCookie.value}`,
     },

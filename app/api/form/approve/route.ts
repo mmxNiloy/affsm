@@ -10,7 +10,7 @@ export async function PUT(req: NextRequest) {
   }
 
   const apiRes = await fetch(
-    `http://api.bike-csecu.com/api/form/approve/${id}`,
+    `https://api.bike-csecu.com/api/form/approve/${id}`,
     {
       method: "PUT",
       headers: {

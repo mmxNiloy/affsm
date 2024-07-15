@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   const limit = req.nextUrl.searchParams.get("limit") ?? "10";
 
   const apiRes = await fetch(
-    `http://api.bike-csecu.com/api/form?page=${page}&limit=${limit}`,
+    `https://api.bike-csecu.com/api/form?page=${page}&limit=${limit}`,
     {
       method: "GET",
       headers: {
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
   }
 
   const reqBody = (await req.json()) as POST_Form_Body;
-  const apiRes = await fetch("http://api.bike-csecu.com/api/form", {
+  const apiRes = await fetch("https://api.bike-csecu.com/api/form", {
     method: "POST",
     headers: {
       Authorization: `bearer ${sessionCookie.value}`,

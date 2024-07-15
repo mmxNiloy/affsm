@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   try {
     const did = Number.parseInt(id);
     const apiRes = await fetch(
-      `http://api.bike-csecu.com/api/department/${did}`
+      `https://api.bike-csecu.com/api/department/${did}`
     );
     if (apiRes.ok) {
       const data = (await apiRes.json()) as Department;

@@ -7,7 +7,7 @@ type Params = {
 
 export async function GET(req: NextRequest, { params }: { params: Params }) {
   const id = params.id;
-  const apiRes = await fetch(`http://api.bike-cesecu.com/api/notice/${id}`);
+  const apiRes = await fetch(`https://api.bike-csecu.com/api/notice/${id}`);
   return NextResponse.json(await apiRes.json(), { status: apiRes.status });
 }
 
@@ -21,7 +21,7 @@ export async function PUT(req: NextRequest, { params }: { params: Params }) {
   const { notice_type, notice_title, notice_description, notice_attachment } =
     await req.json();
 
-  const apiRes = await fetch(`http://api.bike-cesecu.com/api/notice/${id}`, {
+  const apiRes = await fetch(`https://api.bike-csecu.com/api/notice/${id}`, {
     method: "PUT",
     headers: {
       Authorization: `bearer ${sessionCookie.value}`,

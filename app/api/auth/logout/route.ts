@@ -10,7 +10,7 @@ export async function DELETE(req: NextRequest) {
     );
   }
 
-  const apiRes = await fetch("http://api.bike-csecu.com/api/logout", {
+  const apiRes = await fetch("https://api.bike-csecu.com/api/logout", {
     method: "POST",
     headers: {
       Authorization: `bearer ${sessionCookie.value}`,

@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
   const limit = req.nextUrl.searchParams.get("limit") ?? "10";
 
   const apiRes = await fetch(
-    `http://api.bike-csecu.com/api/notice/my?page=${page}&limit=${limit}`,
+    `https://api.bike-csecu.com/api/notice/my?page=${page}&limit=${limit}`,
     {
       headers: { Authorization: `bearer ${sessionCookie.value}` },
     }
