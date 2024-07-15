@@ -40,7 +40,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Params }) {
     return NextResponse.json({ message: "Session expired!" }, { status: 403 });
   }
 
-  const apiRes = await fetch(`http://api.bike-cesecu.com/api/notice/${id}`, {
+  const apiRes = await fetch(`https://api.bike-csecu.com/api/notice/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `bearer ${sessionCookie.value}`,
