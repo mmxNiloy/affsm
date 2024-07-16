@@ -1,7 +1,7 @@
 "use client";
 import { User } from "@/util/types";
 import React, { useCallback, useEffect, useState } from "react";
-import UserContext from "./UserContex";
+import UserContext from "./UserContext";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function UserContextProvider({

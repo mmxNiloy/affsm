@@ -5,7 +5,7 @@ import { toAddressString } from "@/util/Functions";
 import { StudentAddress, User } from "@/util/types";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import StudentAddressInformationGridSkeleton from "./StudentAddressInformationGridSkeleton";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 
 type Props = {
   user: User;

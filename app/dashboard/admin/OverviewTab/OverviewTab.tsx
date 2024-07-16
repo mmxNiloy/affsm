@@ -3,7 +3,7 @@ import NoticePreview from "@/app/components/DashboardComponents/Tabs/OverviewTab
 import NoticePreviewSkeleton from "@/app/components/DashboardComponents/Tabs/OverviewTab/NoticePreviewSkeleton";
 import Icons from "@/app/components/Icons";
 import MyLoadingSpinner from "@/app/components/MyLoadingSpinner";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import { Button } from "@/components/ui/button";
 import {
   Card,

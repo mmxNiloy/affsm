@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useContext } from "react";
 import { useRouter } from "next/navigation";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import { Button } from "@/components/ui/button";
 import Icons from "../../Icons";
 import {

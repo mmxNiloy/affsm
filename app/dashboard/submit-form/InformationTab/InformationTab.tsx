@@ -1,7 +1,7 @@
 "use client";
 import Icons from "@/app/components/Icons";
 import AcademicFormContext from "@/app/providers/AcademicFormContext";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import { Button } from "@/components/ui/button";
 import {
   Card,

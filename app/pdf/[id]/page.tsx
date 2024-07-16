@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useContext, useEffect, useState } from "react";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import MyLoadingSpinner from "@/app/components/MyLoadingSpinner";
 import { Exam, FormDetail, StudentAddress, User } from "@/util/types";
 import Icons from "@/app/components/Icons";

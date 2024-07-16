@@ -19,7 +19,7 @@ import {
   toDD_MM_YYYY,
   toOrdinal,
 } from "@/util/Functions";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import SubmissionCardSkeleton from "@/app/components/DashboardComponents/Tabs/SubmissionsTab/SubmissionCardSkeleton";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";

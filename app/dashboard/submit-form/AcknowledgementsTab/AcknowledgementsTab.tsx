@@ -1,5 +1,5 @@
 "use client";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import { Exam } from "@/util/types";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
