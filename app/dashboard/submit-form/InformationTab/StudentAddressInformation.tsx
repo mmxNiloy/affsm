@@ -3,9 +3,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toAddressString } from "@/util/Functions";
 import { StudentAddress, User } from "@/util/types";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import StudentAddressInformationGridSkeleton from "./StudentAddressInformationGridSkeleton";
-import UserContext from "@/app/providers/UserContex";
 
 type Props = {
   user: User;

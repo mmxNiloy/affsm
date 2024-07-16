@@ -1,8 +1,6 @@
 "use client";
-import Icons from "@/app/components/Icons";
 import AcademicFormContext from "@/app/providers/AcademicFormContext";
-import UserContext from "@/app/providers/UserContex";
-import { Button } from "@/components/ui/button";
+import UserContext from "@/app/providers/UserContext";
 import {
   Card,
   CardContent,
@@ -12,19 +10,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toAddressString, toDD_MM_YYYY } from "@/util/Functions";
 import { StudentAddress } from "@/util/types";
-import React, {
-  Suspense,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import StudentInformationGrid from "./StudentInformationGrid";
-import StudentInformationGridSkeleton from "./StudentInformationGridSkeleton";
 
 export default function InformationTab() {
   const { user } = useContext(UserContext);

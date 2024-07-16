@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Exam, Form, User } from "@/util/types";
+import { Exam, Form } from "@/util/types";
 import Icons from "@/app/components/Icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,9 +17,8 @@ import {
   isFormApproved,
   isFormRejected,
   toDD_MM_YYYY,
-  toOrdinal,
 } from "@/util/Functions";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import SubmissionCardSkeleton from "@/app/components/DashboardComponents/Tabs/SubmissionsTab/SubmissionCardSkeleton";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";

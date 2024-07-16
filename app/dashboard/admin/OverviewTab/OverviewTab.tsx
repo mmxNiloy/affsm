@@ -1,9 +1,8 @@
 "use client";
 import NoticePreview from "@/app/components/DashboardComponents/Tabs/OverviewTab/NoticePreview";
-import NoticePreviewSkeleton from "@/app/components/DashboardComponents/Tabs/OverviewTab/NoticePreviewSkeleton";
 import Icons from "@/app/components/Icons";
 import MyLoadingSpinner from "@/app/components/MyLoadingSpinner";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import React, { Suspense, useContext } from "react";
+import React, { useContext } from "react";
 
 export default function OverviewTab() {
   const { user } = useContext(UserContext);

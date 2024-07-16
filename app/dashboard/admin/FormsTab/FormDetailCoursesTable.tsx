@@ -3,14 +3,12 @@ import Icons from "@/app/components/Icons";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getExamName } from "@/util/Functions";
-import { Course, Exam, Form, FormDetail, User } from "@/util/types";
+import { Form, FormDetail } from "@/util/types";
 import { cookies } from "next/headers";
 import React from "react";
 

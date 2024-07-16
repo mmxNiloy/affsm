@@ -1,6 +1,5 @@
 "use server";
 
-import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import OverviewTab from "../components/DashboardComponents/Tabs/OverviewTab/OverviewTab";
 import SubmissionsTab from "../components/DashboardComponents/Tabs/SubmissionsTab/SubmissionsTab";

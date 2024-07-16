@@ -1,5 +1,5 @@
 "use client";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import { Exam } from "@/util/types";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getExamName, toDD_MM_YYYY, toOrdinal } from "@/util/Functions";
+import { getExamName, toDD_MM_YYYY } from "@/util/Functions";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";

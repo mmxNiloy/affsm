@@ -27,7 +27,7 @@ import InformationTab from "./InformationTab/InformationTab";
 import ConfirmationTab from "./ConfirmationTab/ConfirmationTab";
 import { POST_Form_Body } from "@/util/types";
 import { useToast } from "@/components/ui/use-toast";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import { useRouter } from "next/navigation";
 import MyLoadingSpinner from "@/app/components/MyLoadingSpinner";
 

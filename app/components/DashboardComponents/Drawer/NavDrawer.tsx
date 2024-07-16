@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import Icons from "../../Icons";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import { usePathname } from "next/navigation";
 
 type MenuItem = {

@@ -5,7 +5,7 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <div className="container flex flex-col gap-1 md:gap-2">
-      <div className="flex flex-row gap-2 items-center justify-between">
+      <div className="flex flex-col md:flex-row gap-2 md:items-center md:justify-between">
         <div className="flex flex-col gap-1">
           {/* List subheader */}
           <p className="text-muted-foreground text-sm">Authentication</p>

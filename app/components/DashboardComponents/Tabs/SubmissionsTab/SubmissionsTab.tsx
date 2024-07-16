@@ -12,7 +12,7 @@ import {
   PaginationContent,
   PaginationItem,
 } from "@/components/ui/pagination";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import Icons from "@/app/components/Icons";
 import { PaginatedForms } from "@/util/types";
 import { Button } from "@/components/ui/button";

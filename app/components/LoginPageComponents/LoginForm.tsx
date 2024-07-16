@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useContext, useEffect, useState } from "react";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Icons from "../Icons";
