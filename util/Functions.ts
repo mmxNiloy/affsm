@@ -1,4 +1,12 @@
-import { Address, Exam, Form, User } from "./types";
+import {
+  Address,
+  Exam,
+  Form,
+  IQueryParamProps,
+  ISearchParamProps,
+  ISearchParams,
+  User,
+} from "./types";
 
 export function toOrdinal(n: number): string {
   if (n % 10 === 1 && n !== 11) return `${n}st`;
@@ -106,4 +114,25 @@ export function isFormRejected(form: Form): boolean {
 
 export function isFormApproved(form: Form): boolean {
   return form.clearance_level === 6;
+}
+
+export function getSearchParams(
+  searchParams: ISearchParamProps
+): ISearchParams {
+  var page = 1;
+  var limit = 10;
+  try {
+    page = Math.max(
+      1,
+      Number.parseInt((searchParams.page as string | undefined) ?? "1")
+    );
+    limit = Math.max(
+      10,
+      Number.parseInt((searchParams.limit as string | undefined) ?? "10")
+    );
+  } catch (_) {
+    // Ignored
+  }
+
+  return { page, limit };
 }

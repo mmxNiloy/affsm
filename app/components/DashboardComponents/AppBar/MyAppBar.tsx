@@ -60,7 +60,7 @@ const MyAppBar = () => {
         {/* Appbar code */}
         <div className="flex flex-grow">
           <Link
-            href={user ? (user.roles ? "/dashboard/admin" : "dashboard") : "/"}
+            href={user ? (user.roles ? "/dashboard/admin" : "/dashboard") : "/"}
           >
             <Button variant={"link"} className="text-lg lg:text-xl font-bold">
               AFFSM

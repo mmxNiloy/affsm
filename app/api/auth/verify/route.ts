@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { User, UserSessionCookie } from "@/util/types";
 
 export async function GET(req: NextRequest) {
-  const sessionCookie = cookies().get("session");
+  const sessionCookie = cookies().get(process.env.USER_COOKIE!);
   if (!sessionCookie) {
     return NextResponse.json({ message: "Session expired!" }, { status: 401 });
   }
@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   if (!Boolean(session_id) || session_id.length < 1)
     return NextResponse.json({ message: "Session expired" }, { status: 401 });
 
-  const apiRes = await fetch("https://api.bike-csecu.com/api/user", {
+  const apiRes = await fetch(`${process.env.API_BASE_URL}/user`, {
     method: "GET",
     headers: {
       Authorization: `bearer ${session_id}`,

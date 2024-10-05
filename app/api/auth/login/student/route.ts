@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     password: string;
   };
 
-  const apiRes = await fetch("https://api.bike-csecu.com/api/login/student", {
+  const apiRes = await fetch(`${process.env.API_BASE_URL}/login/student`, {
     method: "POST",
     headers: {
       Accept: "*/*",
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
   if (apiRes.ok) {
     const data = (await apiRes.json()) as { session_id: string };
 
-    cookies().set("session", data.session_id, {
+    cookies().set(process.env.USER_COOKIE!, data.session_id, {
       httpOnly: true,
     });
 

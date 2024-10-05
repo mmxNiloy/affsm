@@ -11,18 +11,13 @@ import {
 import Icons from "@/app/components/Icons";
 import { IQueryParamProps } from "@/util/types";
 import { Button } from "@/components/ui/button";
-import SubmissionCard from "./SubmissionCard";
-import SubmissionCardSkeleton from "./SubmissionCardSkeleton";
-import MyLoadingSpinner from "@/app/components/MyLoadingSpinner";
-import { getUser } from "@/app/actions/getUser";
 import { getForms } from "@/app/actions/getForms";
 import { getSearchParams } from "@/util/Functions";
-import Link from "next/link";
+import SubmissionCard from "@/app/components/DashboardComponents/Tabs/SubmissionsTab/SubmissionCard";
 
 export default async function SubmissionsTab({
   searchParams,
 }: IQueryParamProps) {
-  const user = await getUser();
   const forms = await getForms(getSearchParams(searchParams));
 
   return (
@@ -34,6 +29,9 @@ export default async function SubmissionsTab({
         </CardTitle>
       </CardHeader>
       <CardContent className="grid grid-cols-2 gap-4">
+        {forms.data.map((form) => (
+          <SubmissionCard key={`${form.form_id}`} form={form} />
+        ))}
         {forms.data.map((form) => (
           <SubmissionCard key={`${form.form_id}`} form={form} />
         ))}

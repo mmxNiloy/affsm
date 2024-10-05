@@ -1,17 +1,11 @@
-import type { Metadata } from "next";
-import SiteConfig from "@/util/SiteConfig";
+import React from "react";
 import MyAppBar from "../components/DashboardComponents/AppBar/MyAppBar";
 
-export const metadata: Metadata = {
-  title: `${SiteConfig.site_title} | Dashboard`,
-  description: SiteConfig.site_description,
-};
-
-export default function RootLayout({
+export default function DashboardLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <>
       <MyAppBar />

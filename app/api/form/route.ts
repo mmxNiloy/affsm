@@ -4,7 +4,7 @@ import { PaginatedForms, POST_Form_Body } from "@/util/types";
 
 export async function GET(req: NextRequest) {
   // const { id, semester, limit } = req.query
-  const sessionCookie = cookies().get("session");
+  const sessionCookie = cookies().get(process.env.USER_COOKIE!);
   if (!sessionCookie) {
     return NextResponse.json({ message: "Session Expired!" }, { status: 403 });
   }
@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   const limit = req.nextUrl.searchParams.get("limit") ?? "10";
 
   const apiRes = await fetch(
-    `https://api.bike-csecu.com/api/form?page=${page}&limit=${limit}`,
+    `${process.env.API_BASE_URL}/form?page=${page}&limit=${limit}`,
     {
       method: "GET",
       headers: {
@@ -35,13 +35,13 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const sessionCookie = cookies().get("session");
+  const sessionCookie = cookies().get(process.env.USER_COOKIE!);
   if (!sessionCookie) {
     return NextResponse.json({ message: "Session Expired!" }, { status: 403 });
   }
 
   const reqBody = (await req.json()) as POST_Form_Body;
-  const apiRes = await fetch("https://api.bike-csecu.com/api/form", {
+  const apiRes = await fetch(`${process.env.API_BASE_URL}/form`, {
     method: "POST",
     headers: {
       Authorization: `bearer ${sessionCookie.value}`,

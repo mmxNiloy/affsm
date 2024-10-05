@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const sessionCookie = cookies().get("session");
+  const sessionCookie = cookies().get(process.env.USER_COOKIE!);
   if (!sessionCookie) {
     return NextResponse.json({ message: "Session expired" }, { status: 403 });
   }
@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
   const limit = req.nextUrl.searchParams.get("limit") ?? "10";
 
   const apiRes = await fetch(
-    `https://api.bike-csecu.com/api/notice/my?page=${page}&limit=${limit}`,
+    `${process.env.API_BASE_URL}/notice/my?page=${page}&limit=${limit}`,
     {
       headers: { Authorization: `bearer ${sessionCookie.value}` },
     }

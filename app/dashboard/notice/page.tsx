@@ -1,9 +1,8 @@
-"use client";
+"use server";
 
+import { getNotices } from "@/app/actions/getNotices";
 import NoticeCard from "@/app/components/DashboardComponents/Tabs/OverviewTab/NoticeCard";
-import NoticeCardSkeleton from "@/app/components/DashboardComponents/Tabs/OverviewTab/NoticeCardSkeleton";
 import Icons from "@/app/components/Icons";
-import MyLoadingSpinner from "@/app/components/MyLoadingSpinner";
 import {
   Card,
   CardContent,
@@ -21,55 +20,17 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { Notice, PaginatedNotice } from "@/util/types";
-import { useSearchParams } from "next/navigation";
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { getSearchParams } from "@/util/Functions";
+import { IQueryParamProps } from "@/util/types";
 
-export default function NoticePage() {
-  const params = useSearchParams();
+export default async function NoticePage({ searchParams }: IQueryParamProps) {
+  const notices = await getNotices(getSearchParams(searchParams));
 
-  const [notices, setNotices] = useState<PaginatedNotice>();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [capPageIndex, setCapPageIndex] = useState<number>(1);
-  const [bracket, setBracket] = useState<number[]>([]);
-  const [currPage, setCurrPage] = useState<number>(1);
-
-  const getNotices = useCallback(async () => {
-    setLoading(true);
-
-    const page = Number.parseInt(params.get("page") ?? "1");
-    setCurrPage(page);
-
-    const apiRes = await fetch(`/api/notice?page=${page}&limit=10`);
-
-    if (apiRes.ok) {
-      const data = (await apiRes.json()) as PaginatedNotice;
-      setNotices(data);
-      const mCapPageIndex: number = Math.max(data.page_count - 4, 1);
-      const mBracket: number[] = Array.from(
-        { length: Math.min(5, data.page_count) },
-        (_, idx) => Math.min(page, mCapPageIndex) + idx
-      );
-
-      setCapPageIndex(mCapPageIndex);
-      setBracket(mBracket);
-    } else setNotices(undefined);
-
-    setLoading(false);
-  }, [params]);
-
-  useEffect(() => {
-    getNotices();
-  }, [getNotices]);
-
-  if (loading) return <MyLoadingSpinner />;
-  if (!notices || notices.data.length <= 0)
-    return (
-      <div className="flex flex-col items-center justify-center text-center gap-1 h-32 w-full">
-        <Icons.rabbit size={32} />
-        No notices found!
-      </div>
-    );
+  const currPage = Math.max(
+    1,
+    (notices.next?.page ?? 2) - 1,
+    (notices.previous?.page ?? 0) + 1
+  );
 
   return (
     <Card>
@@ -82,7 +43,7 @@ export default function NoticePage() {
           Stay up-to-date with the academy activities.
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col gap-1 md:gap-2">
+      <CardContent className="grid grid-cols-2 gap-4">
         {notices.data.map((notice) => (
           <NoticeCard key={`notice-${notice.notice_id}`} notice={notice} />
         ))}
@@ -95,22 +56,31 @@ export default function NoticePage() {
                 <PaginationPrevious href={`?page=${notices.previous.page}`} />
               </PaginationItem>
             )}
-            {bracket[0] > 1 && (
+            {currPage > 1 && (
               <PaginationItem>
                 <PaginationEllipsis />
               </PaginationItem>
             )}
-            {bracket.map((index) => (
-              <PaginationItem key={`pagination-page-${index}`}>
-                <PaginationLink
-                  isActive={currPage === index}
-                  href={`?page=${index}`}
-                >
-                  {index}
+            {notices.previous && (
+              <PaginationItem>
+                <PaginationLink href={`?page=${currPage - 1}`}>
+                  {currPage - 1}
                 </PaginationLink>
               </PaginationItem>
-            ))}
-            {currPage < capPageIndex && (
+            )}
+            <PaginationItem>
+              <PaginationLink isActive href="#">
+                {currPage}
+              </PaginationLink>
+            </PaginationItem>
+            {notices.next && (
+              <PaginationItem>
+                <PaginationLink href={`?page=${currPage + 1}`}>
+                  {currPage + 1}
+                </PaginationLink>
+              </PaginationItem>
+            )}
+            {currPage < notices.page_count && (
               <PaginationItem>
                 <PaginationEllipsis />
               </PaginationItem>

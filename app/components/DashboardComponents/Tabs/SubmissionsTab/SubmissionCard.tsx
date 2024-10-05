@@ -1,5 +1,5 @@
-"use client";
-import React, { useCallback, useEffect, useState } from "react";
+"use server";
+import React from "react";
 import {
   Card,
   CardContent,
@@ -11,60 +11,156 @@ import {
 import { Exam, Form } from "@/util/types";
 import Icons from "@/app/components/Icons";
 import { Button } from "@/components/ui/button";
-import { getExamName, toDD_MM_YYYY, toOrdinal } from "@/util/Functions";
+import {
+  getExamName,
+  isFormApproved,
+  toDD_MM_YYYY,
+  toOrdinal,
+} from "@/util/Functions";
 import SubmissionCardSkeleton from "./SubmissionCardSkeleton";
+import { getExamDetails } from "@/app/actions/getExamDetails";
+import {
+  Stepper,
+  StepperConnector,
+  StepperItem,
+  StepperList,
+} from "../../Stepper";
+import { cn } from "@/lib/utils";
 
 type Props = {
   form: Form;
 };
 
-export default function SubmissionCard({ form }: Props) {
-  const [examInfo, setExamInfo] = useState<Exam>();
-  const [examYear, setExamYear] = useState<string>("");
-
-  const getExamInfo = useCallback(async () => {
-    const apiRes = await fetch(
-      `http://api.bike-csecu.com/api/exam/${form.exam_id}`,
-      {
-        method: "GET",
-      }
-    );
-
-    const data = (await apiRes.json()) as Exam;
-    setExamInfo(data);
-    setExamYear(new Date(data.exam_start_date).getFullYear().toString());
-  }, [form.exam_id]);
-
-  useEffect(() => {
-    getExamInfo();
-  }, [getExamInfo]);
-
-  if (!examInfo) return <SubmissionCardSkeleton />;
+export default async function SubmissionCard({ form }: Props) {
+  const examInfo = await getExamDetails(form.exam_id);
+  const examYear = new Date(examInfo.exam_start_date).getFullYear().toString();
 
   return (
-    <Card>
+    <Card className="from-sky-200 to-lime-300 bg-gradient-to-br">
       <CardHeader>
         <CardTitle>
           {getExamName(examInfo)}{" "}
           {examInfo.exam_session !== examYear && <>(Held on {examYear})</>}
         </CardTitle>
-        <CardDescription>
-          Exam Center: {examInfo.exam_centre}
-          <br />
-          Start: {toDD_MM_YYYY(examInfo.exam_start_date)}
-          <br />
+        <div className="flex gap-2 items-center justify-between">
+          <CardDescription>Exam Center: {examInfo.exam_centre}</CardDescription>
+          <CardDescription>
+            Start: {toDD_MM_YYYY(examInfo.exam_start_date)}
+          </CardDescription>
+
           {examInfo.exam_end_date && (
-            <>
+            <CardDescription>
               End : {toDD_MM_YYYY(examInfo.exam_end_date)}
-              <br />
-            </>
+            </CardDescription>
           )}
-        </CardDescription>
+
+          <CardDescription>
+            Submitted at:{" "}
+            {form.form_submission_time
+              ? new Date(form.form_submission_time).toLocaleDateString("en-GB")
+              : "N/A"}
+          </CardDescription>
+        </div>
       </CardHeader>
       <CardContent>
         {/* TODO: Think of some content here */}
         {/* Maybe a stepper or breadcrumbs? */}
-        <p>Clearance Level: {form.clearance_level}</p>
+        <Stepper>
+          {form.clearance_level > 0 ? (
+            form.clearance_level < 6 ? (
+              <StepperList>
+                <StepperItem
+                  className="flex-col"
+                  variant={form.clearance_level > 1 ? "success" : "warning"}
+                >
+                  <Icons.building className="size-4" /> Department
+                </StepperItem>
+
+                <StepperConnector
+                  variant={form.clearance_level > 1 ? "fancy" : "default"}
+                />
+
+                <StepperItem
+                  className="flex-col"
+                  variant={
+                    form.clearance_level > 2
+                      ? "success"
+                      : form.clearance_level == 2
+                      ? "warning"
+                      : "default"
+                  }
+                >
+                  <Icons.userShield className="size-4" /> Provost
+                </StepperItem>
+
+                <StepperConnector
+                  variant={form.clearance_level > 2 ? "fancy" : "default"}
+                />
+
+                <StepperItem
+                  className="flex-col"
+                  variant={
+                    form.clearance_level > 3
+                      ? "success"
+                      : form.clearance_level == 3
+                      ? "warning"
+                      : "default"
+                  }
+                >
+                  <Icons.accountant className="size-4" /> Accounts
+                </StepperItem>
+
+                <StepperConnector
+                  variant={form.clearance_level > 3 ? "fancy" : "default"}
+                />
+
+                <StepperItem
+                  className="flex-col"
+                  variant={
+                    form.clearance_level > 4
+                      ? "success"
+                      : form.clearance_level == 4
+                      ? "warning"
+                      : "default"
+                  }
+                >
+                  <Icons.bank className="size-4" /> Bank
+                </StepperItem>
+
+                <StepperConnector
+                  variant={form.clearance_level > 4 ? "fancy" : "default"}
+                />
+
+                <StepperItem
+                  className="flex-col"
+                  variant={
+                    form.clearance_level > 5
+                      ? "success"
+                      : form.clearance_level == 5
+                      ? "warning"
+                      : "default"
+                  }
+                >
+                  <Icons.adminUser className="size-4" /> Controller
+                </StepperItem>
+              </StepperList>
+            ) : (
+              <StepperList>
+                <StepperItem className="flex-col" variant="success">
+                  <Icons.fileApproved className="size-4" />
+                  Approved
+                </StepperItem>
+              </StepperList>
+            )
+          ) : (
+            <StepperList>
+              <StepperItem className="flex-col" variant="destructive">
+                <Icons.fileRejected className="size-4" />
+                Rejected
+              </StepperItem>
+            </StepperList>
+          )}
+        </Stepper>
         <div
           title={`Submission time: ${toDD_MM_YYYY(form.form_submission_time)}`}
           className="flex flex-row gap-1 md:gap-2 items-center"
@@ -79,12 +175,14 @@ export default function SubmissionCard({ form }: Props) {
       </CardContent>
       <CardFooter className="flex flex-row gap-1 md:gap-2">
         {/* TODO: Make download admit card available when the form has clearance level 6 */}
-        <a href={`/pdf/admit/${form.form_id}`} target="_blank">
-          <Button className="gap-1 md:gap-2 items-center bg-green-500 hover:bg-green-400">
-            <Icons.fileText />
-            Download Admit Card
-          </Button>
-        </a>
+        {isFormApproved(form) && (
+          <a href={`/pdf/admit/${form.form_id}`} target="_blank">
+            <Button className="gap-1 md:gap-2 items-center bg-green-500 hover:bg-green-400">
+              <Icons.fileText />
+              Download Admit Card
+            </Button>
+          </a>
+        )}
 
         {/* TODO: Should trigger a dialog to pop-up that shows the form details. */}
         {/* For reference: @/app/dashboard/admin/FormsTab/FormCard.tsx */}

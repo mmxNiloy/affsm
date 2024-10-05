@@ -19,7 +19,7 @@ type Props = {
 };
 
 export default async function FormDetailCoursesTable({ form }: Props) {
-  const sessionCookie = cookies().get("session");
+  const sessionCookie = cookies().get(process.env.USER_COOKIE!);
   if (!sessionCookie) {
     return (
       <div className="flex flex-col gap-1 w-full h-64 items-center justify-center text-center">
