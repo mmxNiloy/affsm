@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { getForms } from "@/app/actions/getForms";
 import { getSearchParams } from "@/util/Functions";
 import SubmissionCard from "@/app/components/DashboardComponents/Tabs/SubmissionsTab/SubmissionCard";
+import NoData from "@/app/components/NoData";
 
 export default async function SubmissionsTab({
   searchParams,
@@ -32,9 +33,8 @@ export default async function SubmissionsTab({
         {forms.data.map((form) => (
           <SubmissionCard key={`${form.form_id}`} form={form} />
         ))}
-        {forms.data.map((form) => (
-          <SubmissionCard key={`${form.form_id}`} form={form} />
-        ))}
+
+        {forms.data.length < 1 && <NoData />}
 
         <Pagination className="col-span-full">
           <PaginationContent>
@@ -70,7 +70,7 @@ export default async function SubmissionsTab({
             {forms.next ? (
               <PaginationNext href={`?page=${forms.next.page}`} />
             ) : (
-              <PaginationNext />
+              <PaginationNext href="#" />
             )}
           </PaginationContent>
         </Pagination>

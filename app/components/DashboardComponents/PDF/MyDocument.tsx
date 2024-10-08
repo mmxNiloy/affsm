@@ -1,3 +1,4 @@
+"use client";
 import { Document, Image, Page, Text, View, Font } from "@react-pdf/renderer";
 import PDFAdmitCardFrag from "./PDFAdmitCardFrag";
 import PDFStudentInfoFrag from "./PDFStudentInfoFrag";
@@ -33,7 +34,7 @@ const MyDocument = ({
   if (!form)
     return (
       <Document title={`Error: Form Not Found`}>
-        <Page size="A4" style={styles.page}>
+        <Page size="LEGAL" style={styles.page}>
           <View style={styles.title}>
             <Text
               style={[
@@ -76,7 +77,7 @@ const MyDocument = ({
   if (admitCard)
     return (
       <Document>
-        <Page size="A4" style={[styles.page, { padding: "32px" }]}>
+        <Page size="LEGAL" style={[styles.page, { padding: "32px" }]}>
           <PDFAdmitCardFrag form={form} exam={exam} student={student} />
         </Page>
       </Document>
@@ -84,108 +85,341 @@ const MyDocument = ({
 
   return (
     <Document title={`Form_${form.form_id}`}>
-      <Page size="A4" style={styles.page}>
-        <View style={styles.title}>
-          <Image
-            src="/cu_logo.png"
-            style={{
-              height: "64px",
-              width: "43px",
-            }}
-          />
-
+      <Page size="LEGAL" style={styles.page}>
+        <View>
           <Text
             style={[
               TextStyles.h2,
               {
                 marginTop: "8px",
                 marginBottom: "8px",
+                textAlign: "center",
+                fontWeight: "bold",
               },
               styles.bengaliText,
             ]}
           >
             {`চট্টগ্রাম বিশ্ববিদ্যালয়`}
           </Text>
-
-          <Text style={TextStyles.h5}>{getExamName(exam)}</Text>
         </View>
 
-        {/* Thank you tim-soft, very cool */}
         {/* Student info box */}
         <View
           style={{
             display: "flex",
             flexDirection: "row",
-            gap: "4px",
             alignItems: "center",
-            alignSelf: "center",
-            justifyContent: "space-around",
-            maxWidth: "90vw",
-            border: "1px solid black",
+            justifyContent: "space-between",
           }}
         >
+          {/* Left Box */}
           <View
             style={{
-              display: "flex",
-              gap: "4px",
-              flexDirection: "column",
-              borderRight: "1px solid black",
-              padding: "8px",
-              width: "50%",
-              flexWrap: "wrap",
+              flex: 1,
+              margin: "0 10px",
             }}
           >
-            <Text style={[TextStyles.body2, styles.bengaliText]}>
-              {`আইডি নম্বর : ${form.student_id}`}
-            </Text>
-
-            <Text style={[TextStyles.body2, styles.bengaliText]}>
-              {`শিক্ষার্থীর নাম : ${student.first_name_bn} ${student.last_name_bn} `}
-            </Text>
-
-            <Text style={[TextStyles.body2, styles.bengaliText]}>
-              {`সেশন : ${student.session}`}
-            </Text>
-
-            <Text style={[TextStyles.body2, styles.bengaliText]}>
-              {`ডিপার্টমেন্ট : ${student.department_name}`}
-            </Text>
+            <View
+              style={{
+                border: "1px solid black",
+                padding: "10px",
+                marginBottom: "15px",
+              }}
+            >
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginBottom: "10px",
+                }}
+              >
+                <Text style={[TextStyles.body2, styles.bengaliText]}>হল:</Text>
+                <View
+                  style={{
+                    flex: 1,
+                    padding: "5px",
+                    marginLeft: "10px",
+                    border: "1px solid black",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    {student.hall_name}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginBottom: "10px",
+                }}
+              >
+                <Text style={[TextStyles.body2, styles.bengaliText]}>
+                  শ্রেণী রোল নং:{" "}
+                </Text>
+                <View
+                  style={{
+                    flex: 1,
+                    padding: "5px",
+                    marginLeft: "10px",
+                    border: "1px solid black",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    {student.student_id}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginBottom: "10px",
+                }}
+              >
+                <Text style={[TextStyles.body2, styles.bengaliText]}>
+                  শিক্ষাবর্ষ:
+                </Text>
+                <View
+                  style={{
+                    flex: 1,
+                    padding: "5px",
+                    marginLeft: "10px",
+                    border: "1px solid black",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    {student.session}
+                  </Text>
+                </View>
+              </View>
+            </View>
           </View>
+          {/* Logo */}
+          <Image
+            src="/cu_logo.png"
+            style={{
+              height: "118px",
+              width: "100px",
+            }}
+          />
 
+          {/* Right Box */}
           <View
             style={{
-              display: "flex",
-              gap: "4px",
-              flexDirection: "column",
-              padding: "8px",
-              width: "50%",
-              flexWrap: "wrap",
+              flex: 1,
+              margin: "0 10px",
             }}
           >
-            <Text style={[TextStyles.body2, styles.bengaliText]}>
-              {`হল : ${student.hall_name}`}
-            </Text>
-
-            <Text style={[TextStyles.body2, styles.bengaliText]}>
-              {`জমা দেওয়ার তারিখ: ${toDD_MM_YYYY(form.form_submission_time)}`}
-            </Text>
-
-            <Text style={[TextStyles.body2, styles.bengaliText]}>
-              {`সেমিস্টার: ${exam.semester}`}
-            </Text>
-
-            <Text style={[TextStyles.body2, styles.bengaliText]}>
-              {`বর্তমান ঠিকানা : ${toAddressString(student.present_address)}`}
-            </Text>
+            <View
+              style={{
+                border: "1px solid black",
+                padding: "10px",
+                marginBottom: "15px",
+              }}
+            >
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginBottom: "10px",
+                }}
+              >
+                <Text style={[TextStyles.body2, styles.bengaliText]}>
+                  আইডি নং:
+                </Text>
+                <View
+                  style={{
+                    flex: 1,
+                    padding: "5px",
+                    marginLeft: "10px",
+                    border: "1px solid black",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    {student.student_id}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginBottom: "10px",
+                }}
+              >
+                <Text style={[TextStyles.body2, styles.bengaliText]}>
+                  শিক্ষাবর্ষ:
+                </Text>
+                <View
+                  style={{
+                    flex: 1,
+                    padding: "5px",
+                    marginLeft: "10px",
+                    border: "1px solid black",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    {student.session}
+                  </Text>
+                </View>
+              </View>
+            </View>
           </View>
         </View>
 
+        {/* Thank you tim-soft, very cool */}
+        {/* Student info box */}
+        <View>
+          <Text style={[TextStyles.body1, styles.center, styles.bengaliText]}>
+            {new Date(exam.exam_start_date).getFullYear()} সালের{" "}
+            {getExamName(exam)} পরীক্ষা।
+          </Text>
+        </View>
         {/* Main application */}
-        <View style={[styles.section]}>
-          <Text style={[TextStyles.h6, styles.center, styles.bengaliText]}>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text
+            style={[
+              TextStyles.h6,
+              styles.center,
+              styles.bengaliText,
+              { fontWeight: "bold", flex: 1, textAlign: "center" },
+            ]}
+          >
             {`আবেদনপত্র `}
           </Text>
 
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              flex: 1,
+            }}
+          >
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                margin: "0 10px",
+              }}
+            >
+              <View
+                style={{
+                  border: "1px solid black",
+                  padding: "10px",
+                  marginBottom: "15px",
+                }}
+              >
+                <View>
+                  <Text style={[TextStyles.body1, styles.bengaliText]}>
+                    চট্টগ্রাম বিশ্ববিদ্যালয়
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    আই.ডি. নং/রেজি: নং:
+                  </Text>
+                  <View
+                    style={{
+                      flex: 1,
+                      padding: "5px",
+                      marginLeft: "10px",
+                      border: "1px solid black",
+                    }}
+                  >
+                    <Text style={[TextStyles.body2, styles.bengaliText]}>
+                      {student.student_id}
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    শিক্ষাবর্ষ:
+                  </Text>
+                  <View
+                    style={{
+                      flex: 1,
+                      padding: "5px",
+                      marginLeft: "10px",
+                      border: "1px solid black",
+                    }}
+                  >
+                    <Text style={[TextStyles.body2, styles.bengaliText]}>
+                      {student.session}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                margin: "0 10px",
+              }}
+            >
+              <View
+                style={{
+                  border: "1px solid black",
+                  padding: "10px",
+                  marginBottom: "15px",
+                }}
+              >
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    অনার্স বিষয়:
+                  </Text>
+                  <View
+                    style={{
+                      flex: 1,
+                      padding: "5px",
+                      marginLeft: "10px",
+                      border: "1px solid black",
+                    }}
+                  >
+                    <Text style={[TextStyles.body2, styles.bengaliText]}>
+                      {student.department_name}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View style={[styles.section]}>
           <Text style={[TextStyles.body1, styles.bengaliText]}>
             {`পরীক্ষা নিয়ন্ত্রক `}
           </Text>
@@ -199,19 +433,304 @@ const MyDocument = ({
           <Text style={[TextStyles.body2, styles.bengaliText]}>
             {`আমি আসন্ন ${getExamName(
               exam
-            )} পরীক্ষায় অংশ গ্রহণের জন্য অনুমতি প্রার্থনা করছি। 
-                        আমি অঙ্গীকার করছি যে , আমার অত্র পরীক্ষা সংক্রান্ত ব্যাপারে সিন্ডিকেট বা তদ্কর্তৃক ক্ষমতা প্রদত্ত অফিসার এর সিদ্ধান্ত
-                        চূড়ান্ত বলে মেনে নিতে বাধ্য  থাকবো। `}
+            )} পরীক্ষায় অংশ গ্রহণের জন্য অনুমতি প্রার্থনা করছি। আমি অঙ্গীকার করছি যে , আমার অত্র পরীক্ষা সংক্রান্ত ব্যাপারে সিন্ডিকেট বা তদ্কর্তৃক ক্ষমতা প্রদত্ত অফিসার এর সিদ্ধান্ত চূড়ান্ত বলে মেনে নিতে বাধ্য  থাকবো। `}
           </Text>
 
-          <Text style={[TextStyles.body2, styles.bengaliText]}>
+          {/* <Text style={[TextStyles.body2, styles.bengaliText]}>
             {`আপনার একান্ত অনুগত `}
           </Text>
 
           <Text style={[TextStyles.body2, styles.bengaliText]}>
             {`${student.first_name_bn} ${student.last_name_bn} `}
-          </Text>
+          </Text> */}
         </View>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: "20px",
+          }}
+        >
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              flex: 1,
+              marginRight: "20px",
+              textAlign: "left",
+            }}
+          >
+            <Text style={[TextStyles.body1, styles.bengaliText]}>
+              অনার্স পত্রের শিরোনাম কোর্স নম্বরঃ-
+            </Text>
+
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginTop: "5px",
+              }}
+            >
+              <View
+                style={{ display: "flex", flexDirection: "column", flex: 1 }}
+              >
+                <Text style={[TextStyles.body2, styles.bengaliText]}>১/</Text>
+                <View
+                  style={{
+                    border: "1px dashed black",
+                    padding: "5px",
+                    marginBottom: "10px",
+                    width: "100%",
+                    height: "30px",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    {form.courses.at(0)?.course_code}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{ display: "flex", flexDirection: "column", flex: 1 }}
+              >
+                <Text style={[TextStyles.body2, styles.bengaliText]}>২/</Text>
+                <View
+                  style={{
+                    border: "1px dashed black",
+                    padding: "5px",
+                    marginBottom: "10px",
+                    width: "100%",
+                    height: "30px",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    {form.courses.at(1)?.course_code}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{ display: "flex", flexDirection: "column", flex: 1 }}
+              >
+                <Text style={[TextStyles.body2, styles.bengaliText]}>৩/</Text>
+                <View
+                  style={{
+                    border: "1px dashed black",
+                    padding: "5px",
+                    marginBottom: "10px",
+                    width: "100%",
+                    height: "30px",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    {form.courses.at(2)?.course_code}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{ display: "flex", flexDirection: "column", flex: 1 }}
+              >
+                <Text
+                  style={[TextStyles.body2, styles.bengaliText]}
+                >{`৪/`}</Text>
+                <View
+                  style={{
+                    border: "1px dashed black",
+                    padding: "5px",
+                    marginBottom: "10px",
+                    width: "100%",
+                    height: "30px",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    {form.courses.at(3)?.course_code}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{ display: "flex", flexDirection: "column", flex: 1 }}
+              >
+                <Text style={[TextStyles.body2, styles.bengaliText]}>৫/</Text>
+                <View
+                  style={{
+                    border: "1px dashed black",
+                    padding: "5px",
+                    marginBottom: "10px",
+                    width: "100%",
+                    height: "30px",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    {form.courses.at(4)?.course_code}
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginTop: "5px",
+              }}
+            >
+              <View
+                style={{ display: "flex", flexDirection: "column", flex: 1 }}
+              >
+                <Text style={[TextStyles.body2, styles.bengaliText]}>৬/</Text>
+                <View
+                  style={{
+                    border: "1px dashed black",
+                    padding: "5px",
+                    marginBottom: "10px",
+                    width: "100%",
+                    height: "30px",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    {form.courses.at(5)?.course_code}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{ display: "flex", flexDirection: "column", flex: 1 }}
+              >
+                <Text style={[TextStyles.body2, styles.bengaliText]}>৭/</Text>
+                <View
+                  style={{
+                    border: "1px dashed black",
+                    padding: "5px",
+                    marginBottom: "10px",
+                    width: "100%",
+                    height: "30px",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    {form.courses.at(6)?.course_code}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{ display: "flex", flexDirection: "column", flex: 1 }}
+              >
+                <Text style={[TextStyles.body2, styles.bengaliText]}>৮/</Text>
+                <View
+                  style={{
+                    border: "1px dashed black",
+                    padding: "5px",
+                    marginBottom: "10px",
+                    width: "100%",
+                    height: "30px",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    {form.courses.at(7)?.course_code}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{ display: "flex", flexDirection: "column", flex: 1 }}
+              >
+                <Text style={[TextStyles.body2, styles.bengaliText]}>৯/</Text>
+                <View
+                  style={{
+                    border: "1px dashed black",
+                    padding: "5px",
+                    marginBottom: "10px",
+                    width: "100%",
+                    height: "30px",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    {form.courses.at(8)?.course_code}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{ display: "flex", flexDirection: "column", flex: 1 }}
+              >
+                <Text style={[TextStyles.body2, styles.bengaliText]}>
+                  ১০/ঐচ্ছিক বিষয়ঃ
+                </Text>
+                <View
+                  style={{
+                    border: "1px dashed black",
+                    padding: "5px",
+                    marginBottom: "10px",
+                    width: "100%",
+                    height: "30px",
+                  }}
+                >
+                  <Text style={[TextStyles.body2, styles.bengaliText]}>
+                    {form.courses.at(9)?.course_code}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              flex: 1,
+              textAlign: "right",
+            }}
+          >
+            <Text style={[TextStyles.body1, styles.bengaliText]}>
+              আপনার একান্ত অনুগত
+            </Text>
+            <View
+              style={{
+                display: "flex",
+                border: "1px solid black",
+                width: "200px",
+                height: "30px",
+                marginLeft: "5px",
+              }}
+            >
+              <Text style={[TextStyles.body1, styles.bengaliText]}>
+                {student.first_name_bn} {student.last_name_bn}
+              </Text>
+            </View>
+            <Text style={[TextStyles.body1, styles.bengaliText]}>
+              অনাবাসিক/আবাসিক (কক্ষ নং সহ) হলের নামঃ
+            </Text>
+            <View
+              style={{
+                display: "flex",
+                border: "1px solid black",
+                width: "200px",
+                height: "30px",
+                marginLeft: "5px",
+              }}
+            >
+              <Text style={[TextStyles.body1, styles.bengaliText]}>
+                {student.hall_name}
+              </Text>
+            </View>
+            <Text style={[TextStyles.body1, styles.bengaliText]}>
+              স্থানীয় ঠিকানা (অনাবাসিক এর ক্ষেত্রে)
+            </Text>
+            <View
+              style={{
+                display: "flex",
+                border: "1px solid black",
+                width: "200px",
+                height: "30px",
+                marginLeft: "5px",
+              }}
+            >
+              <Text style={[TextStyles.body1, styles.bengaliText]}>
+                {student.present_address?.district},{" "}
+                {student.present_address?.division},{" "}
+                {student.present_address?.country}
+              </Text>
+            </View>
+          </View>
+        </View>
+
         {/* Selected courses */}
         <View>
           <Text style={[TextStyles.h6, styles.center, styles.bengaliText]}>
@@ -350,7 +869,7 @@ const MyDocument = ({
         </View>
       </Page>
 
-      <Page size="A4" wrap style={styles.page}>
+      <Page size="LEGAL" wrap style={styles.page}>
         <View style={styles.section}>
           <Text style={[TextStyles.body2, styles.bengaliText]}>
             {`আমি প্রত্যয়ন করছি যে , পরীক্ষার্থী আবাসের শর্তাবলী পালন করেছে এবং সে সৎ চরিত্রের অধিকারী। 
@@ -417,11 +936,11 @@ const MyDocument = ({
         <PDFStudentInfoFrag student={student} />
       </Page>
 
-      <Page size="A4" wrap>
+      <Page size="LEGAL" wrap>
         {/* This is the exam controller copy */}
         <PDFAdmitCardFrag form={form} exam={exam} student={student} />
       </Page>
-      <Page size="A4" wrap>
+      <Page size="LEGAL" wrap>
         {/* This is the student copy */}
         <PDFAdmitCardFrag
           form={form}
@@ -430,7 +949,7 @@ const MyDocument = ({
           isStudentCopy
         />
       </Page>
-      <Page size="A4" wrap>
+      <Page size="LEGAL" wrap>
         <ExamRulesFragment />
       </Page>
     </Document>

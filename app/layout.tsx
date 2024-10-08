@@ -5,6 +5,7 @@ import SiteConfig from "@/util/SiteConfig";
 import UserContextProvider from "./providers/UserContextProvider";
 import { ThemeProvider } from "./providers/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
+import { cn } from "@/lib/utils";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -20,7 +21,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={nunito.className}>
+      <body
+        className={cn(
+          "from-lime-200/40 to-amber-300/60 bg-gradient-to-br min-h-screen",
+          nunito.className
+        )}
+      >
         <ThemeProvider defaultTheme="light" attribute="class">
           <UserContextProvider>{children}</UserContextProvider>
 

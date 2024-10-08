@@ -1,4 +1,3 @@
-"use server";
 import Icons from "@/app/components/Icons";
 import {
   Table,
@@ -15,32 +14,10 @@ import { cookies } from "next/headers";
 import React from "react";
 
 type Props = {
-  form: Form;
+  courses: Course[];
 };
 
-export default async function FormDetailCoursesTable({ form }: Props) {
-  const sessionCookie = cookies().get(process.env.USER_COOKIE!);
-  if (!sessionCookie) {
-    return (
-      <div className="flex flex-col gap-1 w-full h-64 items-center justify-center text-center">
-        <Icons.rabbit />
-        Session Expired. Login again!
-      </div>
-    );
-  }
-
-  const apiRes = await fetch(
-    `http://api.bike-csecu.com/api/form/${form.form_id}`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `bearer ${sessionCookie.value}`,
-      },
-    }
-  );
-  const data = (await apiRes.json()) as FormDetail;
-  const courses = data.courses;
-
+export default function FormDetailCoursesTable({ courses }: Props) {
   return (
     <Table className="w-full">
       <TableHeader>

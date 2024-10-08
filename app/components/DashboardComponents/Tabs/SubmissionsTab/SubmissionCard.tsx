@@ -26,6 +26,10 @@ import {
   StepperList,
 } from "../../Stepper";
 import { cn } from "@/lib/utils";
+import FormDetailDialog from "@/app/dashboard/admin/FormsTab/FormDetailDialog";
+import { getStudentInfo } from "@/app/actions/getStudentInfo";
+import { getUser } from "@/app/actions/getUser";
+import { getFormDetails } from "@/app/actions/getFormDetails";
 
 type Props = {
   form: Form;
@@ -33,6 +37,8 @@ type Props = {
 
 export default async function SubmissionCard({ form }: Props) {
   const examInfo = await getExamDetails(form.exam_id);
+  const user = await getUser();
+  const formDetails = await getFormDetails(form.form_id);
   const examYear = new Date(examInfo.exam_start_date).getFullYear().toString();
 
   return (
@@ -161,19 +167,16 @@ export default async function SubmissionCard({ form }: Props) {
             </StepperList>
           )}
         </Stepper>
-        <div
-          title={`Submission time: ${toDD_MM_YYYY(form.form_submission_time)}`}
-          className="flex flex-row gap-1 md:gap-2 items-center"
-        >
-          <Icons.clock />
-          <p>
-            {new Date(
-              form.form_submission_time ?? new Date()
-            ).toLocaleDateString("en-GB")}
-          </p>
-        </div>
       </CardContent>
+
       <CardFooter className="flex flex-row gap-1 md:gap-2">
+        <a href={`/pdf/${form.form_id}`} target="_blank">
+          <Button className="gap-1 md:gap-2 items-center bg-purple-500 hover:bg-purple-400 text-white">
+            <Icons.printer />
+            Print Form
+          </Button>
+        </a>
+
         {/* TODO: Make download admit card available when the form has clearance level 6 */}
         {isFormApproved(form) && (
           <a href={`/pdf/admit/${form.form_id}`} target="_blank">
@@ -186,10 +189,12 @@ export default async function SubmissionCard({ form }: Props) {
 
         {/* TODO: Should trigger a dialog to pop-up that shows the form details. */}
         {/* For reference: @/app/dashboard/admin/FormsTab/FormCard.tsx */}
-        <Button className="gap-1 md:gap-2 items-center">
-          <Icons.visible />
-          View
-        </Button>
+        <FormDetailDialog
+          user={user}
+          form={formDetails}
+          exam={examInfo}
+          formStudent={user}
+        />
       </CardFooter>
     </Card>
   );

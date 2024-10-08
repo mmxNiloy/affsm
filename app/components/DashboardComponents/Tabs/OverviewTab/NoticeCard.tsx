@@ -17,7 +17,7 @@ type Props = {
 
 export default function NoticeCard({ notice }: Props) {
   return (
-    <Card className="from-fuchsia-200 to-blue-500 bg-gradient-to-br flex flex-col justify-between">
+    <Card className="from-fuchsia-200/60 to-blue-500/60 bg-gradient-to-br flex flex-col justify-between">
       <CardHeader>
         <CardTitle>{notice.notice_title}</CardTitle>
         <CardDescription className="flex flex-col text-secondary-foreground font-bold lg:flex-row items-start lg:items-center lg:justify-between gap-1 md:gap-2">

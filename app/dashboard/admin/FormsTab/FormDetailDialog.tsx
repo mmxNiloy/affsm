@@ -20,7 +20,7 @@ import {
   isFormRejected,
   toDD_MM_YYYY,
 } from "@/util/Functions";
-import { Exam, Form, User } from "@/util/types";
+import { Exam, Form, FormDetail, User } from "@/util/types";
 import Image from "next/image";
 import React, {
   Suspense,
@@ -39,33 +39,21 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 
 type Params = {
-  form: Form;
+  form: FormDetail;
   exam: Exam;
+  formStudent?: User;
+  user: User;
 };
 
-export default function FormDetailDialog({ form, exam }: Params) {
-  const { user } = useContext(UserContext);
-  const [student, setStudent] = useState<User>();
+export default function FormDetailDialog({
+  form,
+  exam,
+  formStudent,
+  user,
+}: Params) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
   const { toast } = useToast();
-
-  const getStudentInfo = useCallback(async () => {
-    if (student) return;
-
-    setLoading(true);
-
-    // Make api request to get student information
-    const apiRes = await fetch(`/api/student/${form.student_id}`);
-
-    if (apiRes.ok) {
-      const mStudent = (await apiRes.json()) as User;
-      setStudent(mStudent);
-    } else setStudent(undefined);
-
-    setLoading(false);
-  }, [form, student]);
 
   const approveForm = useCallback(async () => {
     const apiRes = await fetch(`/api/form/approve?id=${form.form_id}`, {
@@ -76,6 +64,7 @@ export default function FormDetailDialog({ form, exam }: Params) {
       toast({
         title: "Approved Form!",
         description: `Successfully approved form #${form.form_id}. Reload the page to sync changes.`,
+        className: "bg-green-500 text-white",
       });
 
       router.refresh();
@@ -112,19 +101,16 @@ export default function FormDetailDialog({ form, exam }: Params) {
     }
   }, [form, router, toast]);
 
-  useEffect(() => {
-    getStudentInfo();
-  }, [getStudentInfo]);
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="gap-1 md:gap-2 items-center">
+        <Button className="gap-1 md:gap-2 items-center bg-blue-500 hover:bg-blue-400 text-white">
           <Icons.visible />
           View
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-sm md:max-w-screen-sm">
+      <DialogContent className="max-w-screen-lg">
         <DialogHeader>
           <DialogTitle>{getExamName(exam)}</DialogTitle>
           <DialogDescription>
@@ -174,9 +160,7 @@ export default function FormDetailDialog({ form, exam }: Params) {
 
             <p className="font-bold">Selected Courses</p>
 
-            <Suspense fallback={<FormDetailCoursesTableSkeleton />}>
-              <FormDetailCoursesTable form={form} />
-            </Suspense>
+            <FormDetailCoursesTable courses={form.courses} />
 
             <Label htmlFor="student-status-input">Student Status</Label>
             <Input
@@ -186,7 +170,7 @@ export default function FormDetailDialog({ form, exam }: Params) {
             />
 
             <p className="font-bold">Student Information</p>
-            {student && <StudentInformationGrid user={student} />}
+            {formStudent && <StudentInformationGrid user={formStudent} />}
           </div>
         </ScrollArea>
 

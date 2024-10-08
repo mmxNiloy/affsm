@@ -103,9 +103,11 @@ export default function SubmitFormPage() {
         title: "Form submitted successfully",
         description:
           "Your form has been submitted successfully. Track your form in the submissions tab from the dashboard.",
+        className: "bg-green-500 text-white",
       });
 
       router.replace("/dashboard");
+      router.refresh();
     } else {
       toast({
         title: "Form submission failed",

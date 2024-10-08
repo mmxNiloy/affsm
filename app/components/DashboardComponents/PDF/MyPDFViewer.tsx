@@ -1,3 +1,4 @@
+"use client";
 import { PDFViewer } from "@react-pdf/renderer";
 import MyDocument from "./MyDocument";
 import Icons from "../../Icons";
