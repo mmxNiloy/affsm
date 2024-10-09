@@ -27,12 +27,9 @@ export async function getExamDetails(exam_id: number): Promise<Exam> {
   };
 
   try {
-    const apiRes = await fetch(
-      `https://api.bike-csecu.com/api/exam/${exam_id}`,
-      {
-        method: "GET",
-      }
-    );
+    const apiRes = await fetch(`${process.env.API_BASE_URL}/exam/${exam_id}`, {
+      method: "GET",
+    });
 
     if (apiRes.ok) {
       return (await apiRes.json()) as Exam;
