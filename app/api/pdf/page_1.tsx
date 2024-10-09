@@ -9,6 +9,7 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import { Exam, FormDetail, User } from "@/util/types";
+import PdfFormPage2 from "./page_2";
 
 Font.register({
   family: "NotoBengali",
@@ -431,6 +432,9 @@ const PdfFormPage1 = () => (
         </View>
       </View>
     </Page>
+    {/* TODO: Page2 */}
+    {/* Example: <PdfFormPage2/> */}
+    <PdfFormPage2 />
   </Document>
 );
 
