@@ -11,6 +11,8 @@ import {
 import { Exam, FormDetail, User } from "@/util/types";
 import PdfFormPage2 from "./page_2";
 import { getExamName } from "@/util/Functions";
+import PdfFormPage3 from "./page_3";
+import PdfFormPage4 from "./page_4";
 
 Font.register({
   family: "NotoBengali",
@@ -188,7 +190,9 @@ const PdfFormPage1 = ({
           <View style={[styles.rightBox, { flex: 1 }]}>
             <View style={styles.box}>
               <View style={styles.formGroup}>
-                <Text style={styles.textCenter}>{"চট্টগ্রাম বিশ্ববিদ্যালয়  "}</Text>
+                <Text style={styles.textCenter}>
+                  {"চট্টগ্রাম বিশ্ববিদ্যালয়  "}
+                </Text>
               </View>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>আই.ডি. নং/রেজি: নং:</Text>
@@ -530,11 +534,9 @@ const PdfFormPage1 = ({
         </View>
       </View>
     </Page>
-    {/* TODO: Page2 */}
-    {/* Example: <PdfFormPage2/> */}
-    <PdfFormPage2 />
-    <PdfFormPage3/>
-    <PdfFormPage4/>
+    <PdfFormPage2 {...{ form, student, exam }} />
+    <PdfFormPage3 {...{ form, student, exam }} />
+    <PdfFormPage4 {...{ form, student, exam }} />
   </Document>
 );
 

@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
   },
   header: {
     textAlign: "center",
-    
   },
   logo: {
     width: 84,
@@ -70,7 +69,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   label: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   formLabel: {
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
     marginLeft: 3,
   },
   title: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 18,
     marginBottom: 30,
   },
@@ -113,300 +112,410 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   leftMargin: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginLeft: 10,
     marginBottom: 10, // Add desired margin size here
   },
   rightMargin: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginRight: 5,
     marginBottom: 10, // Add desired margin size here
   },
   boxAdmitCard: {
-    border: '1px solid #000',
+    border: "1px solid #000",
     padding: 20,
     marginTop: 5,
-  },photoBox: {
+  },
+  photoBox: {
     width: 150,
     height: 250,
-    border: '1px solid #000',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    position: 'absolute',
+    border: "1px solid #000",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    position: "absolute",
     right: 0,
     top: 0,
-  },col: {
-    width: '48%',
-    position: 'relative',
-  },inlineForm: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  },
+  col: {
+    width: "48%",
+    position: "relative",
+  },
+  inlineForm: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: 10,
-  },footer: {
-    textAlign: 'right',
+  },
+  footer: {
+    textAlign: "right",
     fontSize: 14,
     marginTop: 10,
   },
 });
 const banglaNumbers = ["১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯", "১০"];
-const PdfFormPage3 = () => (
-    <Page style={styles.body} size={"LEGAL"}> 
+const PdfFormPage3 = ({
+  form,
+  student,
+  exam,
+}: {
+  form: FormDetail;
+  student: User;
+  exam: Exam;
+}) => (
+  <Page style={styles.body} size={"LEGAL"}>
     {/* First Admit Card */}
-     <View style={styles.container}>
-        <View style={styles.header}>
+    <View style={styles.container}>
+      <View style={styles.header}>
         <View style={[styles.row, { alignItems: "flex-start" }]}>
-          <View style={ [styles.col,{left:128}]}><Text
-            style={{
-              fontWeight: "bold",
-              fontSize: 16,
-            }}
-          >
-            চট্টগ্রাম বিশ্ববিদ্যালয়
-          </Text>
-          <Text style={[{textAlign: "center", fontSize: 13, fontWeight: "ultrabold"}]}>
-              প্রবেশ পত্র
-          </Text></View>
-          <View style={[styles.rightBox,{alignItems:"center",alignContent:"center"}]}>
-            <View style={[styles.box,{left:100,width:110,height:100}]}>
-            <View style={ [styles.col,{left:24,top:16}]}>
-                <Text>
-           {" প্রভোস্ট কর্তৃক  "}
-          </Text>
-          <Text style={[{textAlign: "center"}]}>
-          {"পরীক্ষার্থীর  "}
-          </Text>
-          <Text style={[{textAlign: "center"}]}>
-          {"সত্যায়িত ফটো "}
-          </Text></View>
-            </View>
-         </View>
-          </View>
-        </View>
-        </View>
-      
-        <View style={[styles.formGroup,{left:128,top:0}]}>
-              <View style={[styles.row]}>
-                <Text>২০</Text>
-                <Text style={[styles.dashedInput,{width:64,marginRight:4}]}></Text>
-                <Text>{"সালের"}</Text>
-                <Text style={[styles.dashedInput,{width:128,marginRight:4}]}></Text>
-                <Text>{"সেমিস্টার বি.এসসি ইঞ্জিনিয়ারিং পরীক্ষা "}</Text>
-              </View>
-            </View>
-
-            <View style={[styles.formGroup,{marginLeft:32,marginRight:32}]}>
-             
-               <View style={styles.row}>
-               <Text >অনার্স বিষয়</Text>
-               <Text style={[styles.dashedInput,{width:216,marginLeft:4,marginRight:4}]}></Text>
-                <Text>পরীক্ষারম্ভের তারিখ</Text>
-                <Text style={[styles.dashedInput,{width:216,marginLeft:4}]}></Text>
-               </View>
-            </View>
-     
-
-          
-            <View style={[styles.formGroup,{marginLeft:32,marginRight:32}]}>
-             
-              <Text>{"কোর্স নং (কেবলমাত্র মানউন্নয়ন ও পুনঃ পরীক্ষার্থীদের বেলায় প্রযোজ্য) "}</Text>
-              <Text style={[styles.dashedInput,{marginLeft:4,width:326}]}></Text>
-            </View>
-           
-            <View style={[styles.formGroup,{marginLeft:32,marginRight:32}]}>
-             
-             <View style={styles.row}>
-             <Text >আই.ডি.নং</Text>
-             <Text style={[styles.dashedInput,{width:"50%",marginLeft:6,marginRight:4}]}></Text>
-              <Text>শিক্ষাবর্ষ</Text>
-              <Text style={[styles.dashedInput,{width:"50%",marginLeft:6}]}></Text>
-             </View>
-          </View>
-   
-          
-
-          <View style={[styles.formGroup,{marginLeft:32,marginRight:32}]}>
-              <Text>{"পরীক্ষার্থীর নাম (বাংলায়) "}</Text>
-              <Text style={[styles.dashedInput,{width:"100%",marginLeft:12}]}></Text>
-            </View>
-            <View style={[styles.formGroup,{marginLeft:32,marginRight:32}]}>
-              <Text>{"পরীক্ষার্থীর নাম (ইংরেজিতে বড় অক্ষরে) "}</Text>
-              <Text style={[styles.dashedInput,{width:"100%",marginLeft:32}]}></Text>
-            </View>
-            <View style={[styles.formGroup,{marginLeft:32,marginRight:32}]}>
-              <Text>{"পিতার নাম (বাংলায়) "}</Text>
-              <Text style={[styles.dashedInput,{width:"100%",marginLeft:10}]}></Text>
-            </View>
-            <View style={[styles.formGroup,{marginLeft:32,marginRight:32}]}>
-              <Text>{"ইংরেজিতে "}</Text>
-              <Text style={[styles.dashedInput,{width:"100%",marginLeft:6}]}></Text>
-            </View>
-            <View style={[styles.formGroup,{marginLeft:32,marginRight:32}]}>
-              <Text>{"মাতার নাম (বাংলায়) "}</Text>
-              <Text style={[styles.dashedInput,{width:"100%",marginLeft:8}]}></Text>
-            </View>
-            <View style={[styles.formGroup,{marginLeft:32,marginRight:32}]}>
-              <Text>{"ইংরেজিতে "}</Text>
-              <Text style={[styles.dashedInput,{width:"100%",marginLeft:6}]}></Text>
-            </View>
-            <View style={[styles.formGroup,{marginLeft:32,marginRight:32}]}>
-              <Text>{"হলের নাম "}</Text>
-              <Text style={[styles.dashedInput,{width:"100%",marginLeft:6}]}></Text>
-            </View>
-         
-            <View style={[styles.rightBox, { alignItems: "flex-end",marginTop:5,marginRight:32 }]}>
+          <View style={[styles.col, { left: 128 }]}>
             <Text
               style={{
-                textAlign: "right",
-                paddingTop: 4,
-                width: 128,
-                marginTop: 5,
-                fontSize:11,
-                fontWeight:'bold'
+                fontWeight: "bold",
+                fontSize: 16,
               }}
-            >{`পরীক্ষা নিয়ন্ত্রক `}</Text>
-       </View>
+            >
+              চট্টগ্রাম বিশ্ববিদ্যালয়
+            </Text>
+            <Text
+              style={[
+                { textAlign: "center", fontSize: 13, fontWeight: "ultrabold" },
+              ]}
+            >
+              প্রবেশ পত্র
+            </Text>
+          </View>
+          <View
+            style={[
+              styles.rightBox,
+              { alignItems: "center", alignContent: "center" },
+            ]}
+          >
+            <View style={[styles.box, { left: 100, width: 110, height: 100 }]}>
+              <View style={[styles.col, { left: 24, top: 16 }]}>
+                <Text>{" প্রভোস্ট কর্তৃক  "}</Text>
+                <Text style={[{ textAlign: "center" }]}>
+                  {"পরীক্ষার্থীর  "}
+                </Text>
+                <Text style={[{ textAlign: "center" }]}>
+                  {"সত্যায়িত ফটো "}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
 
-    
+    <View style={[styles.formGroup, { left: 128, top: 0 }]}>
+      <View style={[styles.row]}>
+        <Text>২০</Text>
+        <Text
+          style={[styles.dashedInput, { width: 64, marginRight: 4 }]}
+        ></Text>
+        <Text>{"সালের"}</Text>
+        <Text
+          style={[styles.dashedInput, { width: 128, marginRight: 4 }]}
+        ></Text>
+        <Text>{"সেমিস্টার বি.এসসি ইঞ্জিনিয়ারিং পরীক্ষা "}</Text>
+      </View>
+    </View>
 
-      {/* Second Admit Card */}
-      <View style={styles.boxAdmitCard}>
+    <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
+      <View style={styles.row}>
+        <Text>অনার্স বিষয়</Text>
+        <Text
+          style={[
+            styles.dashedInput,
+            { width: 216, marginLeft: 4, marginRight: 4 },
+          ]}
+        ></Text>
+        <Text>পরীক্ষারম্ভের তারিখ</Text>
+        <Text
+          style={[styles.dashedInput, { width: 216, marginLeft: 4 }]}
+        ></Text>
+      </View>
+    </View>
+
+    <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
+      <Text>
+        {"কোর্স নং (কেবলমাত্র মানউন্নয়ন ও পুনঃ পরীক্ষার্থীদের বেলায় প্রযোজ্য) "}
+      </Text>
+      <Text style={[styles.dashedInput, { marginLeft: 4, width: 326 }]}></Text>
+    </View>
+
+    <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
+      <View style={styles.row}>
+        <Text>আই.ডি.নং</Text>
+        <Text
+          style={[
+            styles.dashedInput,
+            { width: "50%", marginLeft: 6, marginRight: 4 },
+          ]}
+        ></Text>
+        <Text>শিক্ষাবর্ষ</Text>
+        <Text
+          style={[styles.dashedInput, { width: "50%", marginLeft: 6 }]}
+        ></Text>
+      </View>
+    </View>
+
+    <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
+      <Text>{"পরীক্ষার্থীর নাম (বাংলায়) "}</Text>
+      <Text
+        style={[styles.dashedInput, { width: "100%", marginLeft: 12 }]}
+      ></Text>
+    </View>
+    <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
+      <Text>{"পরীক্ষার্থীর নাম (ইংরেজিতে বড় অক্ষরে) "}</Text>
+      <Text
+        style={[styles.dashedInput, { width: "100%", marginLeft: 32 }]}
+      ></Text>
+    </View>
+    <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
+      <Text>{"পিতার নাম (বাংলায়) "}</Text>
+      <Text
+        style={[styles.dashedInput, { width: "100%", marginLeft: 10 }]}
+      ></Text>
+    </View>
+    <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
+      <Text>{"ইংরেজিতে "}</Text>
+      <Text
+        style={[styles.dashedInput, { width: "100%", marginLeft: 6 }]}
+      ></Text>
+    </View>
+    <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
+      <Text>{"মাতার নাম (বাংলায়) "}</Text>
+      <Text
+        style={[styles.dashedInput, { width: "100%", marginLeft: 8 }]}
+      ></Text>
+    </View>
+    <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
+      <Text>{"ইংরেজিতে "}</Text>
+      <Text
+        style={[styles.dashedInput, { width: "100%", marginLeft: 6 }]}
+      ></Text>
+    </View>
+    <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
+      <Text>{"হলের নাম "}</Text>
+      <Text
+        style={[styles.dashedInput, { width: "100%", marginLeft: 6 }]}
+      ></Text>
+    </View>
+
+    <View
+      style={[
+        styles.rightBox,
+        { alignItems: "flex-end", marginTop: 5, marginRight: 32 },
+      ]}
+    >
+      <Text
+        style={{
+          textAlign: "right",
+          paddingTop: 4,
+          width: 128,
+          marginTop: 5,
+          fontSize: 11,
+          fontWeight: "bold",
+        }}
+      >{`পরীক্ষা নিয়ন্ত্রক `}</Text>
+    </View>
+
+    {/* Second Admit Card */}
+    <View style={styles.boxAdmitCard}>
       <View style={styles.container}>
         <View style={styles.header}>
-        <View style={[styles.row, { alignItems: "flex-start" }]}>
-          <View style={ [styles.col,{left:128,alignItems:"center"}]}><Text
-            style={{
-              fontWeight: "bold",
-              fontSize: 16,
-            }}
-          >
-            চট্টগ্রাম বিশ্ববিদ্যালয়
-          </Text>
-          <Image style={styles.logo} src="./public/cu_logo.png" />
-          <Text style={[{textAlign: "center", fontSize: 13, fontWeight: "ultrabold"}]}>
-              প্রবেশ পত্র
-          </Text></View>
-          <View style={[styles.rightBox,{alignItems:"center",alignContent:"center"}]}>
-            <View style={[styles.box,{left:100,width:110,height:100}]}>
-            <View style={ [styles.col,{left:24,top:16}]}>
-                <Text>
-           {" প্রভোস্ট কর্তৃক  "}
-          </Text>
-          <Text style={[{textAlign: "center"}]}>
-          {"পরীক্ষার্থীর  "}
-          </Text>
-          <Text style={[{textAlign: "center"}]}>
-          {"সত্যায়িত ফটো "}
-          </Text></View>
+          <View style={[styles.row, { alignItems: "flex-start" }]}>
+            <View style={[styles.col, { left: 128, alignItems: "center" }]}>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 16,
+                }}
+              >
+                চট্টগ্রাম বিশ্ববিদ্যালয়
+              </Text>
+              <Image style={styles.logo} src="./public/cu_logo.png" />
+              <Text
+                style={[
+                  {
+                    textAlign: "center",
+                    fontSize: 13,
+                    fontWeight: "ultrabold",
+                  },
+                ]}
+              >
+                প্রবেশ পত্র
+              </Text>
             </View>
-         </View>
-          </View>
-        </View>
-        </View>
-      
-        <View style={[styles.formGroup,{left:128,top:0}]}>
-              <View style={[styles.row]}>
-                <Text>২০</Text>
-                <Text style={[styles.dashedInput,{width:64,marginRight:4}]}></Text>
-                <Text>{"সালের"}</Text>
-                <Text style={[styles.dashedInput,{width:128,marginRight:4}]}></Text>
-                <Text>{"সেমিস্টার বি.এসসি ইঞ্জিনিয়ারিং পরীক্ষা "}</Text>
+            <View
+              style={[
+                styles.rightBox,
+                { alignItems: "center", alignContent: "center" },
+              ]}
+            >
+              <View
+                style={[styles.box, { left: 100, width: 110, height: 100 }]}
+              >
+                <View style={[styles.col, { left: 24, top: 16 }]}>
+                  <Text>{" প্রভোস্ট কর্তৃক  "}</Text>
+                  <Text style={[{ textAlign: "center" }]}>
+                    {"পরীক্ষার্থীর  "}
+                  </Text>
+                  <Text style={[{ textAlign: "center" }]}>
+                    {"সত্যায়িত ফটো "}
+                  </Text>
+                </View>
               </View>
             </View>
-    
-          
-
-            <View style={[styles.formGroup,{marginLeft:24,marginRight:24}]}>
-             
-               <View style={styles.row}>
-               <Text >অনার্স বিষয়</Text>
-               <Text style={[styles.dashedInput,{width:"100%",marginLeft:28,marginRight:4}]}></Text>
-                <Text>পরীক্ষারম্ভের তারিখ</Text>
-                <Text style={[styles.dashedInput,{width:"100%",marginLeft:38}]}></Text>
-               </View>
-            </View>
-     
-
-          
-            <View style={[styles.formGroup,{marginLeft:24,marginRight:24}]}>
-             
-              <Text>{"কোর্স নং (কেবলমাত্র মানউন্নয়ন ও পুনঃ পরীক্ষার্থীদের বেলায় প্রযোজ্য)   "}</Text>
-              <Text style={[styles.dashedInput,{marginLeft:96,width:"100%"}]}></Text>
-            </View>
-           
-            <View style={[styles.formGroup,{marginLeft:24,marginRight:24}]}>
-             <View style={styles.row}>
-             <Text >আই.ডি.নং</Text>
-             <Text style={[styles.dashedInput,{width:"100%",marginLeft:24,marginRight:4}]}></Text>
-              <Text>শিক্ষাবর্ষ</Text>
-              <Text style={[styles.dashedInput,{width:"100%",marginLeft:24}]}></Text>
-             </View>
           </View>
+        </View>
+      </View>
 
-          <View style={[styles.formGroup,{marginLeft:24,marginRight:24}]}>
-              <Text>{"পরীক্ষার্থীর নাম (বাংলায়) "}</Text>
-              <Text style={[styles.dashedInput,{width:"100%",marginLeft:12}]}></Text>
-            </View>
-            <View style={[styles.formGroup,{marginLeft:24,marginRight:24}]}>
-              <Text>{"পরীক্ষার্থীর নাম (ইংরেজিতে বড় অক্ষরে) "}</Text>
-              <Text style={[styles.dashedInput,{width:"100%",marginLeft:32}]}></Text>
-            </View>
-            <View style={[styles.formGroup,{marginLeft:24,marginRight:24}]}>
-              <Text>{"পিতার নাম (বাংলায়) "}</Text>
-              <Text style={[styles.dashedInput,{width:"100%",marginLeft:10}]}></Text>
-            </View>
-            <View style={[styles.formGroup,{marginLeft:24,marginRight:24}]}>
-              <Text>{"ইংরেজিতে "}</Text>
-              <Text style={[styles.dashedInput,{width:"100%",marginLeft:6}]}></Text>
-            </View>
-            <View style={[styles.formGroup,{marginLeft:24,marginRight:24}]}>
-              <Text>{"মাতার নাম (বাংলায়) "}</Text>
-              <Text style={[styles.dashedInput,{width:"100%",marginLeft:8}]}></Text>
-            </View>
-            <View style={[styles.formGroup,{marginLeft:24,marginRight:24}]}>
-              <Text>{"ইংরেজিতে "}</Text>
-              <Text style={[styles.dashedInput,{width:"100%",marginLeft:6}]}></Text>
-            </View>
-            <View style={[styles.formGroup,{marginLeft:24,marginRight:24}]}>
-              <Text>{"হলের নাম "}</Text>
-              <Text style={[styles.dashedInput,{width:"100%",marginLeft:6}]}></Text>
-            </View>
+      <View style={[styles.formGroup, { left: 128, top: 0 }]}>
+        <View style={[styles.row]}>
+          <Text>২০</Text>
+          <Text
+            style={[styles.dashedInput, { width: 64, marginRight: 4 }]}
+          ></Text>
+          <Text>{"সালের"}</Text>
+          <Text
+            style={[styles.dashedInput, { width: 128, marginRight: 4 }]}
+          ></Text>
+          <Text>{"সেমিস্টার বি.এসসি ইঞ্জিনিয়ারিং পরীক্ষা "}</Text>
+        </View>
+      </View>
 
-            <Text>বি.দ্রঃ-</Text>
-            <View style={styles.list}>
-              <Text style={[styles.listItem,{fontSize:8}]}>১। পরীক্ষার্থী স্বহস্তে উপরে্র তথ্যাবলী পূরণ করবে।</Text>
-              <Text style={[styles.listItem,{fontSize:8}]}>২। প্রভোস্ট পরীক্ষার্থীর ফটো সীলমোহরদানে সত্যায়িত করবেন।</Text>
-              <Text style={[styles.listItem,{fontSize:8}]}>৩। প্রভোস্ট কর্তৃক নিরীক্ষাকৃত তথ্যাবলী চূড়ান্ত বলে বিবেচিত হবে।</Text>
-              <Text style={[styles.listItem,{fontSize:8}]}>৪। প্রবেশপত্রে লিখিত বিবরণের কোন ক্ষেত্রে কাটাক</Text>
-              </View>  
-              <View style={[styles.rightBox, { alignItems: "flex-end",marginTop:2,marginRight:32 }]}>
-            <Text
-              style={{
-                textAlign: "right",
-                paddingTop: 4,
-                width: 128,
-                marginTop: 2,
-                fontSize:11,
-                fontWeight:'bold'
-              }}
-            >{`পরীক্ষা নিয়ন্ত্রক `}</Text>
-       </View>  
+      <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
+        <View style={styles.row}>
+          <Text>অনার্স বিষয়</Text>
+          <Text
+            style={[
+              styles.dashedInput,
+              { width: "100%", marginLeft: 28, marginRight: 4 },
+            ]}
+          ></Text>
+          <Text>পরীক্ষারম্ভের তারিখ</Text>
+          <Text
+            style={[styles.dashedInput, { width: "100%", marginLeft: 38 }]}
+          ></Text>
+        </View>
+      </View>
+
+      <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
+        <Text>
+          {
+            "কোর্স নং (কেবলমাত্র মানউন্নয়ন ও পুনঃ পরীক্ষার্থীদের বেলায় প্রযোজ্য)   "
+          }
+        </Text>
+        <Text
+          style={[styles.dashedInput, { marginLeft: 96, width: "100%" }]}
+        ></Text>
+      </View>
+
+      <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
+        <View style={styles.row}>
+          <Text>আই.ডি.নং</Text>
+          <Text
+            style={[
+              styles.dashedInput,
+              { width: "100%", marginLeft: 24, marginRight: 4 },
+            ]}
+          ></Text>
+          <Text>শিক্ষাবর্ষ</Text>
+          <Text
+            style={[styles.dashedInput, { width: "100%", marginLeft: 24 }]}
+          ></Text>
+        </View>
+      </View>
+
+      <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
+        <Text>{"পরীক্ষার্থীর নাম (বাংলায়) "}</Text>
+        <Text
+          style={[styles.dashedInput, { width: "100%", marginLeft: 12 }]}
+        ></Text>
+      </View>
+      <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
+        <Text>{"পরীক্ষার্থীর নাম (ইংরেজিতে বড় অক্ষরে) "}</Text>
+        <Text
+          style={[styles.dashedInput, { width: "100%", marginLeft: 32 }]}
+        ></Text>
+      </View>
+      <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
+        <Text>{"পিতার নাম (বাংলায়) "}</Text>
+        <Text
+          style={[styles.dashedInput, { width: "100%", marginLeft: 10 }]}
+        ></Text>
+      </View>
+      <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
+        <Text>{"ইংরেজিতে "}</Text>
+        <Text
+          style={[styles.dashedInput, { width: "100%", marginLeft: 6 }]}
+        ></Text>
+      </View>
+      <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
+        <Text>{"মাতার নাম (বাংলায়) "}</Text>
+        <Text
+          style={[styles.dashedInput, { width: "100%", marginLeft: 8 }]}
+        ></Text>
+      </View>
+      <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
+        <Text>{"ইংরেজিতে "}</Text>
+        <Text
+          style={[styles.dashedInput, { width: "100%", marginLeft: 6 }]}
+        ></Text>
+      </View>
+      <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
+        <Text>{"হলের নাম "}</Text>
+        <Text
+          style={[styles.dashedInput, { width: "100%", marginLeft: 6 }]}
+        ></Text>
+      </View>
+
+      <Text>বি.দ্রঃ-</Text>
+      <View style={styles.list}>
+        <Text style={[styles.listItem, { fontSize: 8 }]}>
+          ১। পরীক্ষার্থী স্বহস্তে উপরে্র তথ্যাবলী পূরণ করবে।
+        </Text>
+        <Text style={[styles.listItem, { fontSize: 8 }]}>
+          ২। প্রভোস্ট পরীক্ষার্থীর ফটো সীলমোহরদানে সত্যায়িত করবেন।
+        </Text>
+        <Text style={[styles.listItem, { fontSize: 8 }]}>
+          ৩। প্রভোস্ট কর্তৃক নিরীক্ষাকৃত তথ্যাবলী চূড়ান্ত বলে বিবেচিত হবে।
+        </Text>
+        <Text style={[styles.listItem, { fontSize: 8 }]}>
+          ৪। প্রবেশপত্রে লিখিত বিবরণের কোন ক্ষেত্রে কাটাক
+        </Text>
+      </View>
+      <View
+        style={[
+          styles.rightBox,
+          { alignItems: "flex-end", marginTop: 2, marginRight: 32 },
+        ]}
+      >
+        <Text
+          style={{
+            textAlign: "right",
+            paddingTop: 4,
+            width: 128,
+            marginTop: 2,
+            fontSize: 11,
+            fontWeight: "bold",
+          }}
+        >{`পরীক্ষা নিয়ন্ত্রক `}</Text>
+      </View>
     </View>
-   
-     <Text
-              style={{
-                textAlign: "right",
-                paddingTop: 4,
-                width: 256,
-                marginTop: 1,
-                fontSize:6,
-                
-              }}
-            >{`(পরীক্ষার দিন, তারিখ, সময় সংশ্লিষ্ট দপ্তর থেকে জানার দায়-দায়িত্ব অবশ্যই পরীক্ষার্থীর)  `}</Text>
-      
-    
- </Page>
+
+    <Text
+      style={{
+        textAlign: "right",
+        paddingTop: 4,
+        width: 256,
+        marginTop: 1,
+        fontSize: 6,
+      }}
+    >{`(পরীক্ষার দিন, তারিখ, সময় সংশ্লিষ্ট দপ্তর থেকে জানার দায়-দায়িত্ব অবশ্যই পরীক্ষার্থীর)  `}</Text>
+  </Page>
 );
 export default PdfFormPage3;
