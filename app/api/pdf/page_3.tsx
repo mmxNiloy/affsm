@@ -211,14 +211,16 @@ const PdfFormPage3 = ({
     <View style={[styles.formGroup, { left: 128, top: 0 }]}>
       <View style={[styles.row]}>
         <Text>২০</Text>
+        
         <Text
           style={[styles.dashedInput, { width: 64, marginRight: 4 }]}
-        ></Text>
+        >{`  ${new Date(exam.exam_start_date).getFullYear().toString().substring(2,4)} `}</Text>
         <Text>{"সালের"}</Text>
         <Text
           style={[styles.dashedInput, { width: 128, marginRight: 4 }]}
-        ></Text>
-        <Text>{"সেমিস্টার বি.এসসি ইঞ্জিনিয়ারিং পরীক্ষা "}</Text>
+
+        >
+           {`     ${exam.semester}    `} </Text>     <Text>{"সেমিস্টার বি.এসসি ইঞ্জিনিয়ারিং পরীক্ষা "}</Text>
       </View>
     </View>
 
@@ -230,34 +232,37 @@ const PdfFormPage3 = ({
             styles.dashedInput,
             { width: 216, marginLeft: 4, marginRight: 4 },
           ]}
-        ></Text>
+        > {student.department_abbr}</Text>
         <Text>পরীক্ষারম্ভের তারিখ</Text>
         <Text
           style={[styles.dashedInput, { width: 216, marginLeft: 4 }]}
-        ></Text>
+        >{new Date(exam.exam_start_date).toLocaleDateString("en-GB") }</Text>
       </View>
     </View>
 
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text>
-        {"কোর্স নং (কেবলমাত্র মানউন্নয়ন ও পুনঃ পরীক্ষার্থীদের বেলায় প্রযোজ্য) "}
+        {"কোর্স নং (কেবলমাত্র মানউন্নয়ন ও পুনঃ পরীক্ষার্থীদের বেলায় প্রযোজ্য)      "}
       </Text>
-      <Text style={[styles.dashedInput, { marginLeft: 4, width: 326 }]}></Text>
+      <Text style={[styles.dashedInput, { marginLeft: 4, width: 326 }]}>
+      {` ${form.student_status=="Regular"? `N/A`: form.courses.filter(course => Number.parseInt(course.course_code.substring(exam.department_abbr.length,exam.department_abbr.length+1)) < student.semester!).join(", ")}`}
+      </Text>
     </View>
 
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <View style={styles.row}>
         <Text>আই.ডি.নং</Text>
+
         <Text
           style={[
             styles.dashedInput,
             { width: "50%", marginLeft: 6, marginRight: 4 },
           ]}
-        ></Text>
+        >{student.student_id}</Text>
         <Text>শিক্ষাবর্ষ</Text>
         <Text
           style={[styles.dashedInput, { width: "50%", marginLeft: 6 }]}
-        ></Text>
+        >{student.session}</Text>
       </View>
     </View>
 
@@ -265,43 +270,47 @@ const PdfFormPage3 = ({
       <Text>{"পরীক্ষার্থীর নাম (বাংলায়) "}</Text>
       <Text
         style={[styles.dashedInput, { width: "100%", marginLeft: 12 }]}
-      ></Text>
+      >{`${student.first_name_bn} ${student.last_name_bn}`}</Text>
     </View>
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text>{"পরীক্ষার্থীর নাম (ইংরেজিতে বড় অক্ষরে) "}</Text>
       <Text
         style={[styles.dashedInput, { width: "100%", marginLeft: 32 }]}
-      ></Text>
+      >
+        {` ${student.first_name.toUpperCase()} ${student.last_name.toUpperCase()}`}
+      </Text>
     </View>
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text>{"পিতার নাম (বাংলায়) "}</Text>
       <Text
         style={[styles.dashedInput, { width: "100%", marginLeft: 10 }]}
-      ></Text>
+      >
+        {` ${student.fathers_name_bn}`}
+      </Text>
     </View>
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text>{"ইংরেজিতে "}</Text>
       <Text
         style={[styles.dashedInput, { width: "100%", marginLeft: 6 }]}
-      ></Text>
+      >  {` ${student.fathers_name}`}</Text>
     </View>
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text>{"মাতার নাম (বাংলায়) "}</Text>
       <Text
         style={[styles.dashedInput, { width: "100%", marginLeft: 8 }]}
-      ></Text>
+      > {` ${student.mothers_name_bn}`}</Text>
     </View>
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text>{"ইংরেজিতে "}</Text>
       <Text
         style={[styles.dashedInput, { width: "100%", marginLeft: 6 }]}
-      ></Text>
+      > {` ${student.mothers_name}`}</Text>
     </View>
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text>{"হলের নাম "}</Text>
       <Text
         style={[styles.dashedInput, { width: "100%", marginLeft: 6 }]}
-      ></Text>
+      > {` ${student.hall_name}`}</Text>
     </View>
 
     <View
@@ -378,11 +387,11 @@ const PdfFormPage3 = ({
           <Text>২০</Text>
           <Text
             style={[styles.dashedInput, { width: 64, marginRight: 4 }]}
-          ></Text>
+          >{`  ${new Date(exam.exam_start_date).getFullYear().toString().substring(2,4)} `}</Text>
           <Text>{"সালের"}</Text>
           <Text
             style={[styles.dashedInput, { width: 128, marginRight: 4 }]}
-          ></Text>
+          >{exam.semester}</Text>
           <Text>{"সেমিস্টার বি.এসসি ইঞ্জিনিয়ারিং পরীক্ষা "}</Text>
         </View>
       </View>
@@ -395,11 +404,11 @@ const PdfFormPage3 = ({
               styles.dashedInput,
               { width: "100%", marginLeft: 28, marginRight: 4 },
             ]}
-          ></Text>
+          >{student.department_abbr}</Text>
           <Text>পরীক্ষারম্ভের তারিখ</Text>
           <Text
             style={[styles.dashedInput, { width: "100%", marginLeft: 38 }]}
-          ></Text>
+          >{new Date(exam.exam_start_date).toLocaleDateString("en-GB")}</Text>
         </View>
       </View>
 
@@ -411,7 +420,7 @@ const PdfFormPage3 = ({
         </Text>
         <Text
           style={[styles.dashedInput, { marginLeft: 96, width: "100%" }]}
-        ></Text>
+        >{` ${form.student_status=="Regular"? `N/A`: form.courses.filter(course => Number.parseInt(course.course_code.substring(exam.department_abbr.length,exam.department_abbr.length+1)) < student.semester!).join(", ")}`}</Text>
       </View>
 
       <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
@@ -422,11 +431,11 @@ const PdfFormPage3 = ({
               styles.dashedInput,
               { width: "100%", marginLeft: 24, marginRight: 4 },
             ]}
-          ></Text>
+          >{student.student_id}</Text>
           <Text>শিক্ষাবর্ষ</Text>
           <Text
             style={[styles.dashedInput, { width: "100%", marginLeft: 24 }]}
-          ></Text>
+          >{student.session}</Text>
         </View>
       </View>
 
@@ -434,43 +443,44 @@ const PdfFormPage3 = ({
         <Text>{"পরীক্ষার্থীর নাম (বাংলায়) "}</Text>
         <Text
           style={[styles.dashedInput, { width: "100%", marginLeft: 12 }]}
-        ></Text>
+        >{`${student.first_name_bn} ${student.last_name_bn}`}</Text>
       </View>
       <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
         <Text>{"পরীক্ষার্থীর নাম (ইংরেজিতে বড় অক্ষরে) "}</Text>
         <Text
           style={[styles.dashedInput, { width: "100%", marginLeft: 32 }]}
-        ></Text>
+        > {`${student.first_name.toUpperCase()} ${student.last_name.toUpperCase()}`}</Text>
       </View>
       <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
         <Text>{"পিতার নাম (বাংলায়) "}</Text>
+
         <Text
           style={[styles.dashedInput, { width: "100%", marginLeft: 10 }]}
-        ></Text>
+        >{`${student.fathers_name_bn}`}</Text>
       </View>
       <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
         <Text>{"ইংরেজিতে "}</Text>
         <Text
           style={[styles.dashedInput, { width: "100%", marginLeft: 6 }]}
-        ></Text>
+        >{`${student.fathers_name}`}</Text>
       </View>
       <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
         <Text>{"মাতার নাম (বাংলায়) "}</Text>
         <Text
           style={[styles.dashedInput, { width: "100%", marginLeft: 8 }]}
-        ></Text>
+        >{`${student.mothers_name_bn}`}</Text>
       </View>
       <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
         <Text>{"ইংরেজিতে "}</Text>
         <Text
           style={[styles.dashedInput, { width: "100%", marginLeft: 6 }]}
-        ></Text>
+        >{`${student.mothers_name}`}</Text>
       </View>
       <View style={[styles.formGroup, { marginLeft: 24, marginRight: 24 }]}>
         <Text>{"হলের নাম "}</Text>
         <Text
           style={[styles.dashedInput, { width: "100%", marginLeft: 6 }]}
-        ></Text>
+        >{student.hall_name}</Text>
       </View>
 
       <Text>বি.দ্রঃ-</Text>
