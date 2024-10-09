@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Double Admit Card</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 1cm;
+            background-color: white;
+            color: black;
+            box-sizing: border-box;
+        }
+        
+        .inline-form {
+            display: flex;
+            align-items: center;
+        }
+
+        .inline-form label {
+            margin-right: 10px;
+        }
+
+        .inline-input {
+            width: 100px; /* Adjust the width as necessary */
+            margin-right: 10px;
+        }
+
+        .single-line-label {
+            display: inline; /* Ensure it's displayed inline */
+            white-space: nowrap; /* Prevent line breaks */
+        }
+
+        .admit-card {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            padding: 20px;
+            position: relative;
+            border: 1px solid #000;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+        }
+
+        .form-section label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .row .col {
+            width: 48%;
+            position: relative; /* Set relative position for the photo box */
+        }
+
+        .photo-box {
+            width: 150px;
+            height: 180px;
+            border: 1px solid #000;
+            position: absolute; /* Position the photo box absolutely */
+            top: 0; /* Align to the top */
+            right: 0; /* Align to the right */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .signature-box {
+            width: 200px;
+            height: 80px;
+            border: 1px solid #000;
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+        }
+
+        .university-logo {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+        }
+
+        .form-section h3 {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            text-align: right;
+            font-size: 14px;
+            margin-top: 30px;
+        }
+
+        .box-admit-card {
+            border: 2px solid #000;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- First Admit Card -->
+    <div class="admit-card">
+        <div class="header">
+            চট্টগ্রাম বিশ্ববিদ্যালয়<br>প্রবেশ পত্র
+        </div>
+
+        <!-- Profile Picture Section -->
+        <div class="row">
+            <div class="col">
+                <div class="form-section">
+                    <div class="inline-form">
+                        <label>২০</label>
+                        <input type="text" class="form-input inline-input" placeholder="">
+                        <label>সালের</label>
+                        <input type="text" class="form-input inline-input" placeholder="">
+                        <label style="white-space: nowrap;">সেমিস্টার বি.এসসি ইঞ্জিনিয়ারিং পরীক্ষা</label>
+                    </div>
+
+                    <div class="form-section" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                        <div style="flex: 1; margin-right: 10px; display: flex; align-items: center;">
+                            <label style="white-space: nowrap;">অনার্স বিষয়:</label>
+                            <input type="text" class="form-input" placeholder="" style="width: 150px; margin-right: 20px;"> <!-- Adjust the width as necessary -->
+                            
+                            <label style="white-space: nowrap;">পরীক্ষারম্ভের তারিখ:</label>
+                            <input type="text" class="form-input" placeholder="" style="width: 150px;"> <!-- Adjust the width as necessary -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label style="white-space: nowrap;">কোর্স নং:(কেবলমাত্র মানউন্নয়ন ও পুনঃ পরীক্ষার্থীদের বেলায় প্রযোজ্য)</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+
+                <div class="form-section" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <div style="flex: 1; margin-right: 10px; display: flex; align-items: center;">
+                        <label style="white-space: nowrap;">আই.ডি .নং:</label>
+                        <input type="text" class="form-input" placeholder="" style="width: 150px; margin-right: 20px;"> <!-- Adjust the width as necessary -->
+                        
+                        <label style="margin-right: 5px;">শিক্ষাবর্ষ:</label>
+                        <input type="text" class="form-input" placeholder="" style="width: 150px;"> <!-- Adjust the width as necessary -->
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <label>পরীক্ষার্থীর নাম (বাংলায়):</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+                <div class="form-section">
+                    <label>পরীক্ষার্থীর নাম (ইংরেজিতে বড় অক্ষরে):</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+                <div class="form-section">
+                    <label>পিতার নাম (বাংলায়):</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+                <div class="form-section">
+                    <label>ইংরেজিতে :</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+                <div class="form-section">
+                    <label>মাতার নাম (বাংলায়):</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+                <div class="form-section">
+                    <label>ইংরেজিতে:</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+                <div class="form-section">
+                    <label>হলের নাম:</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+
+            </div>
+            <div class="col">
+                <div class="photo-box">
+                    ছবি
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            পরীক্ষা নিয়ন্ত্রক
+        </div>
+    </div>
+
+    <!-- Second Admit Card -->
+    <div class="admit-card">
+        <div class="header">
+            চট্টগ্রাম বিশ্ববিদ্যালয়<br>
+            <img src="logo.png" alt="Logo" style="max-width: 100px; margin: 10px 0;"> <!-- Adjust the path and size as necessary -->
+            <br>প্রবেশ পত্র
+        </div>
+
+        <!-- Profile Picture Section -->
+        <div class="row">
+            <div class="col">
+                <div class="form-section">
+                    <div class="inline-form">
+                        <label>২০</label>
+                        <input type="text" class="form-input inline-input" placeholder="">
+                        <label>সালের</label>
+                        <input type="text" class="form-input inline-input" placeholder="">
+                        <label style="white-space: nowrap;">সেমিস্টার বি.এসসি ইঞ্জিনিয়ারিং পরিক্ষা</label>
+                    </div>
+
+                    <div class="form-section" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                        <div style="flex: 1; margin-right: 10px; display: flex; align-items: center;">
+                            <label style="white-space: nowrap;">অনার্স বিষয়:</label>
+                            <input type="text" class="form-input" placeholder="" style="width: 150px; margin-right: 20px;"> <!-- Adjust the width as necessary -->
+                            
+                            <label style="white-space: nowrap;">পরীক্ষারম্ভের তারিখ:</label>
+                            <input type="text" class="form-input" placeholder="" style="width: 150px;"> <!-- Adjust the width as necessary -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label style="white-space: nowrap;">কোর্স নং:(কেবলমাত্র মানউন্নয়ন ও পুনঃ পরীক্ষার্থীদের বেলায় প্রযোজ্য)</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+
+                <div class="form-section" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <div style="flex: 1; margin-right: 10px; display: flex; align-items: center;">
+                        <label style="white-space: nowrap;">আই .ডি.নং:</label>
+                        <input type="text" class="form-input" placeholder="" style="width: 150px; margin-right: 20px;"> <!-- Adjust the width as necessary -->
+                        
+                        <label style="margin-right: 5px;">শিক্ষাবর্ষ:</label>
+                        <input type="text" class="form-input" placeholder="" style="width: 150px;"> <!-- Adjust the width as necessary -->
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <label>পরীক্ষার্থীর নাম (বাংলায়):</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+                <div class="form-section">
+                    <label>পরীক্ষার্থীর নাম (ইংরেজিতে বড় অক্ষরে):</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+                <div class="form-section">
+                    <label>পিতার নাম (বাংলায়):</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+                <div class="form-section">
+                    <label>ইংরেজিতে :</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+                <div class="form-section">
+                    <label>মাতার নাম (বাংলায়):</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+                <div class="form-section">
+                    <label>ইংরেজিতে:</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+                <div class="form-section">
+                    <label>হলের নাম:</label>
+                    <input type="text" class="form-input" placeholder="">
+                </div>
+
+                <p>বি.দ্রঃ-</p>
+                <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    <li>১। পরীক্ষার্থী স্বহস্তে উপরে্র তথ্যাবলী পূরণ করবে।</li>
+                    <li>২। প্রভোস্ট পরীক্ষার্থীর ফটো সীলমোহরদানে সত্যায়িত করবেন।</li>
+                    <li>৩। প্রভোস্ট কর্তৃক নিরীক্ষাকৃত তথ্যাবলী চূড়ান্ত বলে বিবেচিত হবে।</li>
+                    <li>৪। প্রবেশপত্রে লিখিত বিবরণের কোন ক্ষেত্রে কাটাকাটি বা ঘষামাজা থাকলে গ্রহনযোগ্য হবে না।</li>
+                </ul>
+                
+
+            </div>
+            <div class="col">
+                <div class="photo-box">
+                    ছবি
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            পরীক্ষা নিয়ন্ত্রক
+        </div>
+    </div>
+    <p style="text-align: center;">(পরীক্ষার দিন, তারিখ, সময় সংশ্লিষ্ট দপ্তর থেকে জানার দায়-দায়িত্ব অবশ্যই পরীক্ষার্থীর)</p>
+</body>
+</html>
