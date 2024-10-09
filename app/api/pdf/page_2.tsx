@@ -10,6 +10,7 @@ import {
 } from "@react-pdf/renderer";
 import { Exam, FormDetail, User } from "@/util/types";
 import { MoveRight } from "lucide-react";
+import { toAddressString } from "@/util/Functions";
 
 Font.register({
   family: "NotoBengali",
@@ -130,8 +131,11 @@ const PdfFormPage2 = ({
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text style={styles.label}> {"১/ পরীক্ষার্থীর নাম (বাংলায়) "}</Text>
       <Text
-        style={[styles.dashedInput, { width: "100%", marginLeft: 14 }]}
-      ></Text>
+        style={[
+          styles.dashedInput,
+          { width: "100%", marginLeft: 24, padding: 4 },
+        ]}
+      >{`${student.first_name_bn} ${student.last_name_bn} `}</Text>
     </View>
     <Text style={[{ marginLeft: 46, marginBottom: 5 }]}>
       {" (মাধ্যমিক সার্টিফিকেট অনুযায়ী) "}
@@ -139,82 +143,126 @@ const PdfFormPage2 = ({
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text style={styles.leftMargin}>{" ইংরেজিতে (বড় অক্ষরে) "}</Text>
       <Text
-        style={[styles.dashedInput, { width: "100%", marginLeft: 12 }]}
-      ></Text>
+        style={[
+          styles.dashedInput,
+          { width: "100%", marginLeft: 24, padding: 4 },
+        ]}
+      >{`${student.first_name.toUpperCase()} ${student.last_name.toUpperCase()}`}</Text>
     </View>
 
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text style={styles.label}>২/ পিতা/স্বামীর নাম (বাংলায়):</Text>
       <Text
-        style={[styles.dashedInput, { width: "100%", marginLeft: 16 }]}
-      ></Text>
+        style={[
+          styles.dashedInput,
+          { width: "100%", marginLeft: 24, padding: 4 },
+        ]}
+      >{`${student.fathers_name_bn} `}</Text>
     </View>
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 30 }]}>
       <Text style={styles.leftMargin}>ইংরেজিতে</Text>
       <Text
-        style={[styles.dashedInput, { width: "100%", marginLeft: 8 }]}
-      ></Text>
+        style={[
+          styles.dashedInput,
+          { width: "100%", marginLeft: 24, padding: 4 },
+        ]}
+      >{`${student.fathers_name}`}</Text>
     </View>
 
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 36 }]}>
       <Text style={styles.label}>{"৩/ মাতার নাম (বাংলায়) "}</Text>
       <Text
-        style={[styles.dashedInput, { width: "100%", marginLeft: 18 }]}
-      ></Text>
+        style={[
+          styles.dashedInput,
+          { width: "100%", marginLeft: 24, padding: 4 },
+        ]}
+      >{`${student.mothers_name_bn} `}</Text>
     </View>
 
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text style={styles.leftMargin}>ইংরেজিতে</Text>
       <Text
-        style={[styles.dashedInput, { width: "100%", marginLeft: 4 }]}
-      ></Text>
+        style={[
+          styles.dashedInput,
+          { width: "100%", marginLeft: 24, padding: 4 },
+        ]}
+      >
+        {`${student.mothers_name}`}
+      </Text>
     </View>
 
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text style={styles.label}>৪/ অভিভাবকের নাম</Text>
       <Text
-        style={[styles.dashedInput, { width: "100%", marginLeft: 8 }]}
-      ></Text>
+        style={[
+          styles.dashedInput,
+          { width: "100%", marginLeft: 24, padding: 4 },
+        ]}
+      >{`${student.guardian_name} `}</Text>
     </View>
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text style={styles.label}>৫/ পূর্ণ স্থায়ী ঠিকানা</Text>
       <Text
-        style={[styles.dashedInput, { width: "100%", marginLeft: 8 }]}
-      ></Text>
+        style={[
+          styles.dashedInput,
+          { width: "100%", marginLeft: 24, padding: 4 },
+        ]}
+      >
+        {toAddressString(student.permanent_address)}
+      </Text>
     </View>
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text style={styles.rightMargin}>গ্রাম</Text>
-      <View style={[styles.dashedInput, styles.leftMargin]}></View>
+      <View style={[styles.dashedInput, styles.leftMargin]}>
+        <Text>{student.permanent_address?.village}</Text>
+      </View>
       <Text style={[styles.leftMargin, styles.rightMargin]}>ডাকঘর</Text>
-      <View style={styles.dashedInput}></View>
+      <View style={styles.dashedInput}>
+        <Text>{student.permanent_address?.post_office}</Text>
+      </View>
     </View>
 
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text style={[styles.rightMargin, { right: 2 }]}>উপজেলা/থানা</Text>
-      <View style={[styles.dashedInput, { left: 5 }]}></View>
+      <View style={[styles.dashedInput, { left: 5 }]}>
+        <Text>{`${student.permanent_address?.upazilla} `}</Text>
+      </View>
       <Text style={styles.leftMargin}>জিলা</Text>
-      <View style={styles.dashedInput}></View>
+      <View style={styles.dashedInput}>
+        <Text>{student.permanent_address?.district}</Text>
+      </View>
     </View>
 
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text>{"মোবাইল নং "}</Text>
-      <Text
-        style={[styles.dashedInput, { width: "100%", marginLeft: 8 }]}
-      ></Text>
+      <Text style={[styles.dashedInput, { width: "100%", marginLeft: 8 }]}>
+        {student.phone}
+      </Text>
     </View>
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text style={styles.label}>৬/ জন্ম তারিখ:</Text>
       <Text
-        style={[styles.dashedInput, { width: "100%", marginLeft: 8 }]}
-      ></Text>
+        style={[
+          styles.dashedInput,
+          { width: "100%", marginLeft: 8, padding: 4 },
+        ]}
+      >
+        {new Date(student.dob).toLocaleDateString("en-GB")}
+      </Text>
     </View>
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text style={styles.label}>৭/ জাতীয়তা:</Text>
-      <View style={[styles.dashedInput, { width: 256, left: 8 }]}></View>
+      <View style={[styles.dashedInput, { width: 256, left: 8 }]}>
+        <Text>{student.nationality}</Text>
+      </View>
       <Text style={[styles.label, styles.leftMargin]}>ধর্ম</Text>
-      <View style={[styles.dashedInput, { width: 256 }]}></View>
+      <View style={[styles.dashedInput, { width: 256 }]}>
+        <Text>{student.religion}</Text>
+      </View>
       <Text style={[styles.label, styles.leftMargin]}>বর্ণ</Text>
-      <View style={[styles.dashedInput, { width: 256 }]}></View>
+      <View style={[styles.dashedInput, { width: 256 }]}>
+        <Text>{student.ethnicity}</Text>
+      </View>
     </View>
 
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
@@ -230,7 +278,9 @@ const PdfFormPage2 = ({
           "৯/ উক্ত পরীক্ষায় ইতিপূর্বে অংশগ্রহণ করে থাকলে পরীক্ষার রোল নং /আই.ডি.নং  "
         }
       </Text>
-      <View style={[styles.dashedInput, { width: 128 }]}></View>
+      <View style={[styles.dashedInput, { width: 128 }]}>
+        <Text>{student.student_id}</Text>
+      </View>
       <Text style={[styles.label, styles.leftMargin]}>সন</Text>
       <View style={[styles.dashedInput, { width: 128 }]}></View>
     </View>
@@ -245,9 +295,13 @@ const PdfFormPage2 = ({
     </View>
     <View style={[styles.formGroup, { marginLeft: 32, marginRight: 32 }]}>
       <Text style={[styles.label, styles.rightMargin]}>আই ডি নং</Text>
-      <View style={[styles.dashedInput, { width: 256 }]}></View>
+      <View style={[styles.dashedInput, { width: 256 }]}>
+        <Text>{student.student_id}</Text>
+      </View>
       <Text style={[styles.label, styles.leftMargin]}>বিষয়</Text>
-      <View style={[styles.dashedInput, { width: 256 }]}></View>
+      <View style={[styles.dashedInput, { width: 256 }]}>
+        <Text>{student.department_abbr}</Text>
+      </View>
       <Text style={[styles.label, styles.leftMargin]}>সন</Text>
       <View style={[styles.dashedInput, { width: 128 }]}></View>
       <Text style={[styles.label, styles.leftMargin]}>জিপিএ</Text>
@@ -283,13 +337,13 @@ const PdfFormPage2 = ({
       style={[styles.dashedInput, { marginLeft: 32, marginRight: 24 }]}
     ></View>
     <View style={[styles.rightBox, { alignItems: "flex-end", marginTop: 20 }]}>
+      <Text>{`${student.first_name_bn} ${student.last_name_bn} `}</Text>
       <Text
         style={{
           textAlign: "right",
           paddingTop: 4,
           borderTop: "1px dashed black",
           width: 128,
-          marginTop: 16,
         }}
       >{`পরীক্ষার্থীর পূর্ণ স্বাক্ষর `}</Text>
     </View>
