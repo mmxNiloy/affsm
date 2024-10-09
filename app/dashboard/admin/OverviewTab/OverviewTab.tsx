@@ -1,4 +1,5 @@
-"use client";
+"use server";
+import { getUser } from "@/app/actions/getUser";
 import NoticePreview from "@/app/components/DashboardComponents/Tabs/OverviewTab/NoticePreview";
 import NoticePreviewSkeleton from "@/app/components/DashboardComponents/Tabs/OverviewTab/NoticePreviewSkeleton";
 import Icons from "@/app/components/Icons";
@@ -13,10 +14,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Link from "next/link";
 import React, { Suspense, useContext } from "react";
 
-export default function OverviewTab() {
-  const { user } = useContext(UserContext);
+export default async function OverviewTab() {
+  const user = await getUser();
 
   if (!user) return <MyLoadingSpinner />;
 
@@ -43,7 +45,13 @@ export default function OverviewTab() {
                 applications, and access student information database.
               </CardDescription>
               <CardFooter>
-                <Button>Visit now</Button>
+                <Link
+                  href="http://www.bike-csecu.com:3090/"
+                  passHref
+                  target="_blank"
+                >
+                  <Button>Visit now</Button>
+                </Link>
               </CardFooter>
             </CardHeader>
           </Card>
@@ -59,7 +67,13 @@ export default function OverviewTab() {
                 related to exams and results.
               </CardDescription>
               <CardFooter>
-                <Button>Visit now</Button>
+                <Link
+                  href="http://www.bike-csecu.com:3100/"
+                  passHref
+                  target="_blank"
+                >
+                  <Button>Visit now</Button>
+                </Link>
               </CardFooter>
             </CardHeader>
           </Card>
@@ -75,7 +89,13 @@ export default function OverviewTab() {
                 Meeting Management System.
               </CardDescription>
               <CardFooter>
-                <Button>Visit now</Button>
+                <Link
+                  href="http://www.bike-csecu.com:3120/"
+                  passHref
+                  target="_blank"
+                >
+                  <Button>Visit now</Button>
+                </Link>
               </CardFooter>
             </CardHeader>
           </Card>
@@ -91,7 +111,13 @@ export default function OverviewTab() {
                 and activities.
               </CardDescription>
               <CardFooter>
-                <Button>Visit now</Button>
+                <Link
+                  href="https://www.bike-csecu.com:3110/"
+                  passHref
+                  target="_blank"
+                >
+                  <Button>Visit now</Button>
+                </Link>
               </CardFooter>
             </CardHeader>
           </Card>
@@ -106,11 +132,19 @@ export default function OverviewTab() {
                 Access the news and all of our systems from our central hub.
               </CardDescription>
               <CardFooter>
-                <Button>Visit now</Button>
+                <Link
+                  href="https://www.portal.bike-csecu.com/"
+                  passHref
+                  target="_blank"
+                >
+                  <Button>Visit now</Button>
+                </Link>
               </CardFooter>
             </CardHeader>
           </Card>
-          <NoticePreview />
+          <div className="col-span-full">
+            <NoticePreview />
+          </div>
         </div>
       </CardContent>
     </Card>

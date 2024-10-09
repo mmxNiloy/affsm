@@ -24,6 +24,12 @@ import SubmissionCardSkeleton from "@/app/components/DashboardComponents/Tabs/Su
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import FormDetailDialog from "./FormDetailDialog";
+import {
+  Stepper,
+  StepperConnector,
+  StepperItem,
+  StepperList,
+} from "@/app/components/DashboardComponents/Stepper";
 
 type Props = {
   form: Form;
@@ -108,6 +114,8 @@ export default function FormCard({ form }: Props) {
         description: `Failed to reject form #${form.form_id}. Try again later.`,
         variant: "destructive",
       });
+      router.refresh();
+      return;
     }
   }, [form, router, toast]);
 
@@ -118,7 +126,7 @@ export default function FormCard({ form }: Props) {
   if (!user) return <SubmissionCardSkeleton />;
 
   return (
-    <Card>
+    <Card className="from-sky-200 to-lime-300 bg-gradient-to-br">
       <CardHeader>
         <CardTitle>
           {examInfo ? getExamName(examInfo) : "Loading exam information..."}{" "}
@@ -126,30 +134,134 @@ export default function FormCard({ form }: Props) {
             <>(Held on {getExamYear()})</>
           )}
         </CardTitle>
-        <CardDescription>
-          Submitted by: {form.student_id}
-          <br />
-          Submitted at: {toDD_MM_YYYY(form.form_submission_time)}
-          <br />
-          {examInfo && <>Start: {toDD_MM_YYYY(examInfo.exam_start_date)}</>}
-          <br />
-          {examInfo && examInfo.exam_end_date && (
-            <>
+        <div className="flex gap-2 items-center justify-between">
+          <CardDescription>
+            Exam Center: {examInfo?.exam_centre}
+          </CardDescription>
+          <CardDescription>
+            Start: {toDD_MM_YYYY(examInfo?.exam_start_date)}
+          </CardDescription>
+
+          {examInfo?.exam_end_date && (
+            <CardDescription>
               End : {toDD_MM_YYYY(examInfo.exam_end_date)}
-              <br />
-            </>
+            </CardDescription>
           )}
-        </CardDescription>
+
+          <CardDescription>
+            Submitted at:{" "}
+            {form.form_submission_time
+              ? new Date(form.form_submission_time).toLocaleDateString("en-GB")
+              : "N/A"}
+          </CardDescription>
+        </div>
       </CardHeader>
       <CardContent>
         {/* TODO: Think of some content here */}
         {/* Maybe a stepper or breadcrumbs? */}
-        TODO
-        <p>Clearance Level: {form.clearance_level}</p>
+        <Stepper>
+          {form.clearance_level > 0 ? (
+            form.clearance_level < 6 ? (
+              <StepperList>
+                <StepperItem
+                  className="flex-col"
+                  variant={form.clearance_level > 1 ? "success" : "warning"}
+                >
+                  <Icons.building className="size-4" /> Department
+                </StepperItem>
+
+                <StepperConnector
+                  variant={form.clearance_level > 1 ? "fancy" : "default"}
+                />
+
+                <StepperItem
+                  className="flex-col"
+                  variant={
+                    form.clearance_level > 2
+                      ? "success"
+                      : form.clearance_level == 2
+                      ? "warning"
+                      : "default"
+                  }
+                >
+                  <Icons.userShield className="size-4" /> Provost
+                </StepperItem>
+
+                <StepperConnector
+                  variant={form.clearance_level > 2 ? "fancy" : "default"}
+                />
+
+                <StepperItem
+                  className="flex-col"
+                  variant={
+                    form.clearance_level > 3
+                      ? "success"
+                      : form.clearance_level == 3
+                      ? "warning"
+                      : "default"
+                  }
+                >
+                  <Icons.accountant className="size-4" /> Accounts
+                </StepperItem>
+
+                <StepperConnector
+                  variant={form.clearance_level > 3 ? "fancy" : "default"}
+                />
+
+                <StepperItem
+                  className="flex-col"
+                  variant={
+                    form.clearance_level > 4
+                      ? "success"
+                      : form.clearance_level == 4
+                      ? "warning"
+                      : "default"
+                  }
+                >
+                  <Icons.bank className="size-4" /> Bank
+                </StepperItem>
+
+                <StepperConnector
+                  variant={form.clearance_level > 4 ? "fancy" : "default"}
+                />
+
+                <StepperItem
+                  className="flex-col"
+                  variant={
+                    form.clearance_level > 5
+                      ? "success"
+                      : form.clearance_level == 5
+                      ? "warning"
+                      : "default"
+                  }
+                >
+                  <Icons.adminUser className="size-4" /> Controller
+                </StepperItem>
+              </StepperList>
+            ) : (
+              <StepperList>
+                <StepperItem className="flex-col" variant="success">
+                  <Icons.fileApproved className="size-4" />
+                  Approved
+                </StepperItem>
+              </StepperList>
+            )
+          ) : (
+            <StepperList>
+              <StepperItem className="flex-col" variant="destructive">
+                <Icons.fileRejected className="size-4" />
+                Rejected
+              </StepperItem>
+            </StepperList>
+          )}
+        </Stepper>
       </CardContent>
       <CardFooter className="flex flex-row gap-1 md:gap-2">
         {isFormApproved(form) && (
-          <a href={`/pdf/admit/${form.form_id}`} target="_blank">
+          <a
+            href={`/api/pdf?form_id=${form.form_id}&as_admit=true`}
+            target="_blank"
+          >
             <Button className="gap-1 md:gap-2 items-center bg-green-500 hover:bg-green-400 text-white">
               <Icons.fileText />
               Download Admit Card
@@ -157,17 +269,12 @@ export default function FormCard({ form }: Props) {
           </a>
         )}
 
-        <a href={`/pdf/${form.form_id}`} target="_blank">
+        <a href={`/api/pdf?form_id=${form.form_id}`} target="_blank">
           <Button className="gap-1 md:gap-2 items-center bg-blue-500 hover:bg-blue-400 text-white">
-            <Icons.printer />
-            Print Form
+            <Icons.visible />
+            View Form
           </Button>
         </a>
-
-        {/* This opens up a dialog to show the form details. */}
-        {!loading && examInfo && (
-          <FormDetailDialog form={form} exam={examInfo} />
-        )}
 
         <span className="flex flex-grow" />
 

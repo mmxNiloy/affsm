@@ -110,7 +110,7 @@ const PdfFormPage1 = ({
   student: User;
   exam: Exam;
 }) => (
-  <Document>
+  <Document title={`Form #${form.form_id} | Student ID: ${student.student_id}`}>
     <Page style={styles.body} size={"LEGAL"}>
       <View style={styles.container}>
         <View style={styles.header}>

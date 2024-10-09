@@ -8,16 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Exam, Form } from "@/util/types";
+import { Form } from "@/util/types";
 import Icons from "@/app/components/Icons";
 import { Button } from "@/components/ui/button";
-import {
-  getExamName,
-  isFormApproved,
-  toDD_MM_YYYY,
-  toOrdinal,
-} from "@/util/Functions";
-import SubmissionCardSkeleton from "./SubmissionCardSkeleton";
+import { getExamName, isFormApproved, toDD_MM_YYYY } from "@/util/Functions";
 import { getExamDetails } from "@/app/actions/getExamDetails";
 import {
   Stepper,
@@ -25,11 +19,6 @@ import {
   StepperItem,
   StepperList,
 } from "../../Stepper";
-import { cn } from "@/lib/utils";
-import FormDetailDialog from "@/app/dashboard/admin/FormsTab/FormDetailDialog";
-import { getStudentInfo } from "@/app/actions/getStudentInfo";
-import { getUser } from "@/app/actions/getUser";
-import { getFormDetails } from "@/app/actions/getFormDetails";
 
 type Props = {
   form: Form;
@@ -37,8 +26,6 @@ type Props = {
 
 export default async function SubmissionCard({ form }: Props) {
   const examInfo = await getExamDetails(form.exam_id);
-  const user = await getUser();
-  const formDetails = await getFormDetails(form.form_id);
   const examYear = new Date(examInfo.exam_start_date).getFullYear().toString();
 
   return (
@@ -170,31 +157,25 @@ export default async function SubmissionCard({ form }: Props) {
       </CardContent>
 
       <CardFooter className="flex flex-row gap-1 md:gap-2">
-        <a href={`/pdf/${form.form_id}`} target="_blank">
+        <a href={`/api/pdf?form_id=${form.form_id}`} target="_blank">
           <Button className="gap-1 md:gap-2 items-center bg-purple-500 hover:bg-purple-400 text-white">
-            <Icons.printer />
-            Print Form
+            <Icons.visible />
+            View Form
           </Button>
         </a>
 
         {/* TODO: Make download admit card available when the form has clearance level 6 */}
         {isFormApproved(form) && (
-          <a href={`/pdf/admit/${form.form_id}`} target="_blank">
+          <a
+            href={`/api/pdf?form_id=${form.form_id}&as_admit=true`}
+            target="_blank"
+          >
             <Button className="gap-1 md:gap-2 items-center bg-green-500 hover:bg-green-400">
               <Icons.fileText />
               Download Admit Card
             </Button>
           </a>
         )}
-
-        {/* TODO: Should trigger a dialog to pop-up that shows the form details. */}
-        {/* For reference: @/app/dashboard/admin/FormsTab/FormCard.tsx */}
-        <FormDetailDialog
-          user={user}
-          form={formDetails}
-          exam={examInfo}
-          formStudent={user}
-        />
       </CardFooter>
     </Card>
   );

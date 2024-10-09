@@ -1,11 +1,10 @@
-"use server";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import OverviewTab from "./OverviewTab/OverviewTab";
 import FormsTab from "./FormsTab/FormsTab";
 import NoticesTab from "./NoticesTab/NoticesTab";
 import PreferencesTab from "@/app/components/DashboardComponents/Tabs/PreferencesTab/PreferencesTab";
 
-export default async function AdminDashboard() {
+export default function AdminDashboard() {
   return (
     <div className="w-full">
       <Tabs defaultValue="overview" className="w-full">
