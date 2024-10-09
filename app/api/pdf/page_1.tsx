@@ -10,6 +10,7 @@ import {
 } from "@react-pdf/renderer";
 import { Exam, FormDetail, User } from "@/util/types";
 import PdfFormPage2 from "./page_2";
+import { getExamName } from "@/util/Functions";
 
 Font.register({
   family: "NotoBengali",
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginBottom: 5,
   },
   leftBox: {
     flex: 1,
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
   box: {
     border: "1px solid #000",
     padding: 5,
-    marginBottom: 10,
+    marginBottom: 5,
   },
   formGroup: {
     display: "flex",
@@ -98,7 +99,15 @@ const styles = StyleSheet.create({
 const banglaNumbers = ["১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯", "১০"];
 
 // Create the document
-const PdfFormPage1 = () => (
+const PdfFormPage1 = ({
+  form,
+  student,
+  exam,
+}: {
+  form: FormDetail;
+  student: User;
+  exam: Exam;
+}) => (
   <Document>
     <Page style={styles.body} size={"LEGAL"}>
       <View style={styles.container}>
@@ -117,15 +126,15 @@ const PdfFormPage1 = () => (
             <View style={styles.box}>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>{`হল: `}</Text>
-                <Text style={styles.formInput}></Text>
+                <Text style={styles.formInput}>{student.hall_name}</Text>
               </View>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>{`শ্রেণী রোল নং: `}</Text>
-                <Text style={styles.formInput}></Text>
+                <Text style={styles.formInput}>{student.student_id}</Text>
               </View>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>{`শিক্ষাবর্ষ: `}</Text>
-                <Text style={styles.formInput}></Text>
+                <Text style={styles.formInput}>{student.session}</Text>
               </View>
             </View>
           </View>
@@ -134,19 +143,19 @@ const PdfFormPage1 = () => (
             <View style={styles.box}>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>আইডি নং:</Text>
-                <Text style={styles.formInput}></Text>
+                <Text style={styles.formInput}>{student.student_id}</Text>
               </View>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>শিক্ষাবর্ষ:</Text>
-                <Text style={styles.formInput}></Text>
+                <Text style={styles.formInput}>{student.session}</Text>
               </View>
             </View>
           </View>
         </View>
 
         <Text style={styles.textCenter}>
-          ২০<Text>____</Text> সালের <Text>____</Text> সেমিস্টার বি.এসসি.
-          ইঞ্জিনিয়ারিং পরীক্ষা।
+          <Text>{new Date(exam.exam_start_date).getFullYear()}</Text> সালের{" "}
+          <Text>{exam.semester}</Text> সেমিস্টার বি.এসসি. ইঞ্জিনিয়ারিং পরীক্ষা।
         </Text>
 
         <View style={styles.row}>
@@ -183,31 +192,30 @@ const PdfFormPage1 = () => (
               </View>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>আই.ডি. নং/রেজি: নং:</Text>
-                <Text style={styles.formInput}></Text>
+                <Text style={styles.formInput}>{student.student_id}</Text>
               </View>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>শিক্ষাবর্ষ:</Text>
-                <Text style={styles.formInput}></Text>
+                <Text style={styles.formInput}>{student.session}</Text>
               </View>
             </View>
             <View style={styles.box}>
               <View style={styles.formGroup}>
                 <Text style={styles.formLabel}>অনার্স বিষয়:</Text>
-                <Text style={styles.formInput}></Text>
+                <Text style={styles.formInput}>{student.department_abbr}</Text>
               </View>
             </View>
           </View>
         </View>
 
         <Text>
-          আমি আসন্ন
-          <Text>____</Text>
-          সালের বি.এসসি. ইঞ্জিনিয়ারিং
-          <Text>____</Text>
-          সেমিস্টার পরীক্ষায় অংশ গ্রহণের জন্য অনুমতি প্রার্থনা করছি। আমি
-          অঙ্গীকার করছি যে, আমার অত্র পরীক্ষা সংক্রান্ত ব্যাপারে সিন্ডিকেট বা
-          তদকর্তৃক ক্ষমতা প্রদত্ত অফিসারের সিদ্ধান্ত চূড়ান্ত বলে মেনে নিতে বাধ্য
-          থাকব।{" "}
+          {"আমি আসন্ন "}
+          <Text>{new Date(exam.exam_start_date).getFullYear()}</Text>
+          {" সালের বি.এসসি. ইঞ্জিনিয়ারিং "}
+          <Text>{exam.semester}</Text>
+          {
+            " সেমিস্টার পরীক্ষায় অংশ গ্রহণের জন্য অনুমতি প্রার্থনা করছি। আমি অঙ্গীকার করছি যে, আমার অত্র পরীক্ষা সংক্রান্ত ব্যাপারে সিন্ডিকেট বা তদকর্তৃক ক্ষমতা প্রদত্ত অফিসারের সিদ্ধান্ত চূড়ান্ত বলে মেনে নিতে বাধ্য থাকব। "
+          }
         </Text>
 
         <Text>{`অনার্স পত্রের শিরোনাম কোর্স নম্বরঃ- `}</Text>
@@ -217,7 +225,9 @@ const PdfFormPage1 = () => (
               {[...Array(5)].map((_, i) => (
                 <View key={i}>
                   <Text>{banglaNumbers[i]}/</Text>
-                  <Text style={styles.dashedInput}></Text>
+                  <Text style={styles.dashedInput}>
+                    {form.courses.at(i)?.course_code}
+                  </Text>
                 </View>
               ))}
             </View>
@@ -227,7 +237,9 @@ const PdfFormPage1 = () => (
                   <Text>
                     {banglaNumbers[i + 5]}/{i == 4 ? "ঐচ্ছিক বিষয়ঃ " : ""}
                   </Text>
-                  <Text style={styles.dashedInput}></Text>
+                  <Text style={styles.dashedInput}>
+                    {form.courses.at(i + 5)?.course_code}
+                  </Text>
                 </View>
               ))}
             </View>
@@ -249,8 +261,14 @@ const PdfFormPage1 = () => (
                   border: "1px solid black",
                   minWidth: 128,
                   minHeight: 24,
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
-              ></View>
+              >
+                <Text style={{ textAlign: "right" }}>
+                  {student.first_name_bn} {student.last_name_bn}{" "}
+                </Text>
+              </View>
               <Text>পরীক্ষার্থীর পূর্ণ স্বাক্ষর</Text>
             </View>
 
@@ -261,8 +279,12 @@ const PdfFormPage1 = () => (
                   border: "1px solid black",
                   minWidth: 128,
                   minHeight: 24,
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
-              ></View>
+              >
+                <Text>{student.hall_name}</Text>
+              </View>
 
               <Text>{`স্থানীয় ঠিকানা (অনাবাসিক এর ক্ষেত্রে) `}</Text>
               <View
@@ -270,8 +292,16 @@ const PdfFormPage1 = () => (
                   border: "1px solid black",
                   minWidth: 128,
                   minHeight: 48,
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
-              ></View>
+              >
+                <Text>
+                  {student.permanent_address?.district},{" "}
+                  {student.permanent_address?.division},{" "}
+                  {student.permanent_address?.country}
+                </Text>
+              </View>
             </View>
           </View>
         </View>
@@ -286,14 +316,30 @@ const PdfFormPage1 = () => (
           </Text>
 
           <View
-            style={{ width: 48, height: 20, border: "1px dashed black" }}
-          ></View>
+            style={{
+              width: 48,
+              height: 20,
+              border: "1px dashed black",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text>{banglaNumbers[(exam.semester - 1) / 2]} </Text>
+          </View>
 
           <Text>{"বর্ষ বি.এসসি.ইঞ্জিনিয়ারিং "}</Text>
 
           <View
-            style={{ width: 48, height: 20, border: "1px dashed black" }}
-          ></View>
+            style={{
+              width: 48,
+              height: 20,
+              border: "1px dashed black",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text>{banglaNumbers[exam.semester]}</Text>
+          </View>
 
           <Text>{`সেমিস্টার পরীক্ষায় `}</Text>
         </View>
@@ -314,8 +360,12 @@ const PdfFormPage1 = () => (
                   border: "1px solid black",
                   minWidth: 128,
                   minHeight: 16,
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
-              ></View>
+              >
+                <Text>{exam.department_abbr}</Text>
+              </View>
             </View>
             <View
               style={[
@@ -359,33 +409,73 @@ const PdfFormPage1 = () => (
             {`আমি প্রত্যায়ন করছি যে, পরীক্ষার্থী আবাসের শর্তাবলী পালন করেছে এবং সে সৎ চরিত্রের অধিকারী। আমার জানামতে দরখাস্তের যাবতীয় বিবরণ সত্য। সে ২০  `}
           </Text>
           <View
-            style={{ width: 32, height: 16, border: "1px dashed black" }}
-          ></View>
+            style={{
+              width: 32,
+              height: 20,
+              border: "1px dashed black",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text>{`${student.student_id}`.substring(0, 2)}</Text>
+          </View>
         </View>
         <View style={[styles.row, { justifyContent: "flex-start", gap: 4 }]}>
           <Text>{`সালের ১ম বর্ষ অনার্স কোর্সে ভর্তি হয়েছে। ২০  `}</Text>
           <View
-            style={{ width: 32, height: 16, border: "1px dashed black" }}
-          ></View>
+            style={{
+              width: 32,
+              height: 24,
+              border: "1px dashed black",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text>{new Date(exam.exam_start_date).getFullYear()}</Text>
+          </View>
 
           <Text>{`সালের`}</Text>
 
           <View
-            style={{ width: 128, height: 16, border: "1px dashed black" }}
-          ></View>
+            style={{
+              width: 128,
+              height: 24,
+              border: "1px dashed black",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text>{getExamName(exam)}</Text>
+          </View>
           <Text>{`বর্ষ বি.এসসি, ইঞ্জিনিয়ারিং কোর্সে পুনঃ ভর্তি হয়েছে।   `}</Text>
         </View>
 
         <View style={[styles.row, { justifyContent: "flex-start", gap: 4 }]}>
           <Text>{`দরখাস্তকারীকে ২০  `}</Text>
           <View
-            style={{ width: 32, height: 16, border: "1px dashed black" }}
-          ></View>
+            style={{
+              width: 32,
+              height: 24,
+              border: "1px dashed black",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text>{new Date(exam.exam_start_date).getFullYear()}</Text>
+          </View>
           <Text>{`সনের `}</Text>
 
           <View
-            style={{ width: 86, height: 16, border: "1px dashed black" }}
-          ></View>
+            style={{
+              width: 128,
+              height: 24,
+              border: "1px dashed black",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text>{getExamName(exam)}</Text>
+          </View>
           <Text>{`সেমিস্টার পরীক্ষায় অংশ গ্রহণের অনুমতির জন্য সুপারিশ করছি। `}</Text>
         </View>
 
@@ -393,18 +483,26 @@ const PdfFormPage1 = () => (
           <View
             style={[
               styles.leftBox,
-              { flexDirection: "row", alignItems: "center" },
+              {
+                flexDirection: "row",
+                gap: 4,
+              },
             ]}
           >
-            <Text style={{ marginTop: 72 }}>তারিখঃ</Text>
+            <Text>তারিখঃ</Text>
             <Text
               style={{
                 flex: 1,
                 borderBottom: "1px dashed black",
-                alignSelf: "flex-end",
                 maxWidth: 128,
+                height: 16,
               }}
-            ></Text>
+            >
+              {new Date(
+                form.evaluation.at(form.evaluation.length - 1)?.start_time ??
+                  new Date()
+              ).toLocaleDateString("en-GB")}
+            </Text>
           </View>
           <View style={[styles.rightBox, { alignItems: "flex-end" }]}>
             <Text
