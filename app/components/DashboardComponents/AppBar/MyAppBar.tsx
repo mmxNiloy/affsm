@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useContext } from "react";
 import { useRouter } from "next/navigation";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import { Button } from "@/components/ui/button";
 import Icons from "../../Icons";
 import {
@@ -60,7 +60,7 @@ const MyAppBar = () => {
         {/* Appbar code */}
         <div className="flex flex-grow">
           <Link
-            href={user ? (user.roles ? "/dashboard/admin" : "dashboard") : "/"}
+            href={user ? (user.roles ? "/dashboard/admin" : "/dashboard") : "/"}
           >
             <Button variant={"link"} className="text-lg lg:text-xl font-bold">
               AFFSM

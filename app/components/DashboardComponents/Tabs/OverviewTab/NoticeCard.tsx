@@ -17,10 +17,10 @@ type Props = {
 
 export default function NoticeCard({ notice }: Props) {
   return (
-    <Card key={`notice-${notice.notice_id}`}>
+    <Card className="from-fuchsia-200/60 to-blue-500/60 bg-gradient-to-br flex flex-col justify-between">
       <CardHeader>
         <CardTitle>{notice.notice_title}</CardTitle>
-        <CardDescription className="flex flex-col lg:flex-row items-start lg:items-center lg:justify-between gap-1 md:gap-2">
+        <CardDescription className="flex flex-col text-secondary-foreground font-bold lg:flex-row items-start lg:items-center lg:justify-between gap-1 md:gap-2">
           Autor: {notice.first_name} {notice.last_name}
           <br />
           Posted at:{" "}
@@ -28,11 +28,11 @@ export default function NoticeCard({ notice }: Props) {
           <br />
         </CardDescription>
       </CardHeader>
-      <CardContent className="text-pretty">
+      <CardContent className="text-sm text-pretty">
         {notice.notice_description}
       </CardContent>
-      <CardFooter className="flex flex-row items-start justify-between gap-1 md:gap-2">
-        <p className="rounded-full bg-blue-300 text-white dark:bg-blue-700 flex px-2 py-1">
+      <CardFooter className="mt-4 flex flex-row items-start justify-between gap-1 md:gap-2">
+        <p className="rounded-full text-white bg-blue-700 flex px-2 py-1">
           {notice.notice_type.length > 0 ? notice.notice_type : "N/A"}
         </p>
         <a

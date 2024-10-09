@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
@@ -11,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import Icons from "../../Icons";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import { usePathname } from "next/navigation";
 
 type MenuItem = {
@@ -56,12 +57,6 @@ export default function NavDrawer() {
           ref: "admit-card",
           Icon: <Icons.admitCard />,
         },
-        {
-          title: "History",
-          ref: "history",
-          hidden: Boolean(user!.roles), // Hidden from the admin users
-          Icon: <Icons.history />,
-        },
       ]);
     }
   }, [user]);
@@ -85,21 +80,23 @@ export default function NavDrawer() {
           <Separator />
 
           <Link
-            href={user ? (user.roles ? "/dashboard/admin" : "dashboard") : "/"}
+            href={user ? (user.roles ? "/dashboard/admin" : "/dashboard") : "/"}
             passHref
             className="px-2 md:px-4"
           >
-            <Button
-              variant={"ghost"}
-              className="w-full items-center justify-start gap-1 md:gap-2 text-base md:text-lg"
-            >
-              <Icons.dashboard />
-              <p className="flex flex-grow">Dashboard</p>
-              {path.endsWith("dashboard") ||
-                (path.endsWith("dashboard/admin") && (
-                  <span className="bg-blue-500 rounded-full h-2 w-2" />
-                ))}
-            </Button>
+            <DrawerClose asChild>
+              <Button
+                variant={"ghost"}
+                className="w-full items-center justify-start gap-1 md:gap-2 text-base md:text-lg"
+              >
+                <Icons.dashboard />
+                <p className="flex flex-grow">Dashboard</p>
+                {path.endsWith("dashboard") ||
+                  (path.endsWith("dashboard/admin") && (
+                    <span className="bg-blue-500 rounded-full h-2 w-2" />
+                  ))}
+              </Button>
+            </DrawerClose>
           </Link>
 
           <Separator />
@@ -116,16 +113,18 @@ export default function NavDrawer() {
                   href={`/dashboard/${item.ref}`}
                   passHref
                 >
-                  <Button
-                    variant={"ghost"}
-                    className={`w-full items-center justify-start gap-1 md:gap-2 text-base md:text-lg`}
-                  >
-                    {item.Icon}
-                    <p className="flex flex-grow">{item.title}</p>
-                    {path.endsWith(`/${item.ref}`) && (
-                      <span className="bg-blue-500 rounded-full h-2 w-2" />
-                    )}
-                  </Button>
+                  <DrawerClose asChild>
+                    <Button
+                      variant={"ghost"}
+                      className={`w-full items-center justify-start gap-1 md:gap-2 text-base md:text-lg`}
+                    >
+                      {item.Icon}
+                      <p className="flex flex-grow">{item.title}</p>
+                      {path.endsWith(`/${item.ref}`) && (
+                        <span className="bg-blue-500 rounded-full h-2 w-2" />
+                      )}
+                    </Button>
+                  </DrawerClose>
                 </Link>
               )
           )}

@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(req: NextRequest) {
-  const sessionCookie = cookies().get("session");
+  const sessionCookie = cookies().get(process.env.USER_COOKIE!);
   if (!sessionCookie) {
     return NextResponse.json(
       { message: "User has already logged out." },
@@ -10,7 +10,7 @@ export async function DELETE(req: NextRequest) {
     );
   }
 
-  const apiRes = await fetch("http://api.bike-csecu.com/api/logout", {
+  const apiRes = await fetch(`${process.env.API_BASE_URL}/logout`, {
     method: "POST",
     headers: {
       Authorization: `bearer ${sessionCookie.value}`,
@@ -18,7 +18,7 @@ export async function DELETE(req: NextRequest) {
   });
 
   if (apiRes.ok) {
-    cookies().delete("session");
+    cookies().delete(process.env.USER_COOKIE!);
     return NextResponse.json(
       { message: "Logged out successfully." },
       { status: 200 }

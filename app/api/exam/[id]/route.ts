@@ -6,7 +6,7 @@ type Props = {
 
 export async function GET(req: NextRequest, { params }: { params: Props }) {
   const id = params.id;
-  const apiRes = await fetch(`http://api.bike-csecu.com/api/exam/${id}`, {
+  const apiRes = await fetch(`${process.env.API_BASE_URL}/exam/${id}`, {
     method: "GET",
   });
 

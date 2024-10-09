@@ -27,7 +27,7 @@ import InformationTab from "./InformationTab/InformationTab";
 import ConfirmationTab from "./ConfirmationTab/ConfirmationTab";
 import { POST_Form_Body } from "@/util/types";
 import { useToast } from "@/components/ui/use-toast";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import { useRouter } from "next/navigation";
 import MyLoadingSpinner from "@/app/components/MyLoadingSpinner";
 
@@ -103,9 +103,11 @@ export default function SubmitFormPage() {
         title: "Form submitted successfully",
         description:
           "Your form has been submitted successfully. Track your form in the submissions tab from the dashboard.",
+        className: "bg-green-500 text-white",
       });
 
       router.replace("/dashboard");
+      router.refresh();
     } else {
       toast({
         title: "Form submission failed",

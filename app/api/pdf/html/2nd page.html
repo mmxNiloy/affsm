@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form with A4 Layout</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            padding: 0;
+            margin: 0;
+        }
+
+        .form-container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .dashed-line {
+            flex-grow: 1;
+            border-bottom: 1px dashed black;
+            display: inline-block;
+            vertical-align: middle;
+            height: 1.5em;
+        }
+
+        input {
+            border: none;
+            width: 100%;
+            outline: none;
+            background: transparent;
+            padding-left: 5px;
+            font-size: 14px;
+            height: 100%;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .signature-container {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .signature-box {
+            display: inline-block;
+            width: 200px;
+            border: 1px dashed #000;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .form-footer input {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-footer input:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <div class="form-title">(আবেদনকারী নিজ হাতে পূরন করবে)</div>
+        
+        <form>
+            <div class="form-group input-row">
+                <label class="form-label">১/ পরীক্ষার্থীর নাম (বাংলায়)<br>(মাধ্যমিক সার্টিফিকেট অনুযায়ী):</label><br />
+               
+                <div class="dashed-line"><input type="text" /></div>
+                
+            </div>
+            
+
+            <div class="form-group input-row">
+                <label class="form-label">ইংরেজিতে (বড় অক্ষরে):</label>
+                <div class="dashed-line"><input type="text" placeholder="" /></div>
+            </div>
+
+            <div class="form-group input-row">
+                <label class="form-label">২/  পিতা/স্বামীর নাম (বাংলায়):</label>
+                <div class="dashed-line"><input type="text" placeholder="" /></div>
+            </div>
+
+            <div class="form-group input-row">
+                <label class="form-label">ইংরেজিতে:</label>
+                <div class="dashed-line"><input type="text" placeholder="" /></div>
+            </div>
+
+            <div class="form-group input-row">
+                <label class="form-label">৩/  মাতার নাম (বাংলায়):</label>
+                <div class="dashed-line"><input type="text" /></div>
+            </div>
+
+            <div class="form-group input-row">
+                <label class="form-label">ইংরেজিতে:</label>
+                <div class="dashed-line"><input type="text" /></div>
+            </div>
+
+            <div class="form-group input-row">
+                <label class="form-label">৪/ অভিভাবকের নামঃ</label>
+                <div class="dashed-line"><input type="text" /></div>
+            </div>
+
+            <div class="form-group input-row">
+                <label class="form-label">৫/  পূর্ণ স্থায়ী ঠিকানা:</label>
+                <div class="dashed-line">
+                    <input type="text" placeholder="" />
+                </div>
+            </div>
+            
+            <div class="form-group input-row">
+                <label class="form-label">গ্রামঃ</label>
+                <div class="dashed-line">
+                    <input type="text" placeholder="" />
+                </div>
+                <label class="form-label">ডাকঘরঃ</label>
+                <div class="dashed-line">
+                    <input type="text" placeholder="" />
+                </div>
+            </div>
+            
+            <div class="form-group input-row">
+                <label class="form-label">উপজেলা/থানাঃ</label>
+                <div class="dashed-line">
+                    <input type="text" placeholder="" />
+                </div>
+                <label class="form-label">জিলাঃ</label>
+                <div class="dashed-line">
+                    <input type="text" placeholder="" />
+                </div>
+            </div>
+            
+            <div class="form-group input-row">
+                <label class="form-label">মোবাইল নংঃ</label>
+                <div class="dashed-line">
+                    <input type="text" placeholder=" " />
+                </div>
+            </div>
+            
+
+            <div class="form-group input-row">
+                <label class="form-label">৬/ জন্ম তারিখ:</label>
+                <div class="dashed-line"><input type="" /></div>
+            </div>
+
+            <div class="form-group input-row">
+                <label class="form-label">৭/ জাতীয়তা:</label>
+                <div class="dashed-line"><input type="" /></div>
+                <label class="form-label">ধর্ম:</label>
+                <div class="dashed-line"><input type="" /></div>
+                <label class="form-label">বর্ণ:</label>
+                <div class="dashed-line"><input type="" /></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">৮/ চট্টগ্রাম বিশ্ববিদ্যালয় কর্তৃক ইস্যুকৃত আই.ডি. কার্ডের সত্যায়িত ফটোকপি সংযুক্ত করিতে হইবে।</label>
+            </div>
+
+            <div class="form-group input-row">
+                <label class="form-label">9/ উক্ত পরীক্ষায় ইতিপূর্বে অংশগ্রহণ করে থাকলে পরীক্ষার রোল নং /আই.ডি.নং </label>
+                <div class="dashed-line"><input type="" /></div>
+                <label class="form-label">সন:</label>
+                <div class="dashed-line"><input type="" /></div>
+              
+            </div>
+
+            <div class="form-group input-row" style="display: flex; flex-wrap: wrap; align-items: center;">
+                <label class="form-label" style="margin-right: 10px;">১০/ আবেদিকারী ১ম/ ২য়/ ৩য়/ ৪র্থ বর্ষ অনার্স পরীক্ষা পাশের সন:</label>
+                <div class="dashed-line" style="flex-grow: 1; border-bottom: 1px dashed #000; margin-right: 10px;">
+                    <input type="text" style="border: none; outline: none; width: 100%; padding: 5px;" />
+                </div>
+                <label class="form-label" style="margin-right: 10px;">আই ডি নং:</label>
+                <div class="dashed-line" style="flex-grow: 1; border-bottom: 1px dashed #000; margin-right: 10px;">
+                    <input type="text" style="border: none; outline: none; width: 100%; padding: 5px;" />
+                </div>
+                <label class="form-label" style="margin-right: 10px;">বিষয়:</label>
+                <div class="dashed-line" style="flex-grow: 1; border-bottom: 1px dashed #000; margin-right: 10px;">
+                    <input type="text" style="border: none; outline: none; width: 100%; padding: 5px;" />
+                </div>
+                <label class="form-label" style="margin-right: 10px;">সন:</label>
+                <div class="dashed-line" style="flex-grow: 1; border-bottom: 1px dashed #000; margin-right: 10px;">
+                    <input type="text" style="border: none; outline: none; width: 100%; padding: 5px;" />
+                </div>
+                <label class="form-label" style="margin-right: 10px;">জিপিএ:</label>
+                <div class="dashed-line" style="flex-grow: 1; border-bottom: 1px dashed #000; margin-right: 10px;">
+                    <input type="text" style="border: none; outline: none; width: 100%; padding: 5px;" />
+                </div>
+            </div>
+            
+
+            <div class="form-group input-row">
+                <label class="form-label">১১.চট্টগ্রাম বিশ্ববিদ্যালয় অথবা অন্য কোন বিশ্ববিদ্যালয়/শিক্ষা প্রতিষ্টানের অধীনে পরীক্ষার্থী অন্য কোন পরীক্ষায় /কোর্সে অংশগ্রহণ করছে কিনা,করলে তার পূর্ণ বিবরণ:</label>
+                <div class="dashed-line"><input type="text" /></div>
+            </div>
+
+            <div class="form-group input-row">
+                <label class="form-label">১২. পরীক্ষায় অসদুপায় অবলম্বন অথবা অন্য কোন কারনে সাজাপ্রাপ্ত হয়ে থাকলে তার পূর্ণ বিবরণ:</label>
+                <div class="dashed-line"><input type="text" /></div>
+            </div>
+
+            <div class="signature-container">
+                <label class="form-label">পরীক্ষার্থীর পূর্ণ স্বাক্ষর:</label>
+                <div class="signature-box"></div>
+            </div>
+
+            
+        </form>
+    </div>
+
+</body>
+</html>

@@ -6,9 +6,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const did = Number.parseInt(id);
-    const apiRes = await fetch(
-      `http://api.bike-csecu.com/api/department/${did}`
-    );
+    const apiRes = await fetch(`${process.env.API_BASE_URL}/department/${did}`);
     if (apiRes.ok) {
       const data = (await apiRes.json()) as Department;
 

@@ -7,20 +7,20 @@ export async function GET(req: NextRequest) {
   const limit = req.nextUrl.searchParams.get("limit") ?? "10";
 
   const apiRes = await fetch(
-    `http://api.bike-csecu.com/api/notice?page=${page}&limit=${limit}`
+    `${process.env.API_BASE_URL}/notice?page=${page}&limit=${limit}`
   );
   return NextResponse.json(await apiRes.json(), { status: apiRes.status });
 }
 
 export async function POST(req: NextRequest) {
-  const sessionCookie = cookies().get("session");
+  const sessionCookie = cookies().get(process.env.USER_COOKIE!);
   if (!sessionCookie) {
     return NextResponse.json({ message: "Session expired" }, { status: 403 });
   }
 
   const reqBod = (await req.json()) as POST_Notice_Body;
 
-  const apiRes = await fetch("http://api.bike-csecu.com/api/notice", {
+  const apiRes = await fetch(`${process.env.API_BASE_URL}/notice`, {
     method: "POST",
     headers: {
       Authorization: `bearer ${sessionCookie.value}`,

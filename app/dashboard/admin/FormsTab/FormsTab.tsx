@@ -12,7 +12,7 @@ import {
   PaginationContent,
   PaginationItem,
 } from "@/components/ui/pagination";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import Icons from "@/app/components/Icons";
 import { PaginatedForms } from "@/util/types";
 import { Button } from "@/components/ui/button";
@@ -55,8 +55,12 @@ export default function FormsTab() {
           <p>All Submissions</p>
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col gap-1 md:gap-2">
-        {loading && <MyLoadingSpinner />}
+      <CardContent className="grid grid-cols-2 gap-2">
+        {loading && (
+          <div className="col-span-full">
+            <MyLoadingSpinner />
+          </div>
+        )}
         {!loading &&
           submissions &&
           submissions.data.map((form) => (
@@ -64,7 +68,7 @@ export default function FormsTab() {
           ))}
 
         {!loading && submissions && (
-          <Pagination>
+          <Pagination className="col-span-full">
             <PaginationContent>
               <PaginationItem>
                 <Button

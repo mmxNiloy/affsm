@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import React, { useContext } from "react";
 import StudentInformationGrid from "../InformationTab/StudentInformationGrid";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import AcademicFormContext from "@/app/providers/AcademicFormContext";
 import { getExamName, toDD_MM_YYYY } from "@/util/Functions";
 import { Input } from "@/components/ui/input";

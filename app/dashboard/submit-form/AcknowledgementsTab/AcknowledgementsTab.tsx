@@ -1,5 +1,5 @@
 "use client";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import { Exam } from "@/util/types";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
@@ -68,39 +68,44 @@ export default function AcknowledgementsTab() {
 
   return (
     <div className="flex flex-col gap-1 md:gap-2">
-      <div className="grid gap-1 md:gap-2 grid-cols-12">
+      <div className="grid gap-4 grid-cols-12">
         <p className="w-full text-center font-bold text-lg col-span-full">
           Acknowledgements
         </p>
-        <Select
-          disabled={loading}
-          onValueChange={(val) => {
-            const idx = Number.parseInt(val);
-            setSelectedExam(exams.find((ex) => ex.exam_id === idx));
-          }}
-        >
-          <SelectTrigger className="w-full col-span-full">
-            <SelectValue placeholder="Select an exam" />
-          </SelectTrigger>
+        <div className="col-span-full flex flex-col gap-2">
+          <Label className="after:content-['*'] after:ml-1 after:text-red-500">
+            Select an Exam
+          </Label>
+          <Select
+            disabled={loading}
+            onValueChange={(val) => {
+              const idx = Number.parseInt(val);
+              setSelectedExam(exams.find((ex) => ex.exam_id === idx));
+            }}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select an exam" />
+            </SelectTrigger>
 
-          <SelectContent>
-            {examNames.map((e_name, index) => (
-              <SelectGroup key={`exam-${e_name}`}>
-                <SelectLabel>{e_name.toUpperCase()}</SelectLabel>
-                {exams
-                  .filter((ex, idx) => ex.exam_name === e_name)
-                  .map((exam) => (
-                    <SelectItem
-                      value={exam.exam_id.toString()}
-                      key={`exam-id-${exam.exam_id}`}
-                    >
-                      {getExamName(exam)}
-                    </SelectItem>
-                  ))}
-              </SelectGroup>
-            ))}
-          </SelectContent>
-        </Select>
+            <SelectContent>
+              {examNames.map((e_name, index) => (
+                <SelectGroup key={`exam-${e_name}`}>
+                  <SelectLabel>{e_name.toUpperCase()}</SelectLabel>
+                  {exams
+                    .filter((ex, idx) => ex.exam_name === e_name)
+                    .map((exam) => (
+                      <SelectItem
+                        value={exam.exam_id.toString()}
+                        key={`exam-id-${exam.exam_id}`}
+                      >
+                        {getExamName(exam)}
+                      </SelectItem>
+                    ))}
+                </SelectGroup>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
         <div className="col-span-full lg:col-span-6">
           <Label htmlFor="sid-input">Student ID</Label>

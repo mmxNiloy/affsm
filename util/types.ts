@@ -272,6 +272,19 @@ interface UploadResponse {
   files: FileInfo[];
 }
 
+export interface ISearchParams {
+  page: number;
+  limit: number;
+}
+
+export interface ISearchParamProps {
+  [key: string]: string | string[] | undefined;
+}
+
+export interface IQueryParamProps {
+  searchParams: ISearchParamProps;
+}
+
 export type {
   Exam,
   PaginatedExam,

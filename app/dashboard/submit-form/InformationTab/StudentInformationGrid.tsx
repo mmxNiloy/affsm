@@ -8,7 +8,7 @@ import { User } from "@/util/types";
 import React, { Suspense, useContext } from "react";
 import StudentAddressInformationGridSkeleton from "./StudentAddressInformationGridSkeleton";
 import StudentAddressInformation from "./StudentAddressInformation";
-import UserContext from "@/app/providers/UserContex";
+import UserContext from "@/app/providers/UserContext";
 import StudentInformationGridSkeleton from "./StudentInformationGridSkeleton";
 
 type Props = {

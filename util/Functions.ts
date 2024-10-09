@@ -1,4 +1,12 @@
-import { Address, Exam, Form, User } from "./types";
+import {
+  Address,
+  Exam,
+  Form,
+  IQueryParamProps,
+  ISearchParamProps,
+  ISearchParams,
+  User,
+} from "./types";
 
 export function toOrdinal(n: number): string {
   if (n % 10 === 1 && n !== 11) return `${n}st`;
@@ -59,15 +67,6 @@ function hasClearanceLevel2(user: User): boolean {
 function hasClearanceLevel3(user: User): boolean {
   if (user.roles)
     return (
-      user.roles.filter((role) => /exam_controller/i.test(role.role)).length > 0
-    );
-
-  return false;
-}
-
-function hasClearanceLevel4(user: User): boolean {
-  if (user.roles)
-    return (
       user.roles.filter(
         (role) =>
           /accounts|accountant|accountants/i.test(role.role) ||
@@ -78,7 +77,7 @@ function hasClearanceLevel4(user: User): boolean {
   return false;
 }
 
-function hasClearanceLevel5(user: User): boolean {
+function hasClearanceLevel4(user: User): boolean {
   if (user.roles)
     return (
       user.roles.filter(
@@ -86,6 +85,15 @@ function hasClearanceLevel5(user: User): boolean {
           /bank|banks|banking/i.test(role.role) ||
           /bank|banks|banking/i.test(role.factor)
       ).length > 0
+    );
+
+  return false;
+}
+
+function hasClearanceLevel5(user: User): boolean {
+  if (user.roles)
+    return (
+      user.roles.filter((role) => /exam_controller/i.test(role.role)).length > 0
     );
 
   return false;
@@ -106,4 +114,25 @@ export function isFormRejected(form: Form): boolean {
 
 export function isFormApproved(form: Form): boolean {
   return form.clearance_level === 6;
+}
+
+export function getSearchParams(
+  searchParams: ISearchParamProps
+): ISearchParams {
+  var page = 1;
+  var limit = 10;
+  try {
+    page = Math.max(
+      1,
+      Number.parseInt((searchParams.page as string | undefined) ?? "1")
+    );
+    limit = Math.max(
+      10,
+      Number.parseInt((searchParams.limit as string | undefined) ?? "10")
+    );
+  } catch (_) {
+    // Ignored
+  }
+
+  return { page, limit };
 }

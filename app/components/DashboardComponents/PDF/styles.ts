@@ -146,4 +146,10 @@ export const TextStyles = {
   },
 };
 
+export const FormGroup = {
+  display: "flex",
+  alignItems: "center",
+  marginBottom: "10px",
+};
+
 export default styles;
