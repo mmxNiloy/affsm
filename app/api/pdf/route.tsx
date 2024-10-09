@@ -29,6 +29,7 @@ export async function GET(req: NextRequest) {
   // Get form full details here
   const form = await getFormDetails(form_id);
   const exam = await getExamDetails(form.exam_id);
+
   console.log("API > Generate PDF > Form found", form);
   console.log("API > Generate PDF > Form Exam", exam);
 
